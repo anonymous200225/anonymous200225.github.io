@@ -98,12 +98,13 @@
     table.data-table td {
       border-bottom: 1px solid rgba(0,0,0,0.5);
       padding: 5px;
-      font-size: 10px;
+      font-size: 11px;
       text-align: center;
       font-weight: 500;
+      height: 35px;
     }
     table.data-table th {
-      font-size: 11px;
+      font-size: 12px;
       font-weight: bold;
       background: #4CAF50;
       color: #fff;
@@ -192,7 +193,7 @@
     function calculateSalary(data) {
       let totalDaysPresent = 0,
           totalAbsent = 0,
-          totalOvertimeMinutes = 0, // Untuk ringkasan (dihitung dari Menit Lembur)
+          totalOvertimeHours = 0, // Untuk ringkasan (dihitung dari Menit Lembur)
           totalOvertimeIndex = 0,   // Untuk perhitungan gaji (dihitung dari Indeks Lembur)
           totalPrsMeal = 0; // Total uang makan
 
@@ -215,10 +216,10 @@
           totalPrsMeal++;
         }
         
-        // Hitung total menit lembur untuk ringkasan
-        let overtimeStr = row["Menit Lembur"].replace(",", ".");
-        let overtimeMinutes = parseFloat(overtimeStr);
-        if (!isNaN(overtimeMinutes)) totalOvertimeMinutes += overtimeMinutes;
+        // Hitung total jam lembur untuk ringkasan
+        let overtimeStr = row["Jam Lembur"]; //.replace(",", ".");
+        let overtimeHours = parseFloat(overtimeStr);
+        if (!isNaN(overtimeHours)) totalOvertimeHours += overtimeHours;
         
         // Hitung total indeks lembur untuk perhitungan gaji
         let overtimeIndexStr = row["Indeks Lembur"].replace(",", ".");
@@ -227,7 +228,7 @@
       });
 
       // Untuk ringkasan: konversi total menit ke jam
-      const totalOvertimeHoursDisplay = totalOvertimeMinutes / 60;
+      const totalOvertimeHoursDisplay = totalOvertimeHours;
       const totalUangMakan = totalPrsMeal * MEAL_RATE;
       // Perhitungan gaji menggunakan indeks lembur
       const totalSalary = (totalDaysPresent * DAILY_RATE) + (totalOvertimeIndex * OVERTIME_RATE) + totalUangMakan;
@@ -236,7 +237,7 @@
       return { 
         totalDaysPresent,
         totalAbsent,
-        totalOvertimeMinutes,
+        totalOvertimeHours,
         totalOvertimeHoursDisplay,
         totalOvertimeIndex,
         totalSalary,
@@ -364,26 +365,26 @@
           rowData["Tanggal"] = tanggalCell;
         }
         
-        rowData["Nama Karyawan"]        = cells[1].textContent.trim();
-        rowData["Nomor Karyawan"]        = cells[2].textContent.trim();
-        rowData["Posisi"]                = cells[3].textContent.trim();
-        rowData["Unit Organisasi"]       = cells[4].textContent.trim();
-        rowData["Shift"]                 = cells[5].textContent.trim();
-        rowData["Menit Produktif"]       = cells[6].textContent.trim();
-        rowData["Shift Daily Masuk"]     = cells[7].textContent.trim();
-        rowData["Shift Daily Keluar"]    = cells[8].textContent.trim();
-        rowData["Masuk Waktu"]           = cells[9].textContent.trim();
-        rowData["Masuk +/- Menit"]       = cells[10].textContent.trim();
-        rowData["Keluar Waktu"]          = cells[11].textContent.trim();
-        rowData["Keluar +/- Menit"]      = cells[12].textContent.trim();
-        rowData["Jadwal Istirahat Mulai"] = cells[13].textContent.trim();
-        rowData["Jadwal Istirahat Akhir"] = cells[14].textContent.trim();
+//        rowData["Nama Karyawan"]        = cells[1].textContent.trim();
+//        rowData["Nomor Karyawan"]        = cells[2].textContent.trim();
+//        rowData["Posisi"]                = cells[3].textContent.trim();
+//        rowData["Unit Organisasi"]       = cells[4].textContent.trim();
+//        rowData["Shift"]                 = cells[5].textContent.trim();
+//        rowData["Menit Produktif"]       = cells[6].textContent.trim();
+//        rowData["Shift Daily Masuk"]     = cells[7].textContent.trim();
+//        rowData["Shift Daily Keluar"]    = cells[8].textContent.trim();
+//        rowData["Masuk Waktu"]           = cells[9].textContent.trim();
+//        rowData["Masuk +/- Menit"]       = cells[10].textContent.trim();
+//        rowData["Keluar Waktu"]          = cells[11].textContent.trim();
+//        rowData["Keluar +/- Menit"]      = cells[12].textContent.trim();
+//        rowData["Jadwal Istirahat Mulai"] = cells[13].textContent.trim();
+//        rowData["Jadwal Istirahat Akhir"] = cells[14].textContent.trim();
         rowData["Tipe Hari"]             = cells[15].textContent.trim();
-        rowData["Actual Work Minutes"]   = cells[16].textContent.trim();
-        rowData["Menit Lembur"]          = cells[17].textContent.trim();
+//        rowData["Actual Work Minutes"]   = cells[16].textContent.trim();
+        rowData["Jam Lembur"]          = cells[17].textContent.trim() / 60;
         rowData["Indeks Lembur"]         = cells[18].textContent.trim();
-        rowData["Other Overtime 1"]      = cells[19].textContent.trim();
-        rowData["Other Overtime 2"]      = cells[20].textContent.trim();
+//        rowData["Other Overtime 1"]      = cells[19].textContent.trim();
+//        rowData["Other Overtime 2"]      = cells[20].textContent.trim();
         rowData["Status"]                = cells[21].textContent.trim();
         rowData["Other Status"]          = cells[22].textContent.trim();
         rowData["Keterangan"]            = cells[23].textContent.trim();
