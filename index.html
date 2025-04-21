@@ -152,7 +152,7 @@
     <div id="tableOutput" class="table-responsive"></div>
     <hr><br>
     <div id="footer">
-      <center>© Mardhi Project 2025</center><br>
+      <center><span id="footerText"></span></center><br>
     </div>
   </div>
   
@@ -166,6 +166,33 @@
     // Variabel Global untuk Menyimpan Data
     let parsedData = [];
     let name = localStorage.getItem("sunfishName");
+    let footerText = 0;
+
+
+    function footerTextFunc(text){
+        document.getElementById("footerText").innerHTML = text;
+    }
+
+    footerTextFunc("© Mardhi Project");
+
+    if(name){
+        setInterval(function(){
+          switch(footerText){
+            case 0:
+              footerTextFunc("Halo, "+ name +"!");
+              footerText = 1;
+            break;
+            case 1:
+              footerTextFunc("Jangan banyak ngular yaa 😁");
+              footerText = 2;
+            break;
+            case 2:
+              footerTextFunc("© Mardhi Project");
+              footerText = 0;
+            break;
+          }
+      }, 5000);
+    }
 
     // Fungsi bantu: Parsing tanggal format Indonesia (dd/mm/yyyy) ke objek Date
     function parseIndonesianDate(dateStr) {
