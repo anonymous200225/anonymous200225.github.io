@@ -165,7 +165,7 @@
 
     // Variabel Global untuk Menyimpan Data
     let parsedData = [];
-    let name = "-";
+    let name = localStorage.getItem("sunfishName");
 
     // Fungsi bantu: Parsing tanggal format Indonesia (dd/mm/yyyy) ke objek Date
     function parseIndonesianDate(dateStr) {
@@ -370,7 +370,11 @@
           rowData["Tanggal"] = tanggalCell;
         }
 
-          name = cells[1].textContent.trim();
+if (!name) {
+  name = cells[1].textContent.trim();
+  localStorage.setItem("sunfishName", name);
+}
+
         
 //        rowData["Nama Karyawan"]        = cells[1].textContent.trim();
 //        rowData["Nomor Karyawan"]        = cells[2].textContent.trim();
