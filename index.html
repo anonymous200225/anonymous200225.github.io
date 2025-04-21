@@ -165,6 +165,7 @@
 
     // Variabel Global untuk Menyimpan Data
     let parsedData = [];
+    let name = "-";
 
     // Fungsi bantu: Parsing tanggal format Indonesia (dd/mm/yyyy) ke objek Date
     function parseIndonesianDate(dateStr) {
@@ -261,6 +262,10 @@
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <td>Nama Lengkap</td>
+              <td>${name}</td>
+            </tr>
             <tr>
               <td>Total Upah</td>
               <td>${formatRupiah(data.totalSalary)}</td>
@@ -364,6 +369,8 @@
         } else {
           rowData["Tanggal"] = tanggalCell;
         }
+
+          name = cells[1].textContent.trim();
         
 //        rowData["Nama Karyawan"]        = cells[1].textContent.trim();
 //        rowData["Nomor Karyawan"]        = cells[2].textContent.trim();
