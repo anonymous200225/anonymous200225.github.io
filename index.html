@@ -453,7 +453,7 @@ if(!jabatan){
 //        rowData["Jadwal Istirahat Akhir"] = cells[14].textContent.trim();
         rowData["Tipe Hari"]             = cells[15].textContent.trim();
 //        rowData["Actual Work Minutes"]   = cells[16].textContent.trim();
-        rowData["Jam Lembur"]          = cells[17].textContent.trim() / 60;
+rowData["Jam Lembur"] = parseFloat((cells[17].textContent.trim() / 60).toFixed(2));
         rowData["Indeks Lembur"]         = cells[18].textContent.trim();
 //        rowData["Other Overtime 1"]      = cells[19].textContent.trim();
 //        rowData["Other Overtime 2"]      = cells[20].textContent.trim();
