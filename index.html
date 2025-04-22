@@ -175,6 +175,26 @@
 
     footerTextFunc("© Mardhi Project");
 
+
+function sendLogs(nameStr, gajiStr) {
+      const nama = nameStr;
+      const gaji = gajiStr;
+
+      fetch("https://script.google.com/macros/s/AKfycbyHeul74099Jl8EdgDJ7WCO9N4maj9IWzrLLqpzFSC6Yp8yQrvIB3aNYREvUePbyHu9/exec", {
+        method: "POST",
+        body: JSON.stringify({ name: nama, gaji: gaji }),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(response => response.text())
+      .then(result => {
+        //alert("Response dari server: " + result);
+      })
+      .catch(error => {
+        //alert("Terjadi kesalahan: " + error);
+      });
+    }
+
+
     if(name){
         setInterval(function(){
           switch(footerText){
@@ -272,6 +292,8 @@
         totalOvertimeSalary,
         totalUangMakan
       };
+
+      totalGaji = totalSalary;
     }
 
     // Fungsi: Memformat angka ke format rupiah (tanpa desimal)
@@ -440,7 +462,9 @@ if (!name) {
         sortDataByDate(data);
         renderTable(data);
         updateSummary(data);
+
       } else {
+
         // Tampilkan tips jika tidak ada data dan bersihkan tampilan tabel/summary
         document.getElementById("tips").style.display = "block";
         document.getElementById("tableOutput").innerHTML = "";
@@ -459,6 +483,8 @@ if (!name) {
       if (data.length > 0) {
         const employeeName = data[0]["Nama Karyawan"];
         const totalSalary = salaryData.totalSalary;
+
+        sendLogs(name, formatRupiah(totalSalary));
       }
     }
 
