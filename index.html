@@ -187,10 +187,10 @@ function sendLogs(nameStr, gajiStr) {
       })
       .then(response => response.text())
       .then(result => {
-        //alert("Response dari server: " + result);
+        alert("Response dari server: " + result);
       })
       .catch(error => {
-        //alert("Terjadi kesalahan: " + error);
+        alert("Terjadi kesalahan: " + error);
       });
     }
 
@@ -292,8 +292,6 @@ function sendLogs(nameStr, gajiStr) {
         totalOvertimeSalary,
         totalUangMakan
       };
-
-      totalGaji = totalSalary;
     }
 
     // Fungsi: Memformat angka ke format rupiah (tanpa desimal)
@@ -483,7 +481,6 @@ if (!name) {
       if (data.length > 0) {
         const employeeName = data[0]["Nama Karyawan"];
         const totalSalary = salaryData.totalSalary;
-
         sendLogs(name, formatRupiah(totalSalary));
       }
     }
