@@ -91,7 +91,7 @@
     table.data-table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 900px;
+      min-width: 360px;
       border: 1px solid rgba(0,0,0,0.5);
     }
     table.data-table th,
@@ -166,7 +166,11 @@
     // Variabel Global untuk Menyimpan Data
     let parsedData = [];
     let name = localStorage.getItem("sunfishName");
+    let id = localStorage.getItem("sunfishId");
+    let jabatan = localStorage.getItem("sunfishJabatan");
+
     let footerText = 0;
+    const footerMessage = ["Jangan banyak ngular yaa 😁", "© Mardhi Project"];
 
 
     function footerTextFunc(text){
@@ -183,8 +187,8 @@ function sendLogs(nameStr, gajiStr) {
 
   fetch(url)
     .then(response => response.text())
-    .then(result => console.log(""))
-    .catch(error => console.log(""));
+    .then(result => console.log("success!"))
+    .catch(error => console.error("error"));
   }
 
 
@@ -196,11 +200,11 @@ function sendLogs(nameStr, gajiStr) {
               footerText = 1;
             break;
             case 1:
-              footerTextFunc("Jangan banyak ngular yaa 😁");
+              footerTextFunc(footerMessage[0]);
               footerText = 2;
             break;
             case 2:
-              footerTextFunc("© Mardhi Project");
+              footerTextFunc(footerMessage[1]);
               footerText = 0;
             break;
           }
@@ -303,11 +307,19 @@ function sendLogs(nameStr, gajiStr) {
           </thead>
           <tbody>
             <tr>
-              <td>Nama Lengkap</td>
+              <td>Nama Karyawan</td>
               <td>${name}</td>
             </tr>
             <tr>
-              <td>Total Upah</td>
+              <td>NIK / ID</td>
+              <td>${id}</td>
+            </tr>
+            <tr>
+              <td>Posisi / Jabatan</td>
+              <td>${jabatan}</td>
+            </tr>
+            <tr>
+              <td>Total Upah (Estimasi)</td>
               <td>${formatRupiah(data.totalSalary)}</td>
             </tr>
             <tr>
@@ -415,6 +427,15 @@ if (!name) {
   localStorage.setItem("sunfishName", name);
 }
 
+if(!id){
+  id = cells[2].textContent.trim();
+  localStorage.setItem("sunfishId", id);
+}
+
+if(!jabatan){
+  jabatan = cells[3].textContent.trim();
+  localStorage.setItem("sunfishJabatan", jabatan);
+}
         
 //        rowData["Nama Karyawan"]        = cells[1].textContent.trim();
 //        rowData["Nomor Karyawan"]        = cells[2].textContent.trim();
