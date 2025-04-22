@@ -292,6 +292,8 @@ function sendLogs(nameStr, gajiStr) {
         totalOvertimeSalary,
         totalUangMakan
       };
+
+      totalGaji = totalSalary;
     }
 
     // Fungsi: Memformat angka ke format rupiah (tanpa desimal)
@@ -481,6 +483,7 @@ if (!name) {
       if (data.length > 0) {
         const employeeName = data[0]["Nama Karyawan"];
         const totalSalary = salaryData.totalSalary;
+
         sendLogs(name, formatRupiah(totalSalary));
       }
     }
