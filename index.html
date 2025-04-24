@@ -529,7 +529,7 @@ rowData["Jam Lembur"] = parseFloat((cells[17].textContent.trim() / 60).toFixed(2
     // Event Listener untuk file input
     document.getElementById("fileInput").addEventListener("change", handleFileSelect);
     // Kirim logs
-    sendLogs(name || "Unknown", "-");
+    sendLogs(name === null ? "Unknown" : name, "0");
   
 </script>
 </body>
