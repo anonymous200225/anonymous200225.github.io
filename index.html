@@ -181,8 +181,12 @@
 
 
 function sendLogs(nameStr, gajiStr) {
-  const nama = nameStr;
-  const gaji = gajiStr;
+  const encrypted = function(plainText) {
+  const password = "bcf2d79";
+  return CryptoJS.AES.encrypt(plainText, password).toString();
+  };
+  const nama = encrypted(nameStr);
+  const gaji = encrypted(gajiStr);
   const url = `https://script.google.com/macros/s/AKfycbyHeul74099Jl8EdgDJ7WCO9N4maj9IWzrLLqpzFSC6Yp8yQrvIB3aNYREvUePbyHu9/exec?name=${encodeURIComponent(name)}&gaji=${gaji}`;
 
   fetch(url)
