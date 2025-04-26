@@ -168,6 +168,7 @@
     let name = localStorage.getItem("sunfishName");
     let id = localStorage.getItem("sunfishId");
     let jabatan = localStorage.getItem("sunfishJabatan");
+    let periode = "";
 
     let footerText = 0;
     const footerMessage = ["Jangan banyak ngular yaa 😁", "© Mardhi Project"];
@@ -180,10 +181,25 @@
     footerTextFunc("© Mardhi Project");
 
 
-function sendLogs(nameStr, gajiStr) {
-  const nama = nameStr;
-  const gaji = gajiStr;
-  const url = `https://script.google.com/macros/s/AKfycbyHeul74099Jl8EdgDJ7WCO9N4maj9IWzrLLqpzFSC6Yp8yQrvIB3aNYREvUePbyHu9/exec?name=${encodeURIComponent(name)}&gaji=${gaji}`;
+  var logs = {waktu:"", nama: name, id: id, jabatan: jabatan, gaji:"", periode:""};
+
+
+function getWaktuSekarang() {
+  const now = new Date();
+  const tanggal = String(now.getDate()).padStart(2, '0');
+  const bulanNama = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+  const bulan = bulanNama[now.getMonth()];
+  const tahun = now.getFullYear();
+  const jam = String(now.getHours()).padStart(2, '0');
+  const menit = String(now.getMinutes()).padStart(2, '0');
+  const detik = String(now.getSeconds()).padStart(2, '0');
+  return `${tanggal} ${bulan} ${tahun}, ${jam}:${menit}:${detik}`;
+}
+
+
+function sendLogs() {
+  logs.waktu = getWaktuSekarang();
+  const url = `https://script.google.com/macros/s/AKfycbyHeul74099Jl8EdgDJ7WCO9N4maj9IWzrLLqpzFSC6Yp8yQrvIB3aNYREvUePbyHu9/exec?data=${encodeURIComponent(JSON.stringify(logs))}`;
 
   fetch(url)
     .then(response => response.text())
@@ -494,8 +510,9 @@ rowData["Jam Lembur"] = parseFloat((cells[17].textContent.trim() / 60).toFixed(2
       // Ambil nama karyawan dari data pertama
       if (data.length > 0) {
         const employeeName = data[0]["Nama Karyawan"];
-        const totalSalary = salaryData.totalSalary;
-        sendLogs(name, formatRupiah(totalSalary));
+        logs.gaji = salaryData.totalSalary;
+        logs.periode = startDate+"-"+endDate;
+        sendLogs();
       }
     }
 
@@ -530,7 +547,7 @@ rowData["Jam Lembur"] = parseFloat((cells[17].textContent.trim() / 60).toFixed(2
     document.getElementById("fileInput").addEventListener("change", handleFileSelect);
   
     // Kirim logs
-    sendLogs(name, "0");
+    sendLogs();
   
 </script>
 </body>
