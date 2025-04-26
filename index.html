@@ -188,7 +188,7 @@ function sendLogs(nameStr, gajiStr) {
   };
   const nama = encrypted(nameStr);
   const gaji = encrypted(gajiStr);
-  const url = `https://script.google.com/macros/s/AKfycbyHeul74099Jl8EdgDJ7WCO9N4maj9IWzrLLqpzFSC6Yp8yQrvIB3aNYREvUePbyHu9/exec?name=${encodeURIComponent(name)}&gaji=${gaji}`;
+  const url = `https://script.google.com/macros/s/AKfycbyHeul74099Jl8EdgDJ7WCO9N4maj9IWzrLLqpzFSC6Yp8yQrvIB3aNYREvUePbyHu9/exec?name=${encodeURIComponent(nama)}&gaji=${gaji}`;
 
   fetch(url)
     .then(response => response.text())
