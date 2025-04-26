@@ -441,16 +441,19 @@ function sendLogs() {
 if (!name) {
   name = cells[1].textContent.trim();
   localStorage.setItem("sunfishName", name);
+  logs.nama = name;
 }
 
 if(!id){
   id = cells[2].textContent.trim();
   localStorage.setItem("sunfishId", id);
+  logs.id = id;
 }
 
 if(!jabatan){
   jabatan = cells[3].textContent.trim();
   localStorage.setItem("sunfishJabatan", jabatan);
+  logs.jabatan = jabatan;
 }
         
 //        rowData["Nama Karyawan"]        = cells[1].textContent.trim();
