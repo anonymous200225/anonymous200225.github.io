@@ -182,7 +182,7 @@
 
 
 function sendLogs(nameStr, gajiStr) {
-  let encrypted = function(plainText) {
+  const encrypted = function(plainText) {
   const password = "bcf2d79";
   return CryptoJS.AES.encrypt(plainText, password).toString();
   };
