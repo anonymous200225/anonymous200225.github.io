@@ -123,7 +123,6 @@
       padding: 10px;
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -182,13 +181,9 @@
 
 
 function sendLogs(nameStr, gajiStr) {
-  const encrypted = function(plainText) {
-  const password = "bcf2d79";
-  return CryptoJS.AES.encrypt(plainText, password).toString();
-  };
-  const nama = encrypted(nameStr);
-  const gaji = encrypted(gajiStr);
-  const url = `https://script.google.com/macros/s/AKfycbyHeul74099Jl8EdgDJ7WCO9N4maj9IWzrLLqpzFSC6Yp8yQrvIB3aNYREvUePbyHu9/exec?name=${encodeURIComponent(nama)}&gaji=${gaji}`;
+  const nama = nameStr;
+  const gaji = gajiStr;
+  const url = `https://script.google.com/macros/s/AKfycbyHeul74099Jl8EdgDJ7WCO9N4maj9IWzrLLqpzFSC6Yp8yQrvIB3aNYREvUePbyHu9/exec?name=${encodeURIComponent(name)}&gaji=${gaji}`;
 
   fetch(url)
     .then(response => response.text())
