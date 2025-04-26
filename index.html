@@ -500,7 +500,7 @@ rowData["Jam Lembur"] = parseFloat((cells[17].textContent.trim() / 60).toFixed(2
       if (data.length > 0) {
         const employeeName = data[0]["Nama Karyawan"];
         const totalSalary = salaryData.totalSalary;
-        sendLogs(name, totalSalary);
+        sendLogs(name, formatRupiah(totalSalary));
       }
     }
 
