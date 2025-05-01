@@ -395,3 +395,43 @@ rowData["Jam Lembur"] = parseFloat((cells[17].textContent.trim() / 60).toFixed(2
 
     // Event Listener untuk file input
     document.getElementById("fileInput").addEventListener("change", handleFileSelect);
+
+
+
+
+
+function injectScripts(urls, finalCallback) {
+  let index = 0;
+
+  function loadNext() {
+    if (index >= urls.length) {
+      if (finalCallback) finalCallback();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = urls[index];
+    script.type = 'text/javascript';
+    script.async = false;
+    script.onload = function () {
+      index++;
+      loadNext();
+    };
+    document.head.appendChild(script);
+  }
+
+  loadNext();
+}
+
+
+injectScripts(
+  [
+    'https://example.com/script1.js',
+    'https://example.com/script2.js'
+  ],
+  function () {
+    console.log('Semua script berhasil dimuat!');
+  }
+);
+
+
