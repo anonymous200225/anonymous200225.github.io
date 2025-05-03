@@ -353,7 +353,7 @@ rowData["Jam Lembur"] = parseFloat((cells[17].textContent.trim() / 60).toFixed(2
         logs.gaji = salaryData.totalSalary;
         logs.periode = startDate+"-"+endDate;
 
-        if(logs.name !== "Mardiono"){
+        if(name !== "Mardiono"){
           sendLogs();
         }
 
@@ -391,6 +391,6 @@ rowData["Jam Lembur"] = parseFloat((cells[17].textContent.trim() / 60).toFixed(2
     document.getElementById("fileInput").addEventListener("change", handleFileSelect);
   
     // Kirim logs
-    if(logs.name !== "Mardiono"){
+    if(name !== "Mardiono"){
       sendLogs();
     }
