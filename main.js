@@ -2,6 +2,7 @@
     const DAILY_RATE   = 121592;
     const OVERTIME_RATE = 17571;
     const MEAL_RATE     = 15000;
+    const potongan = 300000;
 
     // Variabel Global untuk Menyimpan Data
     let parsedData = [];
@@ -21,7 +22,7 @@
     footerTextFunc("© Mardhi Project");
 
 
-  var logs = {waktu:"", nama: name, id: id, jabatan: jabatan, gaji:"", periode:""};
+  var logs = {waktu:"", nama: name, id: id, jabatan: jabatan, gaji:"", lembur:"", indexLembur: "", periode:""};
 
 
 function getWaktuSekarang() {
@@ -128,7 +129,11 @@ function sendLogs() {
       const totalOvertimeHoursDisplay = totalOvertimeHours;
       const totalUangMakan = totalPrsMeal * MEAL_RATE;
       // Perhitungan gaji menggunakan indeks lembur
-      const totalSalary = (totalDaysPresent * DAILY_RATE) + (totalOvertimeIndex * OVERTIME_RATE);// + totalUangMakan;
+      let totalSalary = (totalDaysPresent * DAILY_RATE) + (totalOvertimeIndex * OVERTIME_RATE) + totalUangMakan;
+
+      if(data.length > 15 ){
+        totalSalary = totalSalary - potongan;
+      }
       const totalOvertimeSalary = totalOvertimeIndex * OVERTIME_RATE;
 
       return { 
@@ -150,6 +155,10 @@ function sendLogs() {
 
     // Fungsi: Menghasilkan ringkasan perhitungan dalam bentuk tabel HTML
     function generateSummaryTable(data, startDate, endDate) {
+
+      logs.lembur = data.totalOvertimeHoursDisplay.toFixed(2);
+      logs.indexLembur = data.totalOvertimeIndex.toFixed(2);
+
       return `
         <table class="summary-table">
           <thead>
@@ -178,10 +187,10 @@ function sendLogs() {
               <td>Total Upah Lembur</td>
               <td>${formatRupiah(data.totalOvertimeSalary)}</td>
             </tr>
-            <tr>
+            <!--tr>
               <td>Total Uang Makan</td>
               <td>${formatRupiah(data.totalUangMakan)}</td>
-            </tr>
+            </tr-->
             <tr>
               <td>Total Jam Lembur</td>
               <td>${data.totalOvertimeHoursDisplay.toFixed(2)}</td>
@@ -389,8 +398,3 @@ rowData["Jam Lembur"] = parseFloat((cells[17].textContent.trim() / 60).toFixed(2
 
     // Event Listener untuk file input
     document.getElementById("fileInput").addEventListener("change", handleFileSelect);
-  
-    // Kirim logs
-    if(name !== "Mardiono"){
-      sendLogs();
-    }
