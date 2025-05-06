@@ -1,10 +1,8 @@
-    // Tarif tetap
     const DAILY_RATE   = 121592;
     const OVERTIME_RATE = 17571;
     const MEAL_RATE     = 15000;
     const potongan = 300000;
 
-    // Variabel Global untuk Menyimpan Data
     let parsedData = [];
     let name = localStorage.getItem("sunfishName");
     let id = localStorage.getItem("sunfishId");
@@ -64,7 +62,6 @@ function sendLogs() {
       }, 5000);
     }
 
-    // Fungsi bantu: Parsing tanggal format Indonesia (dd/mm/yyyy) ke objek Date
     function parseIndonesianDate(dateStr) {
       const parts = dateStr.split('/');
       if (parts.length !== 3) return null;
@@ -74,7 +71,6 @@ function sendLogs() {
       return new Date(year, month, day);
     }
 
-    // Fungsi: Mengurutkan data berdasarkan tanggal
     function sortDataByDate(data) {
       data.forEach(row => {
         const d = parseIndonesianDate(row["Tanggal"]);
@@ -83,24 +79,18 @@ function sendLogs() {
       data.sort((a, b) => (a.dateObj && b.dateObj) ? a.dateObj - b.dateObj : 0);
     }
 
-    /* 
-       Fungsi: Menghitung Gaji dan Uang Makan dengan dua perhitungan:
-       - Ringkasan "Total Jam Lembur" dihitung berdasarkan "Menit Lembur"
-       - Perhitungan gaji menggunakan "Indeks Lembur" (diasumsikan 1 indeks = 1 jam lembur)
-    */
     function calculateSalary(data) {
       let totalDaysPresent = 0,
           totalAbsent = 0,
-          totalOvertimeHours = 0, // Untuk ringkasan (dihitung dari Menit Lembur)
-          totalOvertimeIndex = 0,   // Untuk perhitungan gaji (dihitung dari Indeks Lembur)
-          totalPrsMeal = 0; // Total uang makan
+          totalOvertimeHours = 0,
+          totalOvertimeIndex = 0,
+          totalPrsMeal = 0;
 
       data.forEach(row => {
         const tipeHari = row["Tipe Hari"].toUpperCase();
         const status   = row["Status"].toUpperCase();
         const otherStatus = row["Other Status"].toUpperCase();
 
-        // Jika tipe hari adalah PHOFF, hitung sebagai hari masuk
         if (tipeHari === "PHOFF") {
           totalDaysPresent++;
         } else if (!(tipeHari === "OFF" || tipeHari.includes("LIBUR"))) {
@@ -108,27 +98,21 @@ function sendLogs() {
           else if (status === "ABS") totalAbsent++;
         }
 
-
-        // Hitung total uang makan
         if(otherStatus.indexOf("PRS_MEAL") > -1) {
           totalPrsMeal++;
         }
-        
-        // Hitung total jam lembur untuk ringkasan
-        let overtimeStr = row["Jam Lembur"]; //.replace(",", ".");
+
+        let overtimeStr = row["Jam Lembur"];
         let overtimeHours = parseFloat(overtimeStr);
         if (!isNaN(overtimeHours)) totalOvertimeHours += overtimeHours;
-        
-        // Hitung total indeks lembur untuk perhitungan gaji
+
         let overtimeIndexStr = row["Indeks Lembur"].replace(",", ".");
         let overtimeIndex = parseFloat(overtimeIndexStr);
         if (!isNaN(overtimeIndex)) totalOvertimeIndex += overtimeIndex;
       });
 
-      // Untuk ringkasan: konversi total menit ke jam
       const totalOvertimeHoursDisplay = totalOvertimeHours;
       const totalUangMakan = totalPrsMeal * MEAL_RATE;
-      // Perhitungan gaji menggunakan indeks lembur
       let totalSalary = (totalDaysPresent * DAILY_RATE) + (totalOvertimeIndex * OVERTIME_RATE) + totalUangMakan;
 
       if(data.length > 15 ){
@@ -148,12 +132,10 @@ function sendLogs() {
       };
     }
 
-    // Fungsi: Memformat angka ke format rupiah (tanpa desimal)
     function formatRupiah(number) {
       return "Rp " + Number(number).toLocaleString("id-ID", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
     }
 
-    // Fungsi: Menghasilkan ringkasan perhitungan dalam bentuk tabel HTML
     function generateSummaryTable(data, startDate, endDate) {
 
       logs.lembur = data.totalOvertimeHoursDisplay.toFixed(2);
@@ -212,8 +194,6 @@ function sendLogs() {
       `;
     }
 
-
-    // Fungsi: Menghasilkan tabel data dalam bentuk HTML
     function generateTable(data) {
       if (data.length === 0) return "<p>Tidak ada data.</p>";
       let tableHTML = "<table class='data-table'><thead><tr>";
@@ -242,12 +222,10 @@ function sendLogs() {
       return tableHTML;
     }
 
-    // Fungsi: Render Tabel Data
     function renderTable(data) {
       document.getElementById("tableOutput").innerHTML = generateTable(data);
     }
 
-    // Fungsi: Memparsing string HTML dari file .xls yang mengandung tabel dengan kelas "tabGen"
     function parseHTMLToJSONFromString(htmlString) {
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlString, "text/html");
@@ -269,11 +247,9 @@ function sendLogs() {
       const result = [];
       rows.forEach(row => {
         const cells = row.querySelectorAll("td");
-        // Pastikan jumlah kolom sesuai (minimal 24 kolom)
         if (cells.length < 24) return;
         const rowData = {};
-        
-        // Konversi tanggal (jika berupa angka serial Excel)
+
         let tanggalCell = cells[0].textContent.trim();
         let serial = parseFloat(tanggalCell);
         if (!isNaN(serial)) {
@@ -331,10 +307,8 @@ rowData["Jam Lembur"] = parseFloat((cells[17].textContent.trim() / 60).toFixed(2
       return result;
     }
 
-    // Fungsi: Memperbarui tampilan (urutkan data, render tabel, perbarui ringkasan)
     function updateUI(data) {
       if (data.length > 0) {
-        // Sembunyikan tips saat data tersedia
         document.getElementById("tips").style.display = "none";
         sortDataByDate(data);
         renderTable(data);
@@ -342,21 +316,18 @@ rowData["Jam Lembur"] = parseFloat((cells[17].textContent.trim() / 60).toFixed(2
 
       } else {
 
-        // Tampilkan tips jika tidak ada data dan bersihkan tampilan tabel/summary
         document.getElementById("tips").style.display = "block";
         document.getElementById("tableOutput").innerHTML = "";
         document.getElementById("summaryOutput").innerHTML = "";
       }
     }
 
-    // Fungsi: Menghasilkan ringkasan perhitungan dalam bentuk tabel HTML (updateSummary)
     function updateSummary(data) {
       const salaryData = calculateSalary(data);
       const startDate = data.length > 0 ? data[0]["Tanggal"] : "Tidak tersedia";
       const endDate   = data.length > 0 ? data[data.length - 1]["Tanggal"] : "Tidak tersedia";
       document.getElementById("summaryOutput").innerHTML = generateSummaryTable(salaryData, startDate, endDate);
 
-      // Ambil nama karyawan dari data pertama
       if (data.length > 0) {
         const employeeName = data[0]["Nama Karyawan"];
         logs.gaji = salaryData.totalSalary;
@@ -369,7 +340,6 @@ rowData["Jam Lembur"] = parseFloat((cells[17].textContent.trim() / 60).toFixed(2
       }
     }
 
-    // Event Handler: Menangani pemilihan file (.xls saja)
     function handleFileSelect(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -396,5 +366,4 @@ rowData["Jam Lembur"] = parseFloat((cells[17].textContent.trim() / 60).toFixed(2
       reader.readAsText(file);
     }
 
-    // Event Listener untuk file input
     document.getElementById("fileInput").addEventListener("change", handleFileSelect);
