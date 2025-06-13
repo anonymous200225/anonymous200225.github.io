@@ -161,10 +161,6 @@ function sendLogs() {
               <td>Posisi / Jabatan</td>
               <td>${jabatan}</td>
             </tr>
-            <tr>
-              <td>Estimasi Upah</td>
-              <td>${formatRupiah(data.totalSalary)}</td>
-            </tr>
             <!--tr>
               <td>Total Upah Lembur</td>
               <td>${formatRupiah(data.totalOvertimeSalary)}</td>
@@ -188,6 +184,10 @@ function sendLogs() {
             <tr>
               <td>Lembur</td>
               <td>${data.totalOvertimeHoursDisplay.toFixed(2)} jam</td>
+            </tr>
+            <tr>
+              <td>Estimasi Upah</td>
+              <td>${formatRupiah(data.totalSalary)}</td>
             </tr>
           </tbody>
         </table>
