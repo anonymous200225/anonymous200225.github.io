@@ -173,10 +173,6 @@ function sendLogs() {
               <td>Total Uang Makan</td>
               <td>${formatRupiah(data.totalUangMakan)}</td>
             </tr-->
-            <tr>
-              <td>Lembur</td>
-              <td>${data.totalOvertimeHoursDisplay.toFixed(2)} jam</td>
-            </tr>
             <!--tr>
               <td>Total Indeks Lembur</td>
               <td>${data.totalOvertimeIndex.toFixed(2)}</td>
@@ -188,6 +184,10 @@ function sendLogs() {
             <tr>
               <td>Absen</td>
               <td>${data.totalAbsent} hari</td>
+            </tr>
+            <tr>
+              <td>Lembur</td>
+              <td>${data.totalOvertimeHoursDisplay.toFixed(2)} jam</td>
             </tr>
           </tbody>
         </table>
