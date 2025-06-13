@@ -162,32 +162,32 @@ function sendLogs() {
               <td>${jabatan}</td>
             </tr>
             <tr>
-              <td>Total Upah (Estimasi)</td>
+              <td>Estimasi Upah</td>
               <td>${formatRupiah(data.totalSalary)}</td>
             </tr>
-            <tr>
+            <!--tr>
               <td>Total Upah Lembur</td>
               <td>${formatRupiah(data.totalOvertimeSalary)}</td>
-            </tr>
+            </tr-->
             <!--tr>
               <td>Total Uang Makan</td>
               <td>${formatRupiah(data.totalUangMakan)}</td>
             </tr-->
             <tr>
-              <td>Total Jam Lembur</td>
-              <td>${data.totalOvertimeHoursDisplay.toFixed(2)}</td>
+              <td>Lembur</td>
+              <td>${data.totalOvertimeHoursDisplay.toFixed(2)} jam</td>
             </tr>
-            <tr>
+            <!--tr>
               <td>Total Indeks Lembur</td>
               <td>${data.totalOvertimeIndex.toFixed(2)}</td>
+            </tr-->
+            <tr>
+              <td>Hari Kerja</td>
+              <td>${data.totalDaysPresent} hari</td>
             </tr>
             <tr>
-              <td>Total Hari Masuk</td>
-              <td>${data.totalDaysPresent}</td>
-            </tr>
-            <tr>
-              <td>Total Hari Absen</td>
-              <td>${data.totalAbsent}</td>
+              <td>Absen</td>
+              <td>${data.totalAbsent} hari</td>
             </tr>
           </tbody>
         </table>
