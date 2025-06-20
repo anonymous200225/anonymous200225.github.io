@@ -169,10 +169,6 @@ function sendLogs() {
               <td>Total Uang Makan</td>
               <td>${formatRupiah(data.totalUangMakan)}</td>
             </tr-->
-            <!--tr>
-              <td>Total Indeks Lembur</td>
-              <td>${data.totalOvertimeIndex.toFixed(2)}</td>
-            </tr-->
             <tr>
               <td>Hari Kerja</td>
               <td>${data.totalDaysPresent} hari</td>
@@ -184,6 +180,10 @@ function sendLogs() {
             <tr>
               <td>Lembur</td>
               <td>${data.totalOvertimeHoursDisplay.toFixed(2)} jam</td>
+            </tr>
+            <tr>
+              <td>Indeks Lembur</td>
+              <td>${data.totalOvertimeIndex.toFixed(2)} jam</td>
             </tr>
             <tr>
               <td>Estimasi Upah</td>
