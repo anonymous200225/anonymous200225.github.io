@@ -92,7 +92,7 @@ function sendLogs() {
         const otherStatus = row["Other Status"].toUpperCase();
 
         if (tipeHari === "PHOFF") {
-          totalDaysPresent++;
+          //totalDaysPresent++;
         } else if (!(tipeHari === "OFF" || tipeHari.includes("LIBUR"))) {
           if (status === "PRS" || status === "CT") totalDaysPresent++;
           else if (status === "ABS") totalAbsent++;
