@@ -1,7 +1,7 @@
     const DAILY_RATE   = 121592;
     const OVERTIME_RATE = 17571;
     const MEAL_RATE     = 15000;
-    const potongan = 0;
+    const potongan = 150000;
 
     let parsedData = [];
     let name = localStorage.getItem("sunfishName");
