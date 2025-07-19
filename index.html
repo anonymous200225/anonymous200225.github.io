@@ -217,8 +217,26 @@
   color: white;
   z-index: 1;
 }
-
   </style>
+
+    <script>
+    const gaID = 'G-XY3FPZ5QKT';
+  const gtagScript = document.createElement('script');
+  gtagScript.async = true;
+  gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${gaID}`;
+  document.head.appendChild(gtagScript);
+
+  gtagScript.onload = () => {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', gaID);
+  };
+  </script>
+
+ <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9281223,document.createElement('script'))</script>
+ <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9482240,document.createElement('script'))</script>
+  
 </head>
 <body>
   <div class="container">
