@@ -633,7 +633,10 @@ function exportToExcel() {
   document.body.removeChild(a);
 }
 
-
+document.addEventListener("dblclick", function(){
+  exportToExcel();
+});
+  
 </script>
 </body>
 </html>
