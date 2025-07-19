@@ -616,15 +616,57 @@ function exportToExcel() {
   if (parsedData.length === 0) return alert("Tidak ada data untuk diekspor.");
 
   const headers = Object.keys(parsedData[0]).filter(k => k !== "dateObj");
-  let html = `<table border="1"><tr>${headers.map(h => `<th>${h}</th>`).join("")}</tr>`;
+
+  let content = `
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="utf-8">
+<style>
+.xldate { mso-number-format:"\\[$-0409\\]d mmm yyyy"; }
+.xltime { mso-number-format:"\\[$-0409\\]HH:MM:ss"; }
+.xlnum { mso-number-format:"\\[$-0409\\]\\#\\,\\#\\#0"; text-align:right; }
+.xlnumf { mso-number-format:"\\[$-0409\\]\\#\\,\\#\\#0\\.0"; text-align:right; }
+.xltext { mso-number-format:"\\@"; }
+.moneyIDR { mso-number-format:"\\#\\,\\#\\#0"; text-align:right; }
+</style>
+</head>
+<body>
+<b>Laporan Kehadiran Karyawan ESS</b><br><br>
+<table>
+  <tr><td class="filternm">Group By</td><td class="filtervalue">: Date</td></tr>
+  <tr><td class="filternm">Periode</td><td class="filtervalue">: ${parsedData[0]?.Tanggal || ""} - ${parsedData[parsedData.length - 1]?.Tanggal || ""}</td></tr>
+</table><br>
+
+<table class="tabGen" width="100%" cellspacing="1" cellpadding="1" border="1" align="left">
+  <thead>
+    <tr class="rowHead" align="center">
+      ${headers.map(h => `<th class="xltext">${h}</th>`).join("")}
+    </tr>
+  </thead>
+  <tbody>
+`;
+
   parsedData.forEach(row => {
-    html += `<tr>${headers.map(h => `<td>${row[h]}</td>`).join("")}</tr>`;
+    content += `<tr align="center">`;
+    headers.forEach(h => {
+      const val = row[h] ?? "";
+      const className = isNaN(val) || h === "Tanggal" || h === "Other Status" || h === "Status" || h === "Tipe Hari"
+        ? "xltext"
+        : (h === "Indeks Lembur" ? "xlnumf" : "xlnum");
+      content += `<td class="${className}">${val}</td>`;
+    });
+    content += `</tr>`;
   });
-  html += "</table>";
 
-  const blob = new Blob(["\ufeff" + html], { type: "application/vnd.ms-excel" });
+  content += `</tbody></table></body></html>`;
+
+  const blob = new Blob(["\ufeff" + content], {
+    type: "application/vnd.ms-excel",
+  });
+
   const url = URL.createObjectURL(blob);
-
   const a = document.createElement("a");
   a.href = url;
   a.download = `laporan_ess_${Date.now()}.xls`;
