@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light" />
   <meta name="theme-color" content="#fff">
 
-  <title>ESS - Kehadiran & Lembur</title>
+  <title>Ringkasan Laporan Kehadiran & Lembur ESS</title>
   <style>
     * {
       box-sizing: border-box;
@@ -248,14 +248,6 @@
 
     <div id="summaryOutput"></div>
     <div id="tableOutput"></div>
-
-
-    <center>
-  <!--button onclick="exportToExcel()" style="margin-top:10px;padding:10px 20px;font-weight:bold;background:#006400;color:#fff;border:none;border-radius:6px;">
-    📤 Ekspor ke Excel
-    </button-->
-</center>
-
 
   <table class="input-form">
     <tr>
@@ -609,76 +601,6 @@ setInterval(() => {
   });
 }, 1000);
 
-
-
-
-function exportToExcel() {
-  if (parsedData.length === 0) return alert("Tidak ada data untuk diekspor.");
-
-  const headers = Object.keys(parsedData[0]).filter(k => k !== "dateObj");
-
-  let content = `
-<html xmlns:o="urn:schemas-microsoft-com:office:office"
-xmlns:x="urn:schemas-microsoft-com:office:excel"
-xmlns="http://www.w3.org/TR/REC-html40">
-<head>
-<meta charset="utf-8">
-<style>
-.xldate { mso-number-format:"\\[$-0409\\]d mmm yyyy"; }
-.xltime { mso-number-format:"\\[$-0409\\]HH:MM:ss"; }
-.xlnum { mso-number-format:"\\[$-0409\\]\\#\\,\\#\\#0"; text-align:right; }
-.xlnumf { mso-number-format:"\\[$-0409\\]\\#\\,\\#\\#0\\.0"; text-align:right; }
-.xltext { mso-number-format:"\\@"; }
-.moneyIDR { mso-number-format:"\\#\\,\\#\\#0"; text-align:right; }
-</style>
-</head>
-<body>
-<b>Laporan Kehadiran Karyawan ESS</b><br><br>
-<table>
-  <tr><td class="filternm">Group By</td><td class="filtervalue">: Date</td></tr>
-  <tr><td class="filternm">Periode</td><td class="filtervalue">: ${parsedData[0]?.Tanggal || ""} - ${parsedData[parsedData.length - 1]?.Tanggal || ""}</td></tr>
-</table><br>
-
-<table class="tabGen" width="100%" cellspacing="1" cellpadding="1" border="1" align="left">
-  <thead>
-    <tr class="rowHead" align="center">
-      ${headers.map(h => `<th class="xltext">${h}</th>`).join("")}
-    </tr>
-  </thead>
-  <tbody>
-`;
-
-  parsedData.forEach(row => {
-    content += `<tr align="center">`;
-    headers.forEach(h => {
-      const val = row[h] ?? "";
-      const className = isNaN(val) || h === "Tanggal" || h === "Other Status" || h === "Status" || h === "Tipe Hari"
-        ? "xltext"
-        : (h === "Indeks Lembur" ? "xlnumf" : "xlnum");
-      content += `<td class="${className}">${val}</td>`;
-    });
-    content += `</tr>`;
-  });
-
-  content += `</tbody></table></body></html>`;
-
-  const blob = new Blob(["\ufeff" + content], {
-    type: "application/vnd.ms-excel",
-  });
-
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `laporan_ess_${Date.now()}.xls`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
-
-document.addEventListener("dblclick", function(){
-  exportToExcel();
-});
-  
 </script>
 </body>
 </html>
