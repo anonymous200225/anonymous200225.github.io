@@ -217,6 +217,36 @@
   color: white;
   z-index: 1;
 }
+
+    #load-wrapper {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #555;
+      font-family: sans-serif;
+    }
+
+
+    #loader {
+      border: 6px solid #eee;
+      border-top: 6px solid #3498db;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .container {
+      display: none;
+    }
   </style>
 
     <script>
@@ -239,6 +269,11 @@
   
 </head>
 <body>
+
+    <div id="load-wrapper">
+      <div id="loader"></div>
+    </div>
+  
   <div class="container">
 <div class="header">
     <h3>Ringkasan Laporan<br>Kehadiran & Lembur ESS</h3>
@@ -618,6 +653,17 @@ setInterval(() => {
     e.style.opacity = e.style.opacity === "1" ? "0.3" : "1";
   });
 }, 1000);
+
+
+    function onLoadSelesai() {
+      document.querySelector(".container").style.display = "block";
+    }
+
+    // Simulasi proses loading selama 5 detik
+    setTimeout(() => {
+      document.querySelector("#load-wrapper").style.display = "none";
+      onLoadSelesai();
+    }, 5000);
 
 </script>
 </body>
