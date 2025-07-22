@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light" />
   <meta name="theme-color" content="#fff">
 
-  <title>Ringkasan Laporan Kehadiran & Lembur ESS</title>
+  <title>ESS - Kehadiran & Lembur</title>
   <style>
     * {
       box-sizing: border-box;
@@ -80,25 +80,26 @@
       color: white;
       font-weight: bold;
       padding: 8px;
-      font-size: 14px;
+      font-size: 15px;
     }
 
     .summary-table td {
       background: #ddd;
       text-align: left;
       font-weight: bold;
-      padding: 8px;
+      padding: 10px;
       font-size: 13px;
     }
 
     .data-table th {
       background: #4CAF50;
       color: white;
-      font-size: 11px;
+      font-size: 12px;
+      font-weight: bold;
     }
 
     .data-table td {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: bold;
     }
 
@@ -218,6 +219,7 @@
   z-index: 1;
 }
 
+
     #load-wrapper {
       margin: 0;
       padding: 0;
@@ -247,6 +249,7 @@
     .container {
       display: none;
     }
+
   </style>
 
     <script>
@@ -266,14 +269,14 @@
 
  <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9281223,document.createElement('script'))</script>
  <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9482240,document.createElement('script'))</script>
-  
+
 </head>
 <body>
 
-    <div id="load-wrapper">
-      <div id="loader"></div>
-    </div>
-  
+  <div id="load-wrapper">
+  <div id="loader"></div>
+  </div>
+
   <div class="container">
 <div class="header">
     <h3>Ringkasan Laporan<br>Kehadiran & Lembur ESS</h3>
@@ -294,7 +297,7 @@
         <b class="kedip">WHATS NEW ?</b><br>
         <i>
           • Sekarang kamu bisa ubah, hapus, atau menambah data manual.<br>
-          • Data otomatis tersimpan di localStorage.
+          • Data otomatis tersimpan di localStorage (caching).
         </i>
       </p>
     </div>
@@ -316,8 +319,6 @@
     <label><input type="radio" name="manualTipeHari" value="WD" checked> WD</label><br>
     <label><input type="radio" name="manualTipeHari" value="OFF"> OFF</label><br>
     <label><input type="radio" name="manualTipeHari" value="PHOFF"> PHOFF</label><br>
-    <label><input type="radio" name="manualTipeHari" value="CT"> CT</label><br>
-    <label><input type="radio" name="manualTipeHari" value="ABS"> ABS</label>
   </td>
 </tr>
     <tr>
@@ -335,19 +336,24 @@
 <tr>
   <td><label>Status</label></td>
   <td>
-    <label><input type="radio" name="manualStatus" value="PRS" checked> PRS</label><br>
+    <label><input type="radio" name="manualStatus" value="PRS" checked>PRS</label><br>
+    <label><input type="radio" name="manualStatus" value="ABS">ABS</label><br>
+    <label><input type="radio" name="manualStatus" value="OFF">OFF</label><br>
     <label><input type="radio" name="manualStatus" value="CT">CT</label><br>
-    <label><input type="radio" name="manualStatus" value="CS">CS</label><br>
-    <label><input type="radio" name="manualStatus" value="ABS"> ABS</label>
+    <label><input type="radio" name="manualStatus" value="CS">CS</label>
   </td>
 </tr>
 <tr>
   <td><label>Other Status</label></td>
   <td>
     <label><input type="checkbox" class="other-status" value="EAI" checked>EAI</label><br>
+    <label><input type="checkbox" class="other-status" value="LTI">LTI</label><br>
     <label><input type="checkbox" class="other-status" value="NSI">NSI</label><br>
     <label><input type="checkbox" class="other-status" value="NSO">NSO</label><br>
-    <label><input type="checkbox" class="other-status" value="LTI">LTI</label><br>
+    <label><input type="checkbox" class="other-status" value="CT">CT</label><br>
+    <label><input type="checkbox" class="other-status" value="CS">CS</label><br>
+    <label><input type="checkbox" class="other-status" value="ABS">ABS</label><br>
+    <label><input type="checkbox" class="other-status" value="OT">OT</label><br>
     <label><input type="checkbox" class="other-status" value="OVT" checked>OVT</label><br>
     <label><input type="checkbox" class="other-status" value="PRS" checked>PRS</label><br>
     <label><input type="checkbox" class="other-status" value="PRS_MEAL" checked>PRS_MEAL</label>
@@ -506,7 +512,7 @@ function addManualEntry() {
   const jam = parseFloat(document.getElementById("manualJamLembur").value);
   const jamValid = isNaN(jam) ? 0 : jam;
   const menit = Math.round(jamValid * 60);
-  const indeks = ((jamValid * 2) - (jamValid >= 1 ? 0.5 : 0)).toFixed(2);
+  const indeks = document.getElementById("manualIndeks").value;
 
   const row = {
     "Tanggal": tgl,
@@ -534,53 +540,66 @@ document.getElementById("manualIndeks").value = "";
 }
 
 
+
+function hitungIndeks(jam){
+  const tipeHari = document.querySelector("input[name='manualTipeHari']:checked").value;
+
+  if(tipeHari === "OFF" || tipeHari === "PHOFF"){
+    return jam >= 1 ? (jam * 2) : (jam * 2);
+  }
+
+  return jam >= 1 ? (jam * 2 - 0.5) : (jam * 2);
+}
+
+
 let sedangSinkronJam = false;
 let sedangSinkronMenit = false;
 
 function syncMenitLembur() {
-  if (sedangSinkronMenit) return;
-  sedangSinkronJam = true;
+  if (sedangSinkronMenit) return;
+  sedangSinkronJam = true;
 
-  const jamInput = document.getElementById("manualJamLembur").value.trim();
-  const jam = parseFloat(jamInput);
+  const jamInput = document.getElementById("manualJamLembur").value.trim();
+  const jam = parseFloat(jamInput);
 
-  if (jamInput === "" || isNaN(jam)) {
-    document.getElementById("manualMenitLembur").value = "";
-    document.getElementById("manualIndeks").value = "";
-    sedangSinkronJam = false;
-    return;
-  }
+  if (jamInput === "" || isNaN(jam)) {
+    document.getElementById("manualMenitLembur").value = "";
+    document.getElementById("manualIndeks").value = "";
+    sedangSinkronJam = false;
+    return;
+  }
 
-  const menit = jam * 60;
-  document.getElementById("manualMenitLembur").value = menit.toFixed(0);
+  const menit = jam * 60;
+  document.getElementById("manualMenitLembur").value = menit.toFixed(0);
 
-  const indeks = (jam >= 1 ? (jam * 2 - 0.5) : (jam * 2));
-  document.getElementById("manualIndeks").value = indeks.toFixed(2);
+  const indeks = hitungIndeks(jam);
+  document.getElementById("manualIndeks").value = indeks.toFixed(2);
 
-  sedangSinkronJam = false;
+  sedangSinkronJam = false;
 }
 
+
 function syncJamLembur() {
-  if (sedangSinkronJam) return;
-  sedangSinkronMenit = true;
+  if (sedangSinkronJam) return;
+  sedangSinkronMenit = true;
 
-  const menitInput = document.getElementById("manualMenitLembur").value.trim();
-  const menit = parseFloat(menitInput);
+  const menitInput = document.getElementById("manualMenitLembur").value.trim();
+  const menit = parseFloat(menitInput);
 
-  if (menitInput === "" || isNaN(menit)) {
-    document.getElementById("manualJamLembur").value = "";
-    document.getElementById("manualIndeks").value = "";
-    sedangSinkronMenit = false;
-    return;
-  }
+  if (menitInput === "" || isNaN(menit)) {
+    document.getElementById("manualJamLembur").value = "";
+    document.getElementById("manualIndeks").value = "";
+    sedangSinkronMenit = false;
+    return;
+  }
 
-  const jam = menit / 60;
-  document.getElementById("manualJamLembur").value = jam.toFixed(2);
+  const jam = menit / 60;
+  document.getElementById("manualJamLembur").value = jam.toFixed(2);
 
-  const indeks = (jam >= 1 ? (jam * 2 - 0.5) : (jam * 2));
-  document.getElementById("manualIndeks").value = indeks.toFixed(2);
+  const indeks = hitungIndeks(jam);
+  document.getElementById("manualIndeks").value = indeks.toFixed(2);
 
-  sedangSinkronMenit = false;
+  sedangSinkronMenit = false;
 }
 
 
@@ -657,13 +676,14 @@ setInterval(() => {
 
     function onLoadSelesai() {
       document.querySelector(".container").style.display = "block";
+      // console.log("Fungsi onLoadSelesai dipanggil!");
     }
 
-    // Simulasi proses loading selama 5 detik
+    // Simulasi proses loading selama 3 detik
     setTimeout(() => {
       document.querySelector("#load-wrapper").style.display = "none";
       onLoadSelesai();
-    }, 5000);
+    }, 3000);
 
 </script>
 </body>
