@@ -252,7 +252,7 @@
 
   </style>
 
-    <!--script>
+    <script>
     const gaID = 'G-XY3FPZ5QKT';
   const gtagScript = document.createElement('script');
   gtagScript.async = true;
@@ -268,7 +268,7 @@
   </script>
 
  <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9281223,document.createElement('script'))</script>
- <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9482240,document.createElement('script'))</script-->
+ <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9482240,document.createElement('script'))</script>
 
 </head>
 <body>
@@ -684,10 +684,30 @@ function resetData() {
 }
 
 
+    const tanggalInput = document.getElementById("manualTanggal");
+    const radioOff = document.querySelector("input[value='OFF']");
+    const radioWd = document.querySelector("input[value='WD']");
+
+function cekHariMinggu() {
+      const val = tanggalInput.value;
+      if (val) {
+        const tgl = new Date(val);
+        if (tgl.getDay() === 0) {
+          radioOff.checked = true;
+        } else {
+          radioWd.checked = true;
+        }
+      }
+    }
+
+    tanggalInput.addEventListener("change", cekHariMinggu);
+
+
 window.onload = () => {
   user = JSON.parse(user);
   loadDataFromLocal();
   tanggalSekarang();
+  cekHariMinggu();
 };
 
 
@@ -707,8 +727,22 @@ setInterval(() => {
     setTimeout(() => {
       document.querySelector("#load-wrapper").style.display = "none";
       onLoadSelesai();
+      cekHariMinggu();
     }, 3000);
 
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
