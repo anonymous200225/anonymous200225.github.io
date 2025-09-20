@@ -252,7 +252,7 @@
 
   </style>
 
-    <script>
+    <!--script>
     const gaID = 'G-XY3FPZ5QKT';
   const gtagScript = document.createElement('script');
   gtagScript.async = true;
@@ -268,7 +268,7 @@
   </script>
 
  <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9281223,document.createElement('script'))</script>
- <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9482240,document.createElement('script'))</script>
+ <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9482240,document.createElement('script'))</script-->
 
 </head>
 <body>
@@ -360,8 +360,11 @@
   </td>
 </tr>
 <tr><td colspan="2">
-        <button onclick="addManualEntry()">TAMBAH</button>
-</tr>
+  <button onclick="addManualEntry()">TAMBAH</button>
+</td></tr>
+<tr><td colspan="2">
+  <button onclick="resetData()" style="background:red">HAPUS SEMUA DATA</button>
+</td></tr>
 </table>
 
     <br><hr>
@@ -540,16 +543,27 @@ document.getElementById("manualIndeks").value = "";
 }
 
 
-
 function hitungIndeks(jam){
-  const tipeHari = document.querySelector("input[name='manualTipeHari']:checked").value;
+  const tipeHari = document.querySelector("input[name='manualTipeHari']:checked").value;
 
-  if(tipeHari === "OFF" || tipeHari === "PHOFF"){
-    return jam >= 1 ? (jam * 2) : (jam * 2);
-  }
+  // Hari OFF / PHOFF
+  if (tipeHari === "OFF" || tipeHari === "PHOFF") {
+    if (jam <= 7) {
+      return jam * 2;
+    } else {
+      return (7 * 2) + (jam - 7) * 3 + 2; // supaya 10 jam = 25
+    }
+  }
 
-  return jam >= 1 ? (jam * 2 - 0.5) : (jam * 2);
+  // Hari Kerja Biasa
+  if (jam === 1) return 1.5;
+  if (jam <= 7) {
+    return 1.5 + (jam - 1) * 2;
+  } else {
+    return 1.5 + (6 * 2) + ((jam - 7) * 3) + 2;
+  }
 }
+
 
 
 let sedangSinkronJam = false;
@@ -658,6 +672,16 @@ localStorage.setItem("sunfishUserData", JSON.stringify(user));
 }
 
 document.getElementById("fileInput").addEventListener("change", handleFileSelect);
+
+
+function resetData() {
+  if (confirm("Apakah kamu yakin ingin menghapus semua data?")) {
+    localStorage.removeItem("sunfishData");
+    parsedData = [];
+    updateUI(parsedData);
+    alert("Semua data berhasil dihapus!");
+  }
+}
 
 
 window.onload = () => {
