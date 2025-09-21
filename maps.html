@@ -11,7 +11,7 @@
     #info {
       position: absolute;
       top: 10px;
-      right: 10px;
+      right: 10px; /* pindah ke kanan */
       background: rgba(255,255,255,0.9);
       padding: 10px 14px;
       border-radius: 8px;
@@ -22,8 +22,8 @@
       z-index: 1000;
       max-width: 220px;
     }
-    #info input, #info button {
-      margin-top: 6px;
+    #info input {
+      margin-top: 4px;
       font-size: 13px;
     }
     #info span {
@@ -38,16 +38,17 @@
   📂 <input type="file" id="fileInput" accept=".gpx"><br>
   <span id="luas">Luas: -</span>
   <span id="panjang">Panjang: -</span>
-  <button id="downloadBtn">📸 Export PNG</button>
 </div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://unpkg.com/togeojson@0.16.0"></script>
 <script src="https://unpkg.com/@mapbox/geojson-area@0.2.2/geojson-area.js"></script>
-<script src="https://unpkg.com/leaflet-image/leaflet-image.js"></script>
 
 <script>
+// Inisialisasi peta
 var map = L.map('map').setView([-6.2, 106.8], 13);
+
+// Layer satelit Google
 L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
   maxZoom: 20,
   attribution: 'Google Satellite'
@@ -55,9 +56,8 @@ L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
 
 var luasEl = document.getElementById("luas");
 var panjangEl = document.getElementById("panjang");
-var luasText = "-";
-var panjangText = "-";
 
+// Haversine formula untuk jarak
 function haversine(lat1, lon1, lat2, lon2) {
   var R = 6371000;
   var dLat = (lat2 - lat1) * Math.PI / 180;
@@ -69,6 +69,7 @@ function haversine(lat1, lon1, lat2, lon2) {
   return R * c;
 }
 
+// Proses file GPX
 document.getElementById('fileInput').addEventListener('change', function(e){
   var file = e.target.files[0];
   if(!file) return;
@@ -76,6 +77,7 @@ document.getElementById('fileInput').addEventListener('change', function(e){
   reader.onload = function(event){
     var parser = new DOMParser();
     var gpxDoc = parser.parseFromString(event.target.result, "application/xml");
+
     var geojson = toGeoJSON.gpx(gpxDoc);
 
     var layer = L.geoJSON(geojson, {
@@ -88,15 +90,12 @@ document.getElementById('fileInput').addEventListener('change', function(e){
       var luasM2 = geojsonArea.geometry(geojson.features[0].geometry);
       if(luasM2 > 0){
         var luasHa = (luasM2 / 10000).toFixed(2);
-        luasText = "Luas: " + luasM2.toFixed(2) + " m² (" + luasHa + " ha)";
-        luasEl.textContent = luasText;
+        luasEl.textContent = "Luas: " + luasM2.toFixed(2) + " m² (" + luasHa + " ha)";
       } else {
-        luasText = "Luas: tidak bisa dihitung (rute belum tertutup)";
-        luasEl.textContent = luasText;
+        luasEl.textContent = "Luas: tidak bisa dihitung (rute belum tertutup)";
       }
     } catch(err){
-      luasText = "Luas: error menghitung";
-      luasEl.textContent = luasText;
+      luasEl.textContent = "Luas: error menghitung";
     }
 
     // Hitung panjang
@@ -110,41 +109,18 @@ document.getElementById('fileInput').addEventListener('change', function(e){
       }
       if (total > 0) {
         if (total > 1000) {
-          panjangText = "Panjang: " + (total/1000).toFixed(2) + " km";
+          panjangEl.textContent = "Panjang: " + (total/1000).toFixed(2) + " km";
         } else {
-          panjangText = "Panjang: " + total.toFixed(2) + " m";
+          panjangEl.textContent = "Panjang: " + total.toFixed(2) + " m";
         }
-        panjangEl.textContent = panjangText;
       } else {
-        panjangText = "Panjang: -";
-        panjangEl.textContent = panjangText;
+        panjangEl.textContent = "Panjang: -";
       }
     } catch(err){
-      panjangText = "Panjang: error menghitung";
-      panjangEl.textContent = panjangText;
+      panjangEl.textContent = "Panjang: error menghitung";
     }
   };
   reader.readAsText(file);
-});
-
-// Export ke PNG dengan teks tambahan
-document.getElementById('downloadBtn').addEventListener('click', function(){
-  leafletImage(map, function(err, canvas) {
-    var ctx = canvas.getContext("2d");
-    ctx.fillStyle = "rgba(255,255,255,0.7)";
-    ctx.fillRect(10, 10, 340, 50);
-
-    ctx.fillStyle = "black";
-    ctx.font = "16px sans-serif";
-    ctx.fillText(luasText, 20, 30);
-    ctx.fillText(panjangText, 20, 50);
-
-    var img = canvas.toDataURL("image/png");
-    var link = document.createElement("a");
-    link.href = img;
-    link.download = "peta.png";
-    link.click();
-  });
 });
 </script>
 </body>
