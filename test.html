@@ -1,109 +1,128 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Artikel Ribuan Paragraf Acak</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artikel Random</title>
   <style>
-    body{margin:0;font-family:sans-serif;background:#0f172a;color:#e2e8f0;line-height:1.7;padding:20px}
-    .wrap{max-width:960px;margin:auto;background:#1e293b;padding:24px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.5)}
-    h1{font-size:26px;margin:0 0 12px}
-    h2{margin:24px 0 10px;color:#f8fafc;font-size:20px}
-    p{margin:8px 0}
-    .lead{color:#94a3b8;margin-bottom:20px}
-    blockquote{border-left:3px solid #60a5fa;padding-left:12px;color:#cbd5e1;font-style:italic;margin:12px 0}
-    .tags{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
-    .tag{background:#334155;padding:5px 10px;border-radius:6px;font-size:13px}
-    .btn{margin-top:20px;padding:10px 14px;border:none;border-radius:8px;background:#60a5fa;color:#0f172a;font-weight:bold;cursor:pointer}
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+      background: #f4f4f9;
+      color: #333;
+    }
+    h1 {
+      color: #222;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    p {
+      margin-bottom: 12px;
+    }
+    .artikel {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      max-width: 700px;
+      margin: auto;
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1 id="title"></h1>
-    <div class="lead" id="lead"></div>
-    <article id="content"></article>
-    <div class="tags" id="tags"></div>
-    <button class="btn" id="regen">Acak Lagi</button>
+  <div class="artikel">
+    <h1 id="judul"></h1>
+    <div id="isi"></div>
   </div>
 
   <script>
-    const titles=[
-      "Sejarah Peradaban dan Jejak Waktu",
-      "Teknologi Masa Depan dan Harapan Baru",
-      "Seni, Budaya, dan Identitas",
-      "Perjalanan Panjang Umat Manusia",
-      "Lingkungan Hidup dan Masa Depan Bumi"
-    ];
-    const leads=[
-      "Tulisan ini panjang sekali, menghadirkan ribuan paragraf acak untuk dibaca.",
-      "Setiap kali halaman dimuat, Anda akan mendapatkan artikel super tebal yang berbeda.",
-      "Artikel ini dibuat dengan sistem acak, jadi isinya tidak pernah sama persis.",
-      "Nikmati bacaan panjang yang tidak habis-habis dihasilkan secara dinamis."
-    ];
-    const headings=[
-      "Awal Sejarah","Tradisi","Budaya","Teknologi","Inovasi","Kesehatan","Pendidikan","Ekonomi","Lingkungan",
-      "Filsafat","Psikologi","Politik","Seni","Musik","Olahraga","Makanan","Perjalanan","Astronomi","Agama","Kehidupan Sosial"
-    ];
-    const paras=[
-      "Manusia selalu berkembang dari masa ke masa, menciptakan pola hidup baru.",
-      "Lingkungan memberi pelajaran berharga tentang keberlanjutan.",
-      "Teknologi membawa perubahan besar pada kehidupan sehari-hari.",
-      "Tradisi tetap hidup meski zaman terus berganti.",
-      "Pendidikan menjadi fondasi bagi masa depan peradaban.",
-      "Seni adalah refleksi jiwa masyarakat yang terus bergerak.",
-      "Politik sering kali memengaruhi arah kehidupan bersama.",
-      "Kesehatan mental dan fisik saling berhubungan erat.",
-      "Perjalanan memberi kita pengalaman dan pemahaman baru.",
-      "Ekonomi kreatif tumbuh dari ide sederhana yang diolah jadi produk bernilai.",
-      "Musik menghubungkan hati manusia tanpa batas bahasa.",
-      "Filsafat memberi ruang berpikir tentang arti hidup.",
-      "Psikologi kebahagiaan menekankan pentingnya rasa syukur.",
-      "Olahraga melatih disiplin dan kerja sama.",
-      "Agama memberikan panduan moral yang bermakna.",
-      "Makanan adalah identitas budaya yang melekat erat.",
-      "Astronomi membuka misteri alam semesta yang luas.",
-      "Lingkungan butuh dijaga demi generasi mendatang.",
-      "Kerja keras dan konsistensi menghasilkan perubahan nyata.",
-      "Digitalisasi membawa peluang dan tantangan sekaligus."
-    ];
-    const tags=["sejarah","budaya","teknologi","ekonomi","lingkungan","kesehatan","seni","psikologi","filsafat","perjalanan","digital","politik"];
-
-    function rnd(n){return Math.floor(Math.random()*n)}
-    function shuffle(arr){return arr.sort(()=>Math.random()-0.5)}
-
-    function generate(){
-      document.getElementById("title").textContent=titles[rnd(titles.length)];
-      document.getElementById("lead").textContent=leads[rnd(leads.length)];
-      let art=document.getElementById("content");
-      art.innerHTML="";
-      let nSection=50; // jumlah heading
-      for(let i=0;i<nSection;i++){
-        let h=document.createElement("h2");
-        h.textContent=headings[rnd(headings.length)]+" ("+(i+1)+")";
-        art.appendChild(h);
-        for(let j=0;j<20;j++){ // 20 paragraf per heading
-          let p=document.createElement("p");
-          p.textContent=paras[rnd(paras.length)];
-          art.appendChild(p);
-        }
-        if(Math.random()>0.8){
-          let q=document.createElement("blockquote");
-          q.textContent=paras[rnd(paras.length)];
-          art.appendChild(q);
-        }
+    const artikelList = [
+      {
+        judul: "Manfaat Kopi Bagi Kesehatan",
+        isi: `
+          <p>Kopi bukan hanya minuman penyemangat, tetapi juga mengandung antioksidan tinggi yang bermanfaat bagi tubuh.</p>
+          <p>Beberapa penelitian menunjukkan bahwa konsumsi kopi dalam jumlah wajar dapat mengurangi risiko penyakit jantung, diabetes tipe 2, dan Alzheimer.</p>
+          <p>Namun, konsumsi berlebihan dapat menyebabkan gangguan tidur dan kecemasan.</p>
+        `
+      },
+      {
+        judul: "Tips Menjaga Produktivitas Saat Bekerja dari Rumah",
+        isi: `
+          <p>Bekerja dari rumah memiliki tantangan tersendiri, terutama dalam menjaga konsentrasi.</p>
+          <p>Buatlah jadwal kerja yang teratur, ciptakan ruang kerja khusus, dan hindari gangguan seperti media sosial saat bekerja.</p>
+          <p>Selain itu, istirahat sejenak setiap 1-2 jam dapat membantu menjaga fokus tetap terjaga.</p>
+        `
+      },
+      {
+        judul: "Sejarah Internet di Dunia",
+        isi: `
+          <p>Internet pertama kali dikembangkan dari proyek ARPANET pada tahun 1969 di Amerika Serikat.</p>
+          <p>Seiring perkembangan teknologi, internet kini menjadi kebutuhan pokok manusia dalam kehidupan sehari-hari.</p>
+          <p>Dari hanya sekadar pertukaran data militer, kini internet menjadi sarana komunikasi, hiburan, hingga bisnis global.</p>
+        `
+      },
+      {
+        judul: "Mengapa Olahraga Penting?",
+        isi: `
+          <p>Olahraga membantu menjaga kesehatan tubuh, meningkatkan daya tahan, dan memperbaiki suasana hati.</p>
+          <p>Aktivitas fisik rutin dapat mengurangi risiko obesitas, hipertensi, dan penyakit jantung.</p>
+          <p>Pilih olahraga yang sesuai dengan minat, agar lebih konsisten dalam melakukannya.</p>
+        `
+      },
+      {
+        judul: "Tips Menabung untuk Generasi Muda",
+        isi: `
+          <p>Generasi muda sering kali kesulitan mengatur keuangan karena gaya hidup konsumtif.</p>
+          <p>Mulailah dengan membuat anggaran bulanan, sisihkan minimal 20% dari penghasilan untuk tabungan atau investasi.</p>
+          <p>Disiplin dalam menabung akan membawa dampak besar di masa depan.</p>
+        `
+      },
+      {
+        judul: "Rahasia Tidur Berkualitas",
+        isi: `
+          <p>Tidur yang cukup sangat penting bagi kesehatan mental dan fisik.</p>
+          <p>Hindari menggunakan ponsel sebelum tidur, ciptakan suasana kamar yang nyaman, dan tidur di jam yang sama setiap hari.</p>
+          <p>Kualitas tidur yang baik dapat meningkatkan produktivitas dan konsentrasi.</p>
+        `
+      },
+      {
+        judul: "Teknologi AI dalam Kehidupan Sehari-hari",
+        isi: `
+          <p>Kecerdasan buatan (AI) kini hadir dalam berbagai aspek kehidupan, mulai dari asisten virtual, rekomendasi belanja, hingga mobil otonom.</p>
+          <p>AI membantu meningkatkan efisiensi kerja manusia, namun juga menimbulkan perdebatan terkait etika dan lapangan kerja.</p>
+          <p>Masa depan AI diprediksi akan semakin terintegrasi dengan kehidupan manusia.</p>
+        `
+      },
+      {
+        judul: "Mengelola Stres dengan Baik",
+        isi: `
+          <p>Stres merupakan hal wajar dalam kehidupan, tetapi harus dikelola agar tidak berdampak buruk bagi kesehatan.</p>
+          <p>Cobalah teknik relaksasi seperti meditasi, olahraga, atau sekadar berjalan santai di luar rumah.</p>
+          <p>Berbagi cerita dengan orang terdekat juga dapat membantu mengurangi beban pikiran.</p>
+        `
+      },
+      {
+        judul: "Kenapa Kita Harus Membaca Buku?",
+        isi: `
+          <p>Membaca buku dapat memperluas wawasan, meningkatkan daya ingat, dan mengurangi stres.</p>
+          <p>Selain itu, membaca juga melatih otak untuk berpikir kritis dan kreatif.</p>
+          <p>Bahkan 15 menit membaca setiap hari bisa membawa perubahan besar dalam hidup.</p>
+        `
+      },
+      {
+        judul: "Dampak Perubahan Iklim",
+        isi: `
+          <p>Perubahan iklim menjadi salah satu isu global yang paling serius saat ini.</p>
+          <p>Suhu bumi yang terus meningkat menyebabkan pencairan es di kutub, naiknya permukaan air laut, dan cuaca ekstrem.</p>
+          <p>Kita semua dapat berkontribusi dengan mengurangi penggunaan plastik, hemat energi, dan menanam pohon.</p>
+        `
       }
-      let tagsEl=document.getElementById("tags");
-      tagsEl.innerHTML="";
-      shuffle(tags);
-      for(let i=0;i<tags.length;i++){
-        let span=document.createElement("div");
-        span.className="tag";
-        span.textContent="#"+tags[i];
-        tagsEl.appendChild(span);
-      }
-    }
-    document.getElementById("regen").addEventListener("click",generate);
-    generate();
+    ];
+
+    const randomIndex = Math.floor(Math.random() * artikelList.length);
+    document.getElementById("judul").innerText = artikelList[randomIndex].judul;
+    document.getElementById("isi").innerHTML = artikelList[randomIndex].isi;
   </script>
 </body>
 </html>
