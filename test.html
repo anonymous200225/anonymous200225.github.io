@@ -3,266 +3,145 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Artikel Acak — Muat Ulang untuk Berubah</title>
+  <title>Artikel Super Panjang Acak</title>
   <style>
-    :root{
-      --bg:#0f1724;
-      --card:#0b1220;
-      --muted:#94a3b8;
-      --accent:#60a5fa;
-      --glass: rgba(255,255,255,0.03);
-    }
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background:
-        radial-gradient(1000px 500px at 10% 10%, rgba(96,165,250,0.06), transparent 10%),
-        radial-gradient(800px 400px at 90% 90%, rgba(99,102,241,0.04), transparent 10%),
-        linear-gradient(180deg, #071025 0%, #081224 100%);
-      color:#e6eef8;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      padding:32px 16px;
-      box-sizing:border-box;
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
-      gap:20px;
-    }
-    .wrap{
-      width:100%;
-      max-width:900px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:14px;
-      box-shadow:0 8px 30px rgba(2,6,23,0.6);
-      border:1px solid rgba(255,255,255,0.03);
-      padding:28px;
-      backdrop-filter: blur(6px) saturate(120%);
-    }
-    header{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
-    .title{
-      font-size:20px;
-      font-weight:700;
-      letter-spacing:-0.2px;
-      color:#f8fafc;
-    }
-    .meta{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:13px}
-    .btn{
-      margin-left:auto;
-      background:linear-gradient(90deg,var(--accent),#7c3aed);
-      border:none;
-      color:#021024;
-      padding:8px 12px;
-      font-weight:700;
-      border-radius:10px;
-      cursor:pointer;
-      box-shadow:0 6px 18px rgba(96,165,250,0.12);
-    }
-    .lead{color:var(--muted);margin:12px 0 22px;font-size:15px;line-height:1.6}
-    article{line-height:1.78;color:#dbeafe}
-    h2{margin:18px 0 8px;font-size:18px;color:#e6f0ff}
-    p{margin:10px 0;font-size:15px}
-    blockquote{
-      margin:14px 0;padding:12px 16px;border-left:3px solid rgba(96,165,250,0.18);
-      background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
-      color:var(--muted);border-radius:8px;font-style:italic;
-    }
-    .tags{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap}
-    .tag{background:var(--glass);padding:6px 10px;border-radius:999px;font-size:13px;color:var(--muted)}
-    footer{margin-top:26px;color:var(--muted);font-size:13px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    .cover{
-      width:100%;height:220px;border-radius:12px;margin-bottom:16px;background-size:cover;background-position:center;border:1px solid rgba(255,255,255,0.02);
-      box-shadow: inset 0 -30px 60px rgba(2,6,23,0.45);
-      display:flex;align-items:flex-end;padding:12px;color:#ffffff;font-weight:700;backdrop-filter: blur(2px);
-    }
-    @media (max-width:560px){
-      .cover{height:160px}
-      .title{font-size:18px}
-      body{padding:18px}
-    }
+    body{margin:0;font-family:sans-serif;background:#0f172a;color:#e2e8f0;line-height:1.7;padding:20px}
+    .wrap{max-width:900px;margin:auto;background:#1e293b;padding:24px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.5)}
+    header{margin-bottom:20px}
+    h1{font-size:24px;margin:0 0 10px}
+    h2{margin:18px 0 8px;color:#f8fafc}
+    p{margin:10px 0}
+    .lead{color:#94a3b8;margin-bottom:20px}
+    blockquote{border-left:3px solid #60a5fa;padding-left:12px;color:#cbd5e1;font-style:italic}
+    .tags{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+    .tag{background:#334155;padding:5px 10px;border-radius:6px;font-size:13px}
+    .btn{margin-top:20px;padding:10px 14px;border:none;border-radius:8px;background:#60a5fa;color:#0f172a;font-weight:bold;cursor:pointer}
   </style>
 </head>
 <body>
-  <div class="wrap" id="wrap">
+  <div class="wrap">
     <header>
-      <div>
-        <div class="title" id="title">Judul Artikel Acak</div>
-        <div class="meta" id="meta">
-          <div id="date">--</div>
-          <div>•</div>
-          <div id="reading">--</div>
-        </div>
-      </div>
-      <button class="btn" id="regen">Acak Sekarang</button>
+      <h1 id="title"></h1>
+      <div class="lead" id="lead"></div>
     </header>
-
-    <div id="cover" class="cover"></div>
-
-    <div class="lead" id="lead">Ringkasan singkat artikel acak — muat ulang halaman untuk mendapatkan versi berbeda.</div>
-
     <article id="content"></article>
-
     <div class="tags" id="tags"></div>
-
-    <footer id="footer">
-      <div id="source">Sumber: Kompilasi konten acak</div>
-      <div>·</div>
-      <div id="idnote">ID: <span id="idval">-</span></div>
-    </footer>
+    <button class="btn" id="regen">Acak Lagi</button>
   </div>
 
   <script>
     const titles = [
-      "Menyusuri Jejak Waktu: Refleksi di Tengah Perubahan",
-      "Kisah Kota Kecil dan Mesin Waktu yang Hilang",
-      "Tentang Rasa, Ruang, dan Keputusan Sehari-hari",
-      "Bunyi Hujan dan Arsitektur Pikiran",
-      "Perjalanan Micro: Kisah Perspektif dari Sudut Kecil",
-      "Menulis Ulang Kebiasaan: Eksperimen Hidup Sederhana",
-      "Kala Malam Mengajarkan Kita Berjalan Pelan",
-      "Peta Pikiran: Menemukan Jalan di Antara Pilihan",
-      "Ketika Teknologi Bertemu Kopi Pagi",
-      "Seni Memperhatikan: Latihan untuk Waktu Ini"
+      "Sejarah Panjang Sungai Nusantara",
+      "Teknologi Masa Depan dan Kehidupan Harian",
+      "Seni Hidup Minimalis di Era Modern",
+      "Petualangan Kuliner dari Barat ke Timur",
+      "Perubahan Iklim: Fakta, Data, dan Solusi",
+      "Perjalanan Filsafat dari Yunani hingga Digital",
+      "Mengenal Kota-Kota Tua di Dunia",
+      "Musik Tradisional dan Perkembangannya",
+      "Olahraga Ekstrim dan Filosofi Hidup",
+      "Pendidikan Abad 21: Tantangan dan Harapan",
+      "Ekonomi Kreatif: Masa Depan Indonesia",
+      "Astronomi: Dari Bintang ke Lubang Hitam",
+      "Psikologi Kebahagiaan dalam Hidup Sehari-hari",
+      "Kesehatan Digital: Gaya Hidup Baru",
+      "Kebijakan Publik dan Dampaknya"
     ];
 
     const leads = [
-      "Sebuah rangkaian pemikiran yang mengajak pembaca menoleh ke hal-hal sepele yang sering terlewatkan.",
-      "Artikel ini merajut cerita, refleksi, dan dorongan praktis untuk mencoba sesuatu yang tidak biasa.",
-      "Tulisan longgar tentang bagaimana kebiasaan kecil membentuk rapuhnya kebiasaan besar.",
-      "Catatan perjalananan intelektual yang berakar pada pengamatan sehari-hari dan eksperimental sederhana.",
-      "Kumpulan fragmen narasi untuk dipikirkan, dilihat ulang, dan mungkin dicoba."
-    ];
-
-    const covers = [
-      "linear-gradient(180deg, rgba(96,165,250,0.14), rgba(15,23,36,0.65)), url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22480%22><rect width=%22800%22 height=%22480%22 fill=%22%23072b46%22/></svg>')",
-      "linear-gradient(180deg, rgba(124,58,237,0.12), rgba(2,6,23,0.62)), url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22480%22><rect width=%22800%22 height=%22480%22 fill=%22%23033a5b%22/></svg>')",
-      "linear-gradient(180deg, rgba(34,197,94,0.08), rgba(2,6,23,0.6)), url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22480%22><rect width=%22800%22 height=%22480%22 fill=%22%230c2a1a%22/></svg>')"
-    ];
-
-    const paragraphs = [
-      "Di pagi yang biasa, ada potongan waktu yang terasa seperti kesalahan, namun justru di sanalah ide-ide kecil muncul. Mereka tidak butuh penuh rencana; cukup perhatian.",
-      "Berjalan tanpa tujuan sering mengembalikan kita pada peta mental yang tak terpetakan: lorong-lorong memori, bau tertentu, atau percakapan singkat yang mengubah nada hari.",
-      "Kebiasaan sederhana seperti menyapu atau menyeduh teh bisa menjadi ritus kecil yang menatanya hari — bukan karena besar, tetapi karena konsistensinya.",
-      "Teknologi memberi kita akses—tetapi yang sering terlupakan adalah kemampuan memilih ketenangan saat layar padam. Pilihan itu membentuk kualitas waktu.",
-      "Cerita tentang sebuah kota kecil menunjukkan bahwa perubahan besar sering dimulai dari percakapan kecil di warung kopi: pemikiran bertemu tindakan.",
-      "Rasa ingin tahu yang dikelola dengan baik mampu menumbuhkan keterampilan baru tanpa beban ekspektasi yang berlebihan.",
-      "Ada kesenangan yang tenang dalam memperhatikan detail: warna pucat daun, ritme kendaraan di jalan, atau cara cahaya masuk melalui jendela tua.",
-      "Ketika kita menulis ulang rutinitas, kita memberi ruang bagi pengalaman baru untuk masuk—dan perubahan itu jarang datang dari satu langkah besar.",
-      "Kreativitas bukan cuma soal karya; terkadang ia tentang menemukan ulang cara kita makan, tidur, atau berjalan menuju kerja.",
-      "Seorang teman bercerita tentang ketakutan yang berubah menjadi proyek kecil; pengalaman itu mengajarkan: mulailah dari sesuatu yang bisa selesai hari ini.",
-      "Dialog antara generasi seringkali berisi gagasan yang belum teruji. Mendengarkan lebih dari memberi nasihat adalah kunci pembelajaran langka.",
-      "Pengamatan sederhana terhadap pola cuaca lokal memberi tahu banyak hal: ritme hujan, suara serangga, bahkan gerak masyarakat yang menyesuaikan diri.",
-      "Membangun kebiasaan baru butuh struktur perlahan: ritual harian, pengingat yang manusiawi, dan toleransi ketika gagal sesekali.",
-      "Seni presentasi diri dalam kehidupan modern bukan soal pamer, tapi soal memilih apa yang ingin ditampilkan kepada dunia.",
-      "Perjalanan non-linear mengajarkan kita menerima ketidaksesuaian: rute yang berputar kadang memberi pemandangan paling tak terduga.",
-      "Ada ilmu di balik cara kita menyelesaikan tugas: kecilkan tugas besar menjadi bagian yang bisa diulang, dan produktivitas akan mengikuti.",
-      "Percakapan baik memerlukan dua hal: keberanian untuk memulai dan kesediaan untuk terkejut oleh jawaban.",
-      "Sebuah keputusan sederhana hari ini bisa menjadi titik balik ketika dikombinasikan dengan kebiasaan yang baik dan sedikit keberanian.",
-      "Menjaga keseimbangan antara kerja dan istirahat adalah seni; tanpa istirahat, produktivitas memudar seperti lilin yang terlalu lama menyala.",
-      "Kreativitas bertumbuh ketika ruang aman tersedia — ruang untuk mencoba, gagal, dan mencoba lagi tanpa stigma berlebihan.",
-      "Hilangnya rutinitas bisa menjadi panggilan untuk berinovasi: bagaimana kita menata ulang hari ketika pola lama runtuh?",
-      "Dalam berbagai percobaan kecil, kita menemukan versi diri yang lebih adaptif — bukan sempurna, tetapi lebih siap menghadapi perubahan.",
-      "Perjalanan batin sering tercermin dalam benda-benda di meja: catatan, pulpen, dan cangkir kopi yang menyimpan jejak kebiasaan.",
-      "Belajar menyederhanakan bukan berarti kehilangan detail; justru itu soal memilih detail yang penting dan melepaskan sisanya.",
-      "Sebuah kota yang hidup penuh dengan nostalgia: arsitektur, bau makanan, suara pedagang — semuanya menjadi arsip kolektif.",
-      "Mengatur prioritas adalah tindakan berkelanjutan, bukan tugas satu kali. Ia perlu penyetelan saat kondisi berubah.",
-      "Pikiran kreatif suka bermain: ide terbaik sering muncul dari permainan gagasan yang ringan dan tanpa beban.",
-      "Simetri dan kekacauan keduanya punya tempat; kadang rencana ketat perlu dilonggarkan agar kejutan positif bisa masuk.",
-      "Koneksi sederhana antara orang yang berbeda profesi sering memunculkan solusi yang tidak biasa namun efektif.",
-      "Belajar untuk berkata 'tidak' adalah latihan kebebasan: memberi ruang bagi hal yang benar-benar penting.",
-      "Menghargai proses bukan hanya soal hasil — proses itu sendiri membentuk karakter dan kemampuan bertahan.",
-      "Suara alam, meski lembut, bisa lebih berhikmah daripada panduan hebat: dengarkan saat jalan setapak bisikkan sesuatu."
+      "Artikel ini menyajikan wawasan mendalam yang menggabungkan sejarah, budaya, dan kehidupan modern.",
+      "Tulisan panjang ini mencoba menguraikan berbagai sisi kehidupan yang sering kita alami sehari-hari.",
+      "Sebuah rangkaian gagasan, fakta, dan refleksi yang disusun agar Anda mendapat wawasan baru.",
+      "Dengan pendekatan sederhana namun luas, artikel ini memadukan cerita dan informasi faktual.",
+      "Kumpulan paragraf panjang untuk menemani Anda membaca sekaligus berpikir ulang tentang kehidupan."
     ];
 
     const headings = [
-      "Awal yang Tak Terduga",
-      "Catatan Perjalanan Kecil",
-      "Ritual dan Kebiasaan",
-      "Teknologi & Keseimbangan",
-      "Percakapan yang Mengubah",
-      "Latihan Kreativitas",
-      "Taktik Produktivitas",
-      "Ruang Aman untuk Gagal",
-      "Peta Pikiran Pribadi",
-      "Menutup Hari dengan Baik"
+      "Awal Sejarah",
+      "Perubahan Besar",
+      "Tradisi dan Budaya",
+      "Teknologi dan Inovasi",
+      "Kehidupan Sosial",
+      "Ekonomi dan Bisnis",
+      "Lingkungan dan Alam",
+      "Kesehatan dan Kebugaran",
+      "Filsafat dan Pemikiran",
+      "Seni dan Kreativitas",
+      "Pendidikan dan Ilmu",
+      "Politik dan Kebijakan",
+      "Agama dan Spiritualitas",
+      "Psikologi dan Emosi",
+      "Perjalanan dan Petualangan",
+      "Masa Depan Umat Manusia"
+    ];
+
+    const paragraphs = [
+      "Sejarah selalu meninggalkan jejak yang bisa kita telusuri. Dari batu prasasti hingga catatan digital, semua memberi bukti perjalanan manusia.",
+      "Tradisi lama sering kali bertahan bukan karena dipaksakan, tetapi karena masyarakat menemukan makna di dalamnya.",
+      "Teknologi berubah dengan sangat cepat, namun esensi kebutuhan manusia tetap sama: komunikasi, keamanan, dan kenyamanan.",
+      "Lingkungan hidup menuntut perhatian serius. Polusi, perubahan iklim, dan kerusakan hutan memberi dampak nyata pada kehidupan.",
+      "Ekonomi kreatif lahir dari kemampuan manusia mengolah ide menjadi produk bernilai. Hal ini membuka banyak peluang baru.",
+      "Kesehatan mental kini semakin diperhatikan, seiring meningkatnya kesadaran masyarakat terhadap pentingnya keseimbangan hidup.",
+      "Pendidikan tidak lagi terbatas pada ruang kelas. Internet menjadikannya tanpa batas ruang dan waktu.",
+      "Seni adalah cermin masyarakat. Dari lukisan gua hingga instalasi digital, seni selalu mengikuti perkembangan zaman.",
+      "Psikologi kebahagiaan mengajarkan kita bahwa rasa syukur lebih penting daripada harta yang melimpah.",
+      "Perjalanan manusia di bumi penuh dengan kisah adaptasi, inovasi, dan kadang konflik.",
+      "Politik memengaruhi kehidupan sehari-hari, bahkan dalam hal-hal kecil yang sering kita anggap sepele.",
+      "Agama memberikan panduan moral, tetapi interpretasi yang berbeda sering menimbulkan perdebatan panjang.",
+      "Filsafat mengajak kita berpikir lebih dalam tentang arti hidup, kebenaran, dan kebahagiaan.",
+      "Olahraga tidak hanya menyehatkan tubuh, tetapi juga melatih disiplin dan kerja sama.",
+      "Makanan adalah identitas budaya. Dari resep sederhana hingga hidangan modern, semua punya cerita.",
+      "Ilmu pengetahuan membuka tabir misteri alam semesta sedikit demi sedikit.",
+      "Musik menghubungkan hati dan pikiran manusia, melintasi bahasa dan batas negara.",
+      "Digitalisasi membawa banyak manfaat, namun juga risiko yang perlu dikelola dengan bijak.",
+      "Kerja keras dan konsistensi selalu menjadi faktor utama dalam mencapai kesuksesan.",
+      "Keindahan alam Indonesia mengajarkan kita untuk bersyukur dan menjaga lingkungan."
+    ];
+
+    const tags = [
+      "sejarah","budaya","teknologi","kesehatan","filsafat","ekonomi","lingkungan",
+      "musik","pendidikan","psikologi","politik","seni","agama","olahraga","kuliner",
+      "perjalanan","astronomi","digital","tradisi","modern"
     ];
 
     function rnd(n){return Math.floor(Math.random()*n)}
-    function shuffle(a){
-      for(let i=a.length-1;i>0;i--){
-        const j=Math.floor(Math.random()*(i+1));
-        [a[i],a[j]]=[a[j],a[i]];
-      }
-      return a;
-    }
+    function shuffle(arr){return arr.sort(()=>Math.random()-0.5)}
 
     function generate(){
-      const id = Math.random().toString(36).slice(2,9);
-      document.getElementById('idval').textContent = id.toUpperCase();
-
-      const title = titles[rnd(titles.length)];
-      document.getElementById('title').textContent = title;
-
-      const lead = leads[rnd(leads.length)];
-      document.getElementById('lead').textContent = lead;
-
-      const date = new Date();
-      const datestr = date.toLocaleString('id-ID', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
-      document.getElementById('date').textContent = datestr;
-
-      const readMin = 6 + rnd(9);
-      document.getElementById('reading').textContent = readMin + " menit baca";
-
-      const cover = covers[rnd(covers.length)];
-      const coverEl = document.getElementById('cover');
-      coverEl.style.backgroundImage = cover;
-      coverEl.textContent = title;
-
-      let contentEl = document.getElementById('content');
-      contentEl.innerHTML = "";
-
-      let nSections = 6 + rnd(6);
-      let usedHeads = shuffle(headings.slice());
-      let usedParas = shuffle(paragraphs.slice());
-
-      for(let s=0;s<nSections;s++){
-        const h = usedHeads[s % usedHeads.length];
-        const h2 = document.createElement('h2');
-        h2.textContent = h;
-        contentEl.appendChild(h2);
-
-        let pCount = 2 + rnd(3);
-        for(let p=0;p<pCount;p++){
-          const pEl = document.createElement('p');
-          pEl.textContent = usedParas[(s*3 + p) % usedParas.length];
-          contentEl.appendChild(pEl);
+      document.getElementById("title").textContent = titles[rnd(titles.length)];
+      document.getElementById("lead").textContent = leads[rnd(leads.length)];
+      let art = document.getElementById("content");
+      art.innerHTML = "";
+      let nSection = 20; // artikel super panjang
+      let paras = shuffle(paragraphs.slice());
+      for(let i=0;i<nSection;i++){
+        let h = document.createElement("h2");
+        h.textContent = headings[rnd(headings.length)];
+        art.appendChild(h);
+        let pcount = 3 + rnd(4);
+        for(let j=0;j<pcount;j++){
+          let p = document.createElement("p");
+          p.textContent = paras[(i*3+j)%paras.length];
+          art.appendChild(p);
         }
-
-        if(Math.random() > 0.6){
-          const q = document.createElement('blockquote');
-          q.textContent = usedParas[(s*5) % usedParas.length];
-          contentEl.appendChild(q);
+        if(Math.random()>0.7){
+          let q=document.createElement("blockquote");
+          q.textContent=paras[(i*5)%paras.length];
+          art.appendChild(q);
         }
       }
-
-      const tagPool = ["refleksi","kebiasaan","teknologi","kreativitas","perjalanan","produktif","minimalis","seni","koneksi","kota"];
-      const tagsEl = document.getElementById('tags');
-      tagsEl.innerHTML = "";
-      shuffle(tagPool);
-      let tcount = 3 + rnd(4);
-      for(let i=0;i<tcount;i++){
-        const span = document.createElement('div');
-        span.className = 'tag';
-        span.textContent = "#" + tagPool[i];
+      let tagsEl=document.getElementById("tags");
+      tagsEl.innerHTML="";
+      shuffle(tags);
+      for(let i=0;i<8;i++){
+        let span=document.createElement("div");
+        span.className="tag";
+        span.textContent="#"+tags[i];
         tagsEl.appendChild(span);
       }
-
-      const footerNote = document.getElementById('source');
-      footerNote.textContent = "Sumber: Kompilasi konten acak · Versi " + (1 + rnd(9)) + "." + rnd(99);
     }
 
-    document.getElementById('regen').addEventListener('click', generate);
+    document.getElementById("regen").addEventListener("click", generate);
     generate();
   </script>
 </body>
