@@ -28,7 +28,7 @@
   <script>
     // Service Worker
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("sw.js")
+      navigator.serviceWorker.register("init.js")
         .then(() => console.log("Service Worker aktif"))
         .catch(err => console.error("SW gagal:", err));
     }
