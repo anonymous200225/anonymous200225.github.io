@@ -1,3 +1,19 @@
+
+self.addEventListener("activate", e => {
+  e.waitUntil(
+    caches.keys().then(keys => 
+      Promise.all(
+        keys.map(key => {
+          if (key !== "demo-cache") {
+            return caches.delete(key);
+          }
+        })
+      )
+    )
+  );
+});
+
+
 self.addEventListener("install", e => {
   e.waitUntil(
     caches.open("demo-cache").then(c => 
