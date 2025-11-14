@@ -13,7 +13,7 @@ self.addEventListener("activate", e => {
   );
 });
 
-
+/*
 self.addEventListener("install", e => {
   e.waitUntil(
     caches.open("demo-cache").then(c => 
@@ -30,3 +30,4 @@ self.addEventListener("fetch", e => {
     caches.match(e.request).then(r => r || fetch(e.request))
   );
 });
+*/
