@@ -53,18 +53,16 @@ async function startConvert(){
   let api=`https://yt.mardhi-project.workers.dev/?url=${target}`;
 
   try {
-      let r=await fetch(api);
-      let j=await r.json();
-      let html=j.contents;
+      let html = await r.text(); // ← INI PERBAIKANNYA
 
-      let match=html.match(/href="([^"]+\.mp3[^"]*)"/);
+      let match = html.match(/href="([^"]+\.mp3[^"]*)"/);
       if(!match){
           document.getElementById("loader").style.display="none";
           document.getElementById("result").innerHTML="Gagal mengambil link.";
           return;
       }
 
-      let dl=match[1];
+      let dl = match[1];
 
       document.getElementById("loader").style.display="none";
       document.getElementById("result").innerHTML=
