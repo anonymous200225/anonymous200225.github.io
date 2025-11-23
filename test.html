@@ -1,101 +1,88 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YouTube → MP3 (Google Drive)</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    h1 { color: #333; }
-    .card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      max-width: 400px;
-      width: 100%;
-      text-align: center;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background: #28a745;
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:disabled {
-      background: #aaa;
-    }
-    .result {
-      margin-top: 20px;
-      word-wrap: break-word;
-    }
-    a {
-      color: #007bff;
-      text-decoration: none;
-    }
-  </style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YT ke MP3</title>
+<style>
+body { font-family: sans-serif; padding: 20px; background: #111; color: #fff; }
+input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: none; }
+button { background: #0c7; color: #000; font-weight: bold; }
+#preview { margin-top: 15px; display: none; }
+.loader { display:none; margin-top:20px; text-align:center; }
+.loader div {
+  width: 30px; height: 30px; border: 4px solid #0c7;
+  border-top: 4px solid transparent; border-radius: 50%;
+  animation: spin 0.8s linear infinite; margin:auto;
+}
+@keyframes spin { 100% { transform: rotate(360deg); } }
+</style>
 </head>
 <body>
-  <h1>🎵 YouTube → MP3 (Google Drive)</h1>
-  <div class="card">
-    <input type="text" id="url" placeholder="Tempel link YouTube di sini">
-    <button id="downloadBtn">Convert & Simpan</button>
-    <div class="result" id="result"></div>
-  </div>
 
-  <script>
-    // Ganti dengan URL ngrok Colab kamu
-    const backendURL = "https://uncommensurate-martial-yukiko.ngrok-free.dev/run";
+<h2>Convert YouTube ke MP3</h2>
 
-    document.getElementById("downloadBtn").addEventListener("click", async () => {
-      const url = document.getElementById("url").value.trim();
-      const resultDiv = document.getElementById("result");
+<input id="url" placeholder="Tempel URL YouTube...">
 
-      if (!url) {
-        resultDiv.innerHTML = "⚠️ Masukkan URL YouTube dulu.";
-        return;
-      }
+<button onclick="startConvert()">Convert</button>
 
-      resultDiv.innerHTML = "⏳ Sedang memproses...";
-      document.getElementById("downloadBtn").disabled = true;
+<div class="loader" id="loader"><div></div></div>
 
-      try {
-        const res = await fetch(backendURL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url })
-        });
+<div id="preview"></div>
+<div id="result"></div>
 
-        const data = await res.json();
-        if (data.status === "ok") {
-          resultDiv.innerHTML = `✅ Berhasil! <br><a href="${data.download}" target="_blank">Download MP3 di Google Drive</a>`;
-        } else {
-          resultDiv.innerHTML = "❌ Gagal: " + data.msg;
+<script>
+async function startConvert() {
+    let link = document.getElementById("url").value.trim();
+    if (!link) return;
+
+    document.getElementById("loader").style.display = "block";
+    document.getElementById("preview").style.display = "none";
+    document.getElementById("result").innerHTML = "";
+
+    let id = getID(link);
+    if (!id) {
+        document.getElementById("loader").style.display = "none";
+        return alert("URL tidak valid!");
+    }
+
+    document.getElementById("preview").innerHTML = `
+        <iframe width="100%" height="200" src="https://www.youtube.com/embed/${id}" frameborder="0"></iframe>
+    `;
+    document.getElementById("preview").style.display = "block";
+
+    let api = `https://y2mate.ch/api/convert?video_url=https://youtu.be/${id}&format=mp3`;
+
+    try {
+        let r = await fetch(api);
+        let j = await r.json();
+
+        document.getElementById("loader").style.display = "none";
+
+        if (j.status != "ok") {
+            document.getElementById("result").innerHTML = "<p>Gagal convert.</p>";
+            return;
         }
-      } catch (err) {
-        resultDiv.innerHTML = "🚨 Error: " + err.message;
-      }
 
-      document.getElementById("downloadBtn").disabled = false;
-    });
-  </script>
+        document.getElementById("result").innerHTML = `
+            <h3>${j.title}</h3>
+            <a href="${j.link}" download style="
+                display:block;margin-top:10px;padding:12px;
+                background:#0c7;color:#000;text-align:center;
+                border-radius:10px;font-weight:bold;
+            ">Download MP3</a>
+        `;
+    } catch (e) {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("result").innerHTML = "Error koneksi.";
+    }
+}
+
+function getID(url) {
+    let pattern = /(?:v=|youtu\.be\/)([^&\s]+)/;
+    let m = url.match(pattern);
+    return m ? m[1] : null;
+}
+</script>
+
 </body>
 </html>
