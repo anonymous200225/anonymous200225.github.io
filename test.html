@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>YT ke MP3 (Tanpa CORS)</title>
+<title>YT ke MP3 (Auto Switch)</title>
 <style>
 body { font-family:sans-serif; padding:20px; background:#111; color:#fff }
 input,button { width:100%; padding:12px; margin:8px 0; border-radius:10px; border:none }
@@ -19,7 +19,7 @@ button { background:#0c7; font-weight:bold }
 </head>
 <body>
 
-<h2>Convert YT ke MP3</h2>
+<h2>Convert YT ke MP3 v3</h2>
 
 <input id="url" placeholder="Tempel URL YouTube...">
 <button onclick="startConvert()">Convert</button>
@@ -29,9 +29,34 @@ button { background:#0c7; font-weight:bold }
 <div id="result"></div>
 
 <script>
+const servers = [
+  "https://pipedapi.kavin.rocks",
+  "https://pipedapi.in",
+  "https://pipedapi.es",
+  "https://pipedapi.tokhmi.xyz",
+  "https://pipedapi.leptons.xyz"
+];
+
 function getID(url){
   let m=url.match(/(?:v=|youtu\.be\/)([^&\s]+)/);
   return m?m[1]:null;
+}
+
+async function fetchFromServers(id){
+  for (let base of servers){
+      let api = `${base}/streams/${id}`;
+      try{
+          let r = await fetch(api, { method:"GET" });
+          if(!r.ok) continue;
+          let j = await r.json();
+          if(j.audioStreams && j.audioStreams.length){
+              return j.audioStreams[0].url;
+          }
+      }catch(e){
+          continue;
+      }
+  }
+  return null;
 }
 
 async function startConvert(){
@@ -39,10 +64,7 @@ async function startConvert(){
   if(!link) return;
 
   let id=getID(link);
-  if(!id){ 
-    alert("URL tidak valid"); 
-    return;
-  }
+  if(!id){ alert("URL tidak valid"); return }
 
   document.getElementById("loader").style.display="block";
   document.getElementById("result").innerHTML="";
@@ -50,31 +72,21 @@ async function startConvert(){
   document.getElementById("preview").innerHTML=
     `<iframe width="100%" height="200" src="https://www.youtube.com/embed/${id}"></iframe>`;
 
-  let api = `https://piped.video/api/v1/audio/${id}`;
+  let audio = await fetchFromServers(id);
 
-  try {
-      let r = await fetch(api);
-      let audioList = await r.json();
+  document.getElementById("loader").style.display="none";
 
-      let best = audioList[0]?.url;
-      if(!best){
-          document.getElementById("loader").style.display="none";
-          document.getElementById("result").innerHTML="Tidak ada audio tersedia.";
-          return;
-      }
-
-      document.getElementById("loader").style.display="none";
-      document.getElementById("result").innerHTML=
-        `<a href="${best}" style="
-            display:block;margin-top:10px;padding:12px;
-            background:#0c7;color:#000;text-align:center;
-            border-radius:10px;font-weight:bold;
-        ">Download MP3</a>`;
+  if(!audio){
+      document.getElementById("result").innerHTML="Semua server gagal merespon.";
+      return;
   }
-  catch(e){
-      document.getElementById("loader").style.display="none";
-      document.getElementById("result").innerHTML="Server tidak merespon.";
-  }
+
+  document.getElementById("result").innerHTML=
+    `<a href="${audio}" style="
+        display:block;margin-top:10px;padding:12px;
+        background:#0c7;color:#000;text-align:center;
+        border-radius:10px;font-weight:bold;
+    ">Download Audio</a>`;
 }
 </script>
 
