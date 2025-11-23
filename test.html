@@ -4,83 +4,80 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>YT ke MP3</title>
 <style>
-body { font-family: sans-serif; padding: 20px; background: #111; color: #fff; }
-input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: none; }
-button { background: #0c7; color: #000; font-weight: bold; }
-#preview { margin-top: 15px; display: none; }
-.loader { display:none; margin-top:20px; text-align:center; }
+body { font-family:sans-serif; padding:20px; background:#111; color:#fff }
+input,button { width:100%; padding:12px; margin:8px 0; border-radius:10px; border:none }
+button { background:#0c7; font-weight:bold }
+#preview { margin-top:15px; display:none }
+.loader { display:none; margin-top:20px; text-align:center }
 .loader div {
-  width: 30px; height: 30px; border: 4px solid #0c7;
-  border-top: 4px solid transparent; border-radius: 50%;
-  animation: spin 0.8s linear infinite; margin:auto;
+  width:30px; height:30px; border:4px solid #0c7;
+  border-top:4px solid transparent; border-radius:50%;
+  animation:spin 0.8s linear infinite; margin:auto
 }
-@keyframes spin { 100% { transform: rotate(360deg); } }
+@keyframes spin { 100% { transform:rotate(360deg) } }
 </style>
 </head>
 <body>
 
-<h2>Convert YouTube ke MP3</h2>
+<h2>Convert YT ke MP3</h2>
 
 <input id="url" placeholder="Tempel URL YouTube...">
-
 <button onclick="startConvert()">Convert</button>
 
 <div class="loader" id="loader"><div></div></div>
-
 <div id="preview"></div>
 <div id="result"></div>
 
 <script>
-async function startConvert() {
-    let link = document.getElementById("url").value.trim();
-    if (!link) return;
-
-    document.getElementById("loader").style.display = "block";
-    document.getElementById("preview").style.display = "none";
-    document.getElementById("result").innerHTML = "";
-
-    let id = getID(link);
-    if (!id) {
-        document.getElementById("loader").style.display = "none";
-        return alert("URL tidak valid!");
-    }
-
-    document.getElementById("preview").innerHTML = `
-        <iframe width="100%" height="200" src="https://www.youtube.com/embed/${id}"></iframe>
-    `;
-    document.getElementById("preview").style.display = "block";
-
-    let api = `https://cors.evildomain.tk/https://y2mate.ch/api/convert?video_url=https://youtu.be/${id}&format=mp3`;
-
-    try {
-        let r = await fetch(api);
-        let j = await r.json();
-
-        document.getElementById("loader").style.display = "none";
-
-        if (j.status != "ok") {
-            document.getElementById("result").innerHTML = "<p>Gagal convert.</p>";
-            return;
-        }
-
-        document.getElementById("result").innerHTML = `
-            <h3>${j.title}</h3>
-            <a href="${j.link}" download style="
-                display:block;margin-top:10px;padding:12px;
-                background:#0c7;color:#000;text-align:center;
-                border-radius:10px;font-weight:bold;
-            ">Download MP3</a>
-        `;
-    } catch (e) {
-        document.getElementById("loader").style.display = "none";
-        document.getElementById("result").innerHTML = "Error koneksi (CORS blokir).";
-    }
+function getID(url){
+  let m=url.match(/(?:v=|youtu\.be\/)([^&\s]+)/);
+  return m?m[1]:null;
 }
 
-function getID(url) {
-    let pattern = /(?:v=|youtu\.be\/)([^&\s]+)/;
-    let m = url.match(pattern);
-    return m ? m[1] : null;
+async function startConvert(){
+  let link=document.getElementById("url").value.trim();
+  if(!link) return;
+
+  document.getElementById("loader").style.display="block";
+  document.getElementById("result").innerHTML="";
+  document.getElementById("preview").style.display="none";
+
+  let id=getID(link);
+  if(!id){ alert("URL tidak valid"); return }
+
+  document.getElementById("preview").style.display="block";
+  document.getElementById("preview").innerHTML=
+    `<iframe width="100%" height="200" src="https://www.youtube.com/embed/${id}"></iframe>`;
+
+  let target = encodeURIComponent(`https://api.vevioz.com/api/button/mp3?url=https://youtu.be/${id}`);
+  let api=`https://api.allorigins.win/get?url=${target}`;
+
+  try {
+      let r=await fetch(api);
+      let j=await r.json();
+      let html=j.contents;
+
+      let match=html.match(/href="([^"]+\.mp3[^"]*)"/);
+      if(!match){
+          document.getElementById("loader").style.display="none";
+          document.getElementById("result").innerHTML="Gagal mengambil link.";
+          return;
+      }
+
+      let dl=match[1];
+
+      document.getElementById("loader").style.display="none";
+      document.getElementById("result").innerHTML=
+        `<a href="${dl}" download style="
+            display:block;margin-top:10px;padding:12px;
+            background:#0c7;color:#000;text-align:center;
+            border-radius:10px;font-weight:bold;
+        ">Download MP3</a>`;
+  }
+  catch(e){
+      document.getElementById("loader").style.display="none";
+      document.getElementById("result").innerHTML="Masih Error (CORS).";
+  }
 }
 </script>
 
