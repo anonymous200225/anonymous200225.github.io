@@ -46,11 +46,11 @@ async function startConvert() {
     }
 
     document.getElementById("preview").innerHTML = `
-        <iframe width="100%" height="200" src="https://www.youtube.com/embed/${id}" frameborder="0"></iframe>
+        <iframe width="100%" height="200" src="https://www.youtube.com/embed/${id}"></iframe>
     `;
     document.getElementById("preview").style.display = "block";
 
-    let api = `https://y2mate.ch/api/convert?video_url=https://youtu.be/${id}&format=mp3`;
+    let api = `https://cors.evildomain.tk/https://y2mate.ch/api/convert?video_url=https://youtu.be/${id}&format=mp3`;
 
     try {
         let r = await fetch(api);
@@ -73,7 +73,7 @@ async function startConvert() {
         `;
     } catch (e) {
         document.getElementById("loader").style.display = "none";
-        document.getElementById("result").innerHTML = "Error koneksi.";
+        document.getElementById("result").innerHTML = "Error koneksi (CORS blokir).";
     }
 }
 
