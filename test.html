@@ -50,7 +50,7 @@ async function startConvert(){
     `<iframe width="100%" height="200" src="https://www.youtube.com/embed/${id}"></iframe>`;
 
   let target = encodeURIComponent(`https://api.vevioz.com/api/button/mp3?url=https://youtu.be/${id}`);
-  let api=`https://api.allorigins.win/get?url=${target}`;
+  let api=`https://yt.mardhi-project.workers.dev/?url=${target}`;
 
   try {
       let r=await fetch(api);
