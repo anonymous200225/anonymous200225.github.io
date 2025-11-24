@@ -1,7 +1,3 @@
-<!--
-  File final HTML untuk ESS - Kehadiran & Lembur
-  Catatan: referensi file upload (sebelumnya): /mnt/data/index.txt
--->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -42,7 +38,6 @@
 
     .delBtn{padding:6px 8px; border-radius:6px; background:#fee2e2; color:#b91c1c; border:none; cursor:pointer; font-weight:700;}
 
-    /* Loader */
     #load-wrapper{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.45); z-index:60;}
     #loader{width:64px;height:64px;border-radius:50%;border:6px solid #eee;border-top-color:#0b6b3a;animation:spin 1s linear infinite;}
     @keyframes spin{to{transform:rotate(360deg)}}
@@ -70,118 +65,105 @@
 </head>
 <body>
 
-  <!-- referensi file upload (lokal) -->
-  <a id="uploadedFile" href="/mnt/data/index.txt" style="display:none">uploaded</a>
+<div class="header">Laporan Kehadiran & Lembur ESS</div>
 
-  <div class="header">Laporan Kehadiran & Lembur ESS</div>
+<div id="load-wrapper"><div id="loader"></div></div>
 
-  <div id="load-wrapper"><div id="loader"></div></div>
+<main class="container">
+  <input id="fileInput" type="file" accept=".xls" />
+  <div id="tips">
+    <b class="kedip">HOW TO USE?</b><br>
+    • Login SunFish → ekspor Laporan Kehadiran (.xls).<br>
+    • Upload file .xls di atas.<br>
+    • Data dapat diedit langsung & tersimpan otomatis.
+  </div>
 
-  <main class="container" role="main">
-    <input id="fileInput" type="file" accept=".xls" />
-    <div id="tips">
-      <b class="kedip">HOW TO USE?</b><br>
-      • Login SunFish → ekspor Laporan Kehadiran (format .xls).<br>
-      • Upload file .xls di atas. <br>
-      • Data dapat diedit langsung, ditambah manual, dan tersimpan otomatis.
-    </div>
+  <div id="periodSummary" hidden></div>
+  <div id="summaryOutput"></div>
+  <div id="tableOutput"></div>
 
-    <!-- Ringkasan periode payroll (20->19) tampil hanya jika ada data -->
-    <div id="periodSummary" hidden></div>
+  <table class="input-form">
+    <tr><th colspan="2">Tambah Data</th></tr>
+    <tr><td>Tanggal</td><td><input id="manualTanggal" type="date"></td></tr>
 
-    <!-- Ringkasan full range -->
-    <div id="summaryOutput"></div>
+    <tr>
+      <td>Tipe Hari</td>
+      <td>
+        <div class="radio-group">
+          <label><input type="radio" name="manualTipeHari" value="WD" checked>WD</label>
+          <label><input type="radio" name="manualTipeHari" value="OFF">OFF</label>
+          <label><input type="radio" name="manualTipeHari" value="PHOFF">PHOFF</label>
+        </div>
+      </td>
+    </tr>
 
-    <!-- Tabel data -->
-    <div id="tableOutput"></div>
+    <tr><td>Jam Lembur</td><td><input id="manualJamLembur" type="number" step="0.01" oninput="syncMenitLembur()"></td></tr>
+    <tr><td>Menit Lembur</td><td><input id="manualMenitLembur" type="number" oninput="syncJamLembur()"></td></tr>
+    <tr><td>Indeks Lembur</td><td><input id="manualIndeks" type="number" step="0.01"></td></tr>
 
-    <!-- Form tambah data -->
-    <table class="input-form" aria-label="Form tambah data">
-      <tr><th colspan="2">Tambah Data</th></tr>
-      <tr><td>Tanggal</td><td><input id="manualTanggal" type="date"></td></tr>
-<tr>
-  <td>Tipe Hari</td>
-  <td>
-    <div class="radio-group">
-      <label><input type="radio" name="manualTipeHari" value="WD" checked>WD</label>
-      <label><input type="radio" name="manualTipeHari" value="OFF">OFF</label>
-      <label><input type="radio" name="manualTipeHari" value="PHOFF">PHOFF</label>
-    </div>
-  </td>
-</tr>
+    <tr>
+      <td>Status</td>
+      <td>
+        <div class="radio-group">
+          <label><input type="radio" name="manualStatus" value="PRS" checked>PRS</label>
+          <label><input type="radio" name="manualStatus" value="ABS">ABS</label>
+          <label><input type="radio" name="manualStatus" value="OFF">OFF</label>
+          <label><input type="radio" name="manualStatus" value="CT">CT</label>
+        </div>
+      </td>
+    </tr>
 
-<tr><td>Jam Lembur</td><td><input id="manualJamLembur" type="number" step="0.01" oninput="syncMenitLembur()"></td></tr>
-      <tr><td>Menit Lembur</td><td><input id="manualMenitLembur" type="number" oninput="syncJamLembur()"></td></tr>
-      <tr><td>Indeks Lembur</td><td><input id="manualIndeks" type="number" step="0.01"></td></tr>
+    <tr>
+      <td>Other Status</td>
+      <td>
+        <div class="checkbox-group">
+          <label><input type="checkbox" class="other-status" value="EAI" checked>EAI</label>
+          <label><input type="checkbox" class="other-status" value="NSI">NSI</label>
+          <label><input type="checkbox" class="other-status" value="NSO">NSO</label>
+          <label><input type="checkbox" class="other-status" value="PRS" checked>PRS</label>
+          <label><input type="checkbox" class="other-status" value="PRS_MEAL" checked>PRS_MEAL</label>
+          <label><input type="checkbox" class="other-status" value="OVT" checked>OVT</label>
+          <label><input type="checkbox" class="other-status" value="OVH">OVH</label>
+          <label><input type="checkbox" class="other-status" value="ABS">ABS</label>
+          <label><input type="checkbox" class="other-status" value="CT">CT</label>
+          <label><input type="checkbox" class="other-status" value="OFF">OFF</label>
+        </div>
+      </td>
+    </tr>
 
-<tr>
-  <td>Status</td>
-  <td>
-    <div class="radio-group">
-      <label><input type="radio" name="manualStatus" value="PRS" checked>PRS</label>
-      <label><input type="radio" name="manualStatus" value="ABS">ABS</label>
-      <label><input type="radio" name="manualStatus" value="OFF">OFF</label>
-      <label><input type="radio" name="manualStatus" value="CT">CT</label>
-    </div>
-  </td>
-</tr>
+    <tr><td colspan="2"><button onclick="addManualEntry()">TAMBAH</button></td></tr>
+    <tr><td colspan="2"><button onclick="resetData()" style="background:#ef4444">HAPUS SEMUA DATA</button></td></tr>
+  </table>
 
-<tr>
-  <td>Other Status</td>
-  <td>
-    <div class="checkbox-group">
-      <label><input type="checkbox" class="other-status" value="EAI" checked>EAI</label>
-      <label><input type="checkbox" class="other-status" value="NSI">NSI</label>
-      <label><input type="checkbox" class="other-status" value="NSO">NSO</label>
-      <label><input type="checkbox" class="other-status" value="PRS" checked>PRS</label>
-      <label><input type="checkbox" class="other-status" value="PRS_MEAL" checked>PRS_MEAL</label>
-      <label><input type="checkbox" class="other-status" value="OVT" checked>OVT</label>
-      <label><input type="checkbox" class="other-status" value="OVH">OVH</label>
-      <label><input type="checkbox" class="other-status" value="ABS">ABS</label>
-      <label><input type="checkbox" class="other-status" value="CT">CT</label>
-      <label><input type="checkbox" class="other-status" value="OFF">OFF</label>
-     </div>
-  </td>
-</tr>
-      <tr><td colspan="2"><button onclick="addManualEntry()">TAMBAH</button></td></tr>
-      <tr><td colspan="2"><button onclick="resetData()" style="background:#ef4444">HAPUS SEMUA DATA</button></td></tr>
-    </table>
-
-    <footer>&copy; Mardhi Project</footer>
-  </main>
+  <footer>&copy; Mardhi Project</footer>
+</main>
 
 <script>
-/* ---------------------------
-   KONSTANTA (perhitungan)
-   --------------------------- */
 const DAILY_RATE = 121592.2;
 const OVERTIME_RATE = 17571.127;
 const MEAL_RATE = 15199.025;
 const POTONGAN = 150000;
-const POTONGAN_THRESHOLD = 10; // contoh aturan potongan
+const POTONGAN_THRESHOLD = 10;
 
-/* ---------------------------
-   STATE
-   --------------------------- */
-let parsedData = []; // array of objects
+let parsedData = [];
 let user = { nama:'-', id:'-', jabatan:'-' };
 
-/* ---------------------------
-   LOCALSTORAGE HELPERS
-   --------------------------- */
 function saveLocal() {
-  try { localStorage.setItem("sunfishData", JSON.stringify(parsedData)); } catch(e){}
+  localStorage.setItem("sunfishData", JSON.stringify(parsedData));
 }
 function loadLocal() {
-  try {
-    const s = localStorage.getItem("sunfishData");
-    if (s) parsedData = JSON.parse(s);
-  } catch(e){ parsedData = []; }
+  const s = localStorage.getItem("sunfishData");
+  if (s) parsedData = JSON.parse(s);
 }
 
-/* ---------------------------
-   TANGGAL HELPERS
-   --------------------------- */
+function saveUser() {
+  localStorage.setItem("userInfo", JSON.stringify(user));
+}
+function loadUser() {
+  const u = localStorage.getItem("userInfo");
+  if (u) user = JSON.parse(u);
+}
+
 function parseIndoDate(str) {
   if (!str) return null;
   const p = str.split('/');
@@ -189,38 +171,21 @@ function parseIndoDate(str) {
   return new Date(parseInt(p[2],10), parseInt(p[1],10)-1, parseInt(p[0],10));
 }
 function ddmmyyyy(d) {
-  if (!d) return '';
-  const dd = String(d.getDate()).padStart(2,'0');
-  const mm = String(d.getMonth()+1).padStart(2,'0');
-  const yy = d.getFullYear();
-  return `${dd}/${mm}/${yy}`;
+  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
 }
 
-/* ---------------------------
-   INDEX LEMBUR (logika)
-   --------------------------- */
 function hitungIndeksByJam(jam, tipeHari) {
   jam = Number(jam) || 0;
-
-  // Cegah negatif
   if (jam <= 0) return 0;
-
   if (tipeHari === "OFF" || tipeHari === "PHOFF") {
     if (jam <= 7) return jam * 2;
     return (7 * 2) + (jam - 7) * 3 + 2;
   }
-
-  // WD (hari kerja biasa)
   if (jam === 1) return 1.5;
   if (jam <= 7) return 1.5 + (jam - 1) * 2;
-
   return 1.5 + (6 * 2) + ((jam - 7) * 3) + 2;
 }
 
-
-/* ---------------------------
-   SYNC INPUT JAM <-> MENIT
-   --------------------------- */
 let syncing = false;
 function syncMenitLembur(){
   if (syncing) return;
@@ -242,9 +207,6 @@ function syncJamLembur(){
   syncing = false;
 }
 
-/* ---------------------------
-   GENERATOR TABEL & SUMMARY
-   --------------------------- */
 function getRowClass(row) {
   const t = (row["Tipe Hari"] || "").toUpperCase();
   const s = (row["Status"] || "").toUpperCase();
@@ -257,7 +219,7 @@ function getRowClass(row) {
 }
 
 function generateTableHtml(data) {
-  if (!data || data.length === 0) return "<p>Tidak ada data</p>";
+  if (!data.length) return "<p>Tidak ada data</p>";
   const headers = Object.keys(data[0]).filter(k => k !== "dateObj");
   let html = "<div class='table-responsive'><table class='data-table'><thead><tr>";
   headers.forEach(h => html += `<th>${h}</th>`);
@@ -265,8 +227,7 @@ function generateTableHtml(data) {
   data.forEach((row, idx) => {
     html += `<tr class="${getRowClass(row)}">`;
     headers.forEach(h => {
-      const v = row[h] !== undefined ? row[h] : "";
-      html += `<td contenteditable onblur="editCell(${idx},'${h}', this.innerText)">${v}</td>`;
+      html += `<td contenteditable onblur="editCell(${idx},'${h}', this.innerText)">${row[h]}</td>`;
     });
     html += `<td><button class="delBtn" onclick="deleteRow(${idx})">Hapus</button></td></tr>`;
   });
@@ -274,59 +235,45 @@ function generateTableHtml(data) {
   return html;
 }
 
-function generateSummaryHtml(stats, startLabel, endLabel) {
-  return `
-    <table class="summary-table">
-      <tr><th colspan="2">Periode: ${startLabel} — ${endLabel}</th></tr>
-      <tr><td>Nama Karyawan</td><td>${user.nama || '-'}</td></tr>
-      <tr><td>NIK / ID</td><td>${user.id || '-'}</td></tr>
-      <tr><td>Posisi / Jabatan</td><td>${user.jabatan || '-'}</td></tr>
-      <tr><td>Hari Kerja</td><td>${stats.hariKerja}</td></tr>
-      <tr><td>Cuti</td><td>${stats.cuti}</td></tr>
-      <tr><td>Absen</td><td>${stats.absen}</td></tr>
-      <tr><td>Jam Lembur</td><td>${Number(stats.totalJam).toFixed(2)} jam</td></tr>
-      <tr><td>Indeks Lembur</td><td>${Number(stats.totalIndeks).toFixed(2)}</td></tr>
-      <tr><td>Estimasi Gaji</td><td>${formatRupiah(stats.gaji)}</td></tr>
-    </table>
-  `;
-}
-
 function formatRupiah(n) {
-  if (!n || isNaN(n)) n = 0;
-  return "Rp " + Number(Math.round(n)).toLocaleString("id-ID");
+  return "Rp " + Number(Math.round(n || 0)).toLocaleString("id-ID");
 }
 
-/* ---------------------------
-   PERHITUNGAN GAJI DARI ARRAY DATA
-   --------------------------- */
 function calculateStats(data) {
   let hariKerja = 0, cuti = 0, absen = 0, off = 0, totalJam = 0, totalIndeks = 0, meal = 0;
   data.forEach(r => {
     const tipe = (r["Tipe Hari"] || "").toUpperCase();
     const status = (r["Status"] || "").toUpperCase();
     const other = (r["Other Status"] || "").toUpperCase();
-
     if ((tipe === "WD" && status === "PRS") || (tipe === "PHOFF" && status === "PRS")) hariKerja++;
     if (tipe === "OFF" && status === "PRS") off++;
     if (status === "ABS") absen++;
     if (status === "CT" || status === "CS") cuti++;
     if (other.includes("MEAL") || other.includes("PRS_MEAL")) meal++;
-
-    totalJam += parseFloat((r["Jam Lembur"] || "0").toString().replace(",", ".")) || 0;
-    totalIndeks += parseFloat((r["Indeks Lembur"] || "0").toString().replace(",", ".")) || 0;
+    totalJam += parseFloat((r["Jam Lembur"] || "0").replace(",", ".")) || 0;
+    totalIndeks += parseFloat((r["Indeks Lembur"] || "0").replace(",", ".")) || 0;
   });
-
   const gaji = ((hariKerja + cuti) * DAILY_RATE) + (totalIndeks * OVERTIME_RATE) + (meal * MEAL_RATE) - (((hariKerja + cuti) > POTONGAN_THRESHOLD) ? POTONGAN : 0);
-
-  return {
-    hariKerja, cuti, absen, off,
-    totalJam, totalIndeks, gaji
-  };
+  return { hariKerja, cuti, absen, off, totalJam, totalIndeks, gaji };
 }
 
-/* ---------------------------
-   PERIODE PAYROLL 20 -> 19
-   --------------------------- */
+function generateSummaryHtml(stats, startLabel, endLabel) {
+  return `
+    <table class="summary-table">
+      <tr><th colspan="2">Periode: ${startLabel} — ${endLabel}</th></tr>
+      <tr><td>Nama Karyawan</td><td>${user.nama}</td></tr>
+      <tr><td>NIK / ID</td><td>${user.id}</td></tr>
+      <tr><td>Posisi / Jabatan</td><td>${user.jabatan}</td></tr>
+      <tr><td>Hari Kerja</td><td>${stats.hariKerja}</td></tr>
+      <tr><td>Cuti</td><td>${stats.cuti}</td></tr>
+      <tr><td>Absen</td><td>${stats.absen}</td></tr>
+      <tr><td>Jam Lembur</td><td>${stats.totalJam.toFixed(2)} jam</td></tr>
+      <tr><td>Indeks Lembur</td><td>${stats.totalIndeks.toFixed(2)}</td></tr>
+      <tr><td>Estimasi Gaji</td><td>${formatRupiah(stats.gaji)}</td></tr>
+    </table>
+  `;
+}
+
 function currentPayrollPeriod(refDate) {
   const d = refDate ? new Date(refDate) : new Date();
   let start, end;
@@ -344,31 +291,18 @@ function filterBetween(data, start, end) {
   return data.filter(r => r.dateObj && r.dateObj >= start && r.dateObj <= end);
 }
 
-/* ---------------------------
-   EDIT / DELETE
-   --------------------------- */
-function editCell(index, key, value) {
-  parsedData[index][key] = value;
+function editCell(i,k,v){
+  parsedData[i][k]=v;
   saveLocal();
   refreshUI();
 }
-function deleteRow(index) {
-  if (!confirm("Hapus baris ini?")) return;
-  parsedData.splice(index,1);
+function deleteRow(i){
+  if(!confirm("Hapus baris ini?"))return;
+  parsedData.splice(i,1);
   saveLocal();
   refreshUI();
 }
 
-/* ---------------------------
-   TAMBAH MANUAL
-   --------------------------- */
-function tanggalSekarangISO() {
-  const t = new Date();
-  const yyyy = t.getFullYear();
-  const mm = String(t.getMonth()+1).padStart(2,'0');
-  const dd = String(t.getDate()).padStart(2,'0');
-  document.getElementById("manualTanggal").value = `${yyyy}-${mm}-${dd}`;
-}
 function addManualEntry() {
   const iso = document.getElementById("manualTanggal").value;
   if (!iso) return alert("Tanggal belum diisi.");
@@ -379,8 +313,7 @@ function addManualEntry() {
   const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
   const status = document.querySelector("input[name='manualStatus']:checked").value;
   const other = Array.from(document.querySelectorAll(".other-status:checked")).map(c=>c.value).join(",");
-
-  const row = {
+  parsedData.push({
     "Tanggal": tgl,
     "Tipe Hari": tipe,
     "Menit Lembur": menit,
@@ -388,135 +321,65 @@ function addManualEntry() {
     "Indeks Lembur": hitungIndeksByJam(jam, tipe).toFixed(2),
     "Status": status,
     "Other Status": other
-  };
-
-  parsedData.push(row);
+  });
   saveLocal();
   refreshUI();
-  // reset
-  document.getElementById("manualJamLembur").value = "";
-  document.getElementById("manualMenitLembur").value = "";
-  document.getElementById("manualIndeks").value = "";
-  tanggalSekarangISO();
-  alert("Data berhasil ditambahkan!");
 }
 
-/* ---------------------------
-   RESET SEMUA DATA
-   --------------------------- */
-function resetData() {
-  if (!confirm("Yakin ingin menghapus semua data?")) return;
-  parsedData = [];
+function resetData(){
+  if(!confirm("Hapus semua data?"))return;
+  parsedData=[];
   saveLocal();
   refreshUI();
-  alert("Semua data dihapus.");
 }
 
-/* ---------------------------
-   IMPORT .XLS (SunFish ESS)
-   --------------------------- */
-function handleFileSelect(evt) {
+function handleFileSelect(evt){
   const file = evt.target.files[0];
   if (!file) return;
   if (!file.name.toLowerCase().endsWith(".xls")) return alert("Gunakan file .xls dari ESS");
   const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const doc = new DOMParser().parseFromString(e.target.result, "text/html");
-      const table = doc.querySelector("table.tabGen");
-      if (!table) return alert("Tabel (class tabGen) tidak ditemukan di file .xls");
-      const rows = table.querySelectorAll("tbody tr");
-      const res = [];
-      rows.forEach(r => {
-        const td = r.querySelectorAll("td");
-        if (!td || td.length < 23) return;
-        const serial = parseFloat(td[0].textContent.trim());
-        const date = isNaN(serial) ? td[0].textContent.trim() : new Date((serial - 25569) * 86400 * 1000).toLocaleDateString("id-ID");
-        // simpan user info jika ada
-        if (!user || user.nama === '-') {
-          user = { nama: td[1].textContent.trim() || '-', id: td[2].textContent.trim() || '-', jabatan: td[3].textContent.trim() || '-' };
-        }
-        res.push({
-          "Tanggal": date,
-          "Tipe Hari": (td[15].textContent || '').trim().toUpperCase(),
-          "Menit Lembur": (td[17].textContent || '').trim(),
-          "Jam Lembur": (parseFloat((td[17].textContent||'0').trim())/60).toFixed(2),
-          "Indeks Lembur": (td[18].textContent || '').trim(),
-          "Status": (td[21].textContent || '').trim().toUpperCase(),
-          "Other Status": (td[22].textContent || '').trim().toUpperCase()
-        });
+  reader.onload = function(e){
+    const doc = new DOMParser().parseFromString(e.target.result, "text/html");
+    const table = doc.querySelector("table.tabGen");
+    if (!table) return alert("Tabel tabGen tidak ditemukan.");
+    const rows = table.querySelectorAll("tbody tr");
+    const res = [];
+    rows.forEach(r=>{
+      const td = r.querySelectorAll("td");
+      if(!td || td.length < 23) return;
+      const serial = parseFloat(td[0].textContent.trim());
+      const date = isNaN(serial) ? td[0].textContent.trim() : new Date((serial - 25569) * 86400 * 1000).toLocaleDateString("id-ID");
+
+      user = {
+        nama: td[1].textContent.trim() || '-',
+        id: td[2].textContent.trim() || '-',
+        jabatan: td[3].textContent.trim() || '-'
+      };
+      saveUser();
+
+      res.push({
+        "Tanggal": date,
+        "Tipe Hari": (td[15].textContent || '').trim().toUpperCase(),
+        "Menit Lembur": (td[17].textContent || '').trim(),
+        "Jam Lembur": (parseFloat((td[17].textContent||'0'))/60).toFixed(2),
+        "Indeks Lembur": (td[18].textContent || '').trim(),
+        "Status": (td[21].textContent || '').trim().toUpperCase(),
+        "Other Status": (td[22].textContent || '').trim().toUpperCase()
       });
-      parsedData = res;
-      saveLocal();
-      refreshUI();
-    } catch(err) {
-      console.error(err);
-      alert("Gagal membaca file. Pastikan file .xls valid (format SunFish ESS).");
-    }
+    });
+    parsedData = res;
+    saveLocal();
+    refreshUI();
   };
   reader.readAsText(file);
 }
 
-/* ---------------------------
-   UI REFRESH (central)
-   --------------------------- */
-function refreshUI() {
-  // normalize dateObj
-  parsedData.forEach(r => { r.dateObj = parseIndoDate(r["Tanggal"]); });
-  parsedData.sort((a,b) => {
-    if (!a.dateObj && !b.dateObj) return 0;
-    if (!a.dateObj) return 1;
-    if (!b.dateObj) return -1;
-    return a.dateObj - b.dateObj;
-  });
-
-  // tabel
-  document.getElementById("tableOutput").innerHTML = generateTableHtml(parsedData);
-
-  // full summary
-  if (parsedData.length > 0) {
-    const startLabel = parsedData[0]["Tanggal"];
-    const endLabel = parsedData[parsedData.length - 1]["Tanggal"];
-    const stats = calculateStats(parsedData);
-    document.getElementById("summaryOutput").innerHTML = generateSummaryHtml(stats, startLabel, endLabel);
-    document.getElementById("tips").style.display = "none";
-  } else {
-    document.getElementById("summaryOutput").innerHTML = "";
-    document.getElementById("tips").style.display = "block";
-  }
-
-  // payroll period 20->19 (hanya tampilkan jika periode punya data)
-  const p = currentPayrollPeriod();
-  const periodData = filterBetween(parsedData, p.start, p.end);
-  const periodStats = calculateStats(periodData);
-
-  // tampilkan periode hanya bila ada minimal satu parameter non-zero
-  const hasDataInPeriod = (
-    (periodStats.hariKerja && periodStats.hariKerja > 0) ||
-    (periodStats.cuti && periodStats.cuti > 0) ||
-    (periodStats.absen && periodStats.absen > 0) ||
-    (periodStats.totalJam && periodStats.totalJam > 0) ||
-    (periodStats.totalIndeks && periodStats.totalIndeks > 0)
-  );
-
-  if (hasDataInPeriod) {
-    document.getElementById("periodSummary").innerHTML = generateSummaryHtml(periodStats, ddmmyyyy(p.start), ddmmyyyy(p.end));
-  } else {
-    document.getElementById("periodSummary").innerHTML = ""; // sembunyikan
-  }
-
-  saveLocal();
-}
-
-/* ---------------------------
-   EVENT LISTENERS & INIT
-   --------------------------- */
 document.getElementById("fileInput").addEventListener("change", handleFileSelect);
+
 document.getElementById("manualTanggal").addEventListener("change", () => {
   const iso = document.getElementById("manualTanggal").value;
   if (!iso) return;
   const d = new Date(iso);
-  // jika hari minggu -> default OFF, lain -> WD
   if (d.getDay() === 0) {
     document.querySelector("input[value='OFF']").checked = true;
   } else {
@@ -524,25 +387,46 @@ document.getElementById("manualTanggal").addEventListener("change", () => {
   }
 });
 
-window.onload = function() {
-  // load data aman
+function refreshUI(){
+  parsedData.forEach(r => { r.dateObj = parseIndoDate(r["Tanggal"]); });
+  parsedData.sort((a,b)=>a.dateObj-b.dateObj);
+
+  document.getElementById("tableOutput").innerHTML = generateTableHtml(parsedData);
+
+  if (parsedData.length) {
+    const stats = calculateStats(parsedData);
+    const startLabel = parsedData[0]["Tanggal"];
+    const endLabel = parsedData[parsedData.length-1]["Tanggal"];
+    document.getElementById("summaryOutput").innerHTML = generateSummaryHtml(stats,startLabel,endLabel);
+    document.getElementById("tips").style.display="none";
+  } else {
+    document.getElementById("summaryOutput").innerHTML = "";
+    document.getElementById("tips").style.display="block";
+  }
+
+  const p = currentPayrollPeriod();
+  const periodData = filterBetween(parsedData, p.start, p.end);
+  const periodStats = calculateStats(periodData);
+  const has = periodStats.hariKerja || periodStats.cuti || periodStats.absen || periodStats.totalJam || periodStats.totalIndeks;
+
+  if (has) {
+    document.getElementById("periodSummary").innerHTML = generateSummaryHtml(periodStats, ddmmyyyy(p.start), ddmmyyyy(p.end));
+  } else {
+    document.getElementById("periodSummary").innerHTML = "";
+  }
+
+  saveLocal();
+}
+
+window.onload = function(){
   loadLocal();
-  // set Tanggal sekarang pada form
-  const now = new Date();
-  const y = now.getFullYear();
-  const m = String(now.getMonth()+1).padStart(2,'0');
-  const d = String(now.getDate()).padStart(2,'0');
-  document.getElementById("manualTanggal").value = `${y}-${m}-${d}`;
-
-  // render UI
+  loadUser();
+  const now=new Date();
+  document.getElementById("manualTanggal").value=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
   refreshUI();
-
-  // sembunyikan loader
-  setTimeout(() => {
-    const l = document.getElementById("load-wrapper");
-    if (l) l.style.display = "none";
-  }, 400);
+  setTimeout(()=>{document.getElementById("load-wrapper").style.display="none";},400);
 };
 </script>
+
 </body>
 </html>
