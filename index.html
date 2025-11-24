@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#0b6b3a" />
   <title>Ringkasan Laporan Kehadiran & Lembur ESS</title>
-
   <style>
     * { box-sizing: border-box; margin:0; padding:0; user-select:none; }
     html,body{height:100%; width:100%; font-family:system-ui,-apple-system,Segoe UI,Roboto; background:#f3f4f6; color:#111; margin-top: -8px;}
@@ -15,474 +14,474 @@
     #tips{padding:10px 6px; color:#374151; font-size:13px;}
     .kedip{animation:blink 1.2s linear infinite;}
     @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
-
     .summary-table, .data-table, .input-form { width:100%; border-collapse:collapse; margin-top:12px; }
     .summary-table th{background:#0b6b3a;color:#fff;padding:8px;text-align:left;font-size:14px;}
     .summary-table td{background:#fbfdfb;padding:10px;font-weight:700;font-size:13px;}
-
     .table-responsive{overflow-x:auto;}
     .data-table th{background:#0b6b3a;color:#fff;padding:8px;font-size:12px;text-align:center;}
     .data-table td{padding:8px;font-size:12px;text-align:center;border-bottom:1px solid #eef2f7;background:#fff;}
-
     .abs td{background:#fff7b8 !important;}
     .wd td{background:#ecfff0 !important;}
     .off td{background:#ffecec !important;}
     .phoff td{background:#ffeef1 !important;}
     .ct td{background:#f3fff6 !important;}
-
     .input-form th{background:#0b6b3a;color:#fff;padding:8px;font-size:14px;}
     .input-form td{padding:8px;border:1px solid #eef2f7; font-size: 14px;}
     .input-form td label{font-size: 12px;}
     .input-form input, .input-form select{width:100%; padding:8px; border-radius:8px; border:1px solid #cbd5e1; font-weight:700;}
     .input-form button{padding:10px; width:100%; border-radius:8px; background:#0b6b3a; color:#fff; border:none; font-weight:800; cursor:pointer;}
-
     .delBtn{padding:6px 8px; border-radius:6px; background:#fee2e2; color:#b91c1c; border:none; cursor:pointer; font-weight:700;}
-
     #load-wrapper{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.45); z-index:60;}
     #loader{width:64px;height:64px;border-radius:50%;border:6px solid #eee;border-top-color:#0b6b3a;animation:spin 1s linear infinite;}
     @keyframes spin{to{transform:rotate(360deg)}}
-
     footer{margin-top:18px;text-align:center;color:#6b7280;font-size:13px;padding-bottom:20px;}
-
     @media (max-width:480px){ .container{margin:96px 8px 24px;padding:10px;} .summary-table td{font-size:13px;} .data-table td{font-size:12px;padding:6px;} }
-
-.radio-group, .checkbox-group {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.radio-group label,
-.checkbox-group label {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 14px;
-  font-weight: 600;
-}
+    .radio-group, .checkbox-group { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .radio-group label, .checkbox-group label { display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; }
+    /* small visual for editable cell to hint edit */
+    td[contenteditable] { outline: none; min-width:64px; }
+    td[contenteditable]:focus { box-shadow: inset 0 0 0 2px rgba(11,107,58,0.12); background: #fcfff7; }
   </style>
 </head>
 <body>
+  <div class="header">Ringkasan Laporan <br> Kehadiran & Lembur ESS</div>
+  <div id="load-wrapper"><div id="loader"></div></div>
 
-<div class="header">Ringkasan Laporan <br> Kehadiran & Lembur ESS</div>
+  <main class="container">
+    <input id="fileInput" type="file" accept=".xls" />
+    <div id="tips">
+      <b class="kedip">HOW TO USE?</b><br>
+      • Login SunFish → ekspor Laporan Kehadiran (.xls).<br>
+      • Upload file .xls di atas.<br>
+      • Data dapat diedit langsung & tersimpan otomatis.
+    </div>
 
-<div id="load-wrapper"><div id="loader"></div></div>
+    <div id="summaryOutput"></div>
+    <div id="tableOutput"></div>
 
-<main class="container">
-  <input id="fileInput" type="file" accept=".xls" />
-  <div id="tips">
-    <b class="kedip">HOW TO USE?</b><br>
-    • Login SunFish → ekspor Laporan Kehadiran (.xls).<br>
-    • Upload file .xls di atas.<br>
-    • Data dapat diedit langsung & tersimpan otomatis.
-  </div>
+    <table class="input-form">
+      <tr><th colspan="2">Tambah Data</th></tr>
+      <tr><td>Tanggal</td><td><input id="manualTanggal" type="date"></td></tr>
+      <tr>
+        <td>Tipe Hari</td>
+        <td>
+          <div class="radio-group">
+            <label><input id="tipeHariWD" type="radio" name="manualTipeHari" value="WD" checked>WD</label>
+            <label><input id="tipeHariOFF" type="radio" name="manualTipeHari" value="OFF">OFF</label>
+            <label><input id="tipeHariPHOFF" type="radio" name="manualTipeHari" value="PHOFF">PHOFF</label>
+          </div>
+        </td>
+      </tr>
+      <tr><td>Jam Lembur</td><td><input id="manualJamLembur" type="number" step="0.01"></td></tr>
+      <tr><td>Menit Lembur</td><td><input id="manualMenitLembur" type="number"></td></tr>
+      <tr><td>Indeks Lembur</td><td><input id="manualIndeks" type="number" step="0.01"></td></tr>
 
-  <div id="summaryOutput"></div>
-  <div id="tableOutput"></div>
+      <tr>
+        <td>Status</td>
+        <td>
+          <div class="radio-group">
+            <label><input id="statusPRS" type="radio" name="manualStatus" value="PRS" checked>PRS</label>
+            <label><input id="statusABS" type="radio" name="manualStatus" value="ABS">ABS</label>
+            <label><input id="statusOFF" type="radio" name="manualStatus" value="OFF">OFF</label>
+            <label><input id="statusCT" type="radio" name="manualStatus" value="CT">CT</label>
+          </div>
+        </td>
+      </tr>
 
-  <!-- Form Input Manual -->
-  <table class="input-form">
-    <tr><th colspan="2">Tambah Data</th></tr>
-    <tr><td>Tanggal</td><td><input id="manualTanggal" type="date"></td></tr>
+      <tr>
+        <td>Other Status</td>
+        <td>
+          <div class="checkbox-group">
+            <label><input id="eai" type="checkbox" class="other-status" value="EAI" checked>EAI</label>
+            <label><input id="ovt" type="checkbox" class="other-status" value="OVT">OVT</label>
+            <label><input id="ovh" type="checkbox" class="other-status" value="OVH">OVH</label>
+            <label><input id="nsi" type="checkbox" class="other-status" value="NSI">NSI</label>
+            <label><input id="nso" type="checkbox" class="other-status" value="NSO">NSO</label>
+            <label><input id="prs" type="checkbox" class="other-status" value="PRS" checked>PRS</label>
+            <label><input id="prsmeal" type="checkbox" class="other-status" value="PRS_MEAL">PRS_MEAL</label>
+            <label><input id="abs" type="checkbox" class="other-status" value="ABS">ABS</label>
+            <label><input id="off" type="checkbox" class="other-status" value="OFF">OFF</label>
+            <label><input id="ct" type="checkbox" class="other-status" value="CT">CT</label>
+          </div>
+        </td>
+      </tr>
 
-    <tr>
-      <td>Tipe Hari</td>
-      <td>
-        <div class="radio-group">
-          <label><input id="tipeHariWD" type="radio" name="manualTipeHari" value="WD" checked>WD</label>
-          <label><input id="tipeHariOFF" type="radio" name="manualTipeHari" value="OFF">OFF</label>
-          <label><input id="tipeHariPHOFF" type="radio" name="manualTipeHari" value="PHOFF">PHOFF</label>
-        </div>
-      </td>
-    </tr>
-
-    <tr><td>Jam Lembur</td><td><input id="manualJamLembur" type="number" step="0.01" oninput="syncMenitLembur()"></td></tr>
-    <tr><td>Menit Lembur</td><td><input id="manualMenitLembur" type="number" oninput="syncJamLembur()"></td></tr>
-    <tr><td>Indeks Lembur</td><td><input id="manualIndeks" type="number" step="0.01"></td></tr>
-
-    <tr>
-      <td>Status</td>
-      <td>
-        <div class="radio-group">
-          <label><input id="statusPRS" type="radio" name="manualStatus" value="PRS" checked>PRS</label>
-          <label><input id="statusABS" type="radio" name="manualStatus" value="ABS">ABS</label>
-          <label><input id="statusOFF" type="radio" name="manualStatus" value="OFF">OFF</label>
-          <label><input id="statusCT" type="radio" name="manualStatus" value="CT">CT</label>
-        </div>
-      </td>
-    </tr>
-
-    <tr>
-      <td>Other Status</td>
-      <td>
-        <div class="checkbox-group">
-          <label><input id="eai" type="checkbox" class="other-status" value="EAI" checked>EAI</label>
-          <label><input id="ovt" type="checkbox" class="other-status" value="OVT">OVT</label>
-          <label><input id="ovh" type="checkbox" class="other-status" value="OVH">OVH</label>
-          <label><input id="nsi" type="checkbox" class="other-status" value="NSI">NSI</label>
-          <label><input id="nso" type="checkbox" class="other-status" value="NSO">NSO</label>
-          <label><input id="prs" type="checkbox" class="other-status" value="PRS" checked>PRS</label>
-          <label><input id="prsmeal" type="checkbox" class="other-status" value="PRS_MEAL">PRS_MEAL</label>
-          <label><input id="abs" type="checkbox" class="other-status" value="ABS">ABS</label>
-          <label><input id="off" type="checkbox" class="other-status" value="OFF">OFF</label>
-          <label><input id="ct" type="checkbox" class="other-status" value="CT">CT</label>
-        </div>
-      </td>
-    </tr>
-
-    <tr><td colspan="2"><button onclick="addManualEntry()">TAMBAH</button></td></tr>
-    <tr><td colspan="2"><button onclick="resetData()" style="background:#ef4444">HAPUS SEMUA DATA</button></td></tr>
-  </table>
-
-  <footer>&copy; Mardhi Project</footer>
-</main>
-
-<script>
-const DAILY_RATE = 121592.2;
-const OVERTIME_RATE = 17571.127;
-const MEAL_RATE = 15199.025;
-const POTONGAN = 150000;
-const POTONGAN_THRESHOLD = 10;
-
-let parsedData = [];
-let user = { nama:'-', id:'-', jabatan:'-' };
-
-function saveLocal(){ localStorage.setItem("sunfishData", JSON.stringify(parsedData)); }
-function loadLocal(){ const s = localStorage.getItem("sunfishData"); if (s) parsedData = JSON.parse(s); }
-
-function saveUser(){ localStorage.setItem("userInfo", JSON.stringify(user)); }
-function loadUser(){ const u = localStorage.getItem("userInfo"); if (u) user = JSON.parse(u); }
-
-function parseIndoDate(str){
-  if (!str) return null;
-  const p = str.split('/');
-  if (p.length !== 3) return null;
-  return new Date(parseInt(p[2],10), parseInt(p[1],10)-1, parseInt(p[0],10));
-}
-
-function ddmmyyyy(d){
-  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
-}
-
-function checkOffDay(jam, tipeHari){
-  const ovh = document.getElementById('ovh');
-  const ovt = document.getElementById('ovt');
-  const off = document.getElementById('off');
-  const prs = document.getElementById('prs');
-
-  if (!ovh || !ovt) return;
-
-  if (!jam || Number(jam) <= 0) {
-    ovh.checked = false;
-    ovt.checked = false;
-    if (tipeHari === "OFF" || tipeHari === "PHOFF") prs.checked = false;
-  } else if (tipeHari === "OFF" || tipeHari === "PHOFF") {
-    ovh.checked = true;
-    ovt.checked = false;
-    off.checked = false;
-    prs.checked = true;
-  } else if (tipeHari === "WD") {
-    ovh.checked = false;
-    ovt.checked = true;
-    prs.checked = true;
-  }
-}
-
-function hitungIndeksByJam(jam, tipeHari){
-  jam = Number(jam) || 0;
-  checkOffDay(jam, tipeHari);
-  if (jam <= 0) return 0;
-
-  if (tipeHari === "OFF" || tipeHari === "PHOFF") {
-    if (jam <= 7) return jam * 2;
-    return (7 * 2) + (jam - 7) * 3 + 2;
-  } else if (tipeHari === "WD") {
-    if (jam <= 1) return 1.5;
-    if (jam <= 7) return 1.5 + (jam - 1) * 2;
-    return 1.5 + (6 * 2) + ((jam - 7) * 3) + 2;
-  }
-  return 0;
-}
-
-let syncing=false;
-function syncMenitLembur(){
-  if(syncing)return;
-  syncing=true;
-  const jam=parseFloat(manualJamLembur.value)||0;
-  manualMenitLembur.value=Math.round(jam*60);
-  const tipe=document.querySelector("input[name='manualTipeHari']:checked").value;
-  manualIndeks.value=hitungIndeksByJam(jam,tipe).toFixed(2);
-  syncing=false;
-}
-
-function syncJamLembur(){
-  if(syncing)return;
-  syncing=true;
-  const menit=parseFloat(manualMenitLembur.value)||0;
-  const jam=menit/60;
-  manualJamLembur.value=jam.toFixed(2);
-  const tipe=document.querySelector("input[name='manualTipeHari']:checked").value;
-  manualIndeks.value=hitungIndeksByJam(jam,tipe).toFixed(2);
-  syncing=false;
-}
-
-function getRowClass(row){
-  const t=(row["Tipe Hari"]||"").toUpperCase();
-  const s=(row["Status"]||"").toUpperCase();
-  if(s==="ABS")return"abs";
-  if(s==="CT"||s==="CS")return"ct";
-  if(t==="PHOFF")return"phoff";
-  if(t==="OFF")return"off";
-  if(t==="WD")return"wd";
-  return"";
-}
-
-function generateTableHtml(data){
-  if(!data.length)return"<p>Tidak ada data</p>";
-  const headers=Object.keys(data[0]).filter(k=>k!=="dateObj");
-  let html="<div class='table-responsive'><table class='data-table'><thead><tr>";
-  headers.forEach(h=>html+=`<th>${h}</th>`);
-  html+="<th>Aksi</th></tr></thead><tbody>";
-
-  data.forEach((row,idx)=>{
-    html+=`<tr class="${getRowClass(row)}">`;
-    headers.forEach(h=>{
-      html+=`<td contenteditable onblur="editCell(${idx},'${h}', this.innerText)">${row[h]}</td>`;
-    });
-    html+=`<td><button class="delBtn" onclick="deleteRow(${idx})">Hapus</button></td></tr>`;
-  });
-
-  html+="</tbody></table></div>";
-  return html;
-}
-
-function formatRupiah(n){
-  return "Rp " + Number(Math.round(n||0)).toLocaleString("id-ID");
-}
-
-function calculateStats(data){
-  let hariKerja=0,cuti=0,absen=0,off=0,totalJam=0,totalIndeks=0,meal=0;
-
-  data.forEach(r=>{
-    const tipe=(r["Tipe Hari"]||"").toUpperCase();
-    const status=(r["Status"]||"").toUpperCase();
-    const other=(r["Other Status"]||"").toUpperCase();
-
-    if ((tipe==="WD" && status==="PRS") || (tipe==="PHOFF" && status==="PRS")) hariKerja++;
-    if(tipe==="OFF" && status==="PRS") off++;
-    if(status==="ABS") absen++;
-    if(status==="CT" || status==="CS") cuti++;
-    if(other.includes("MEAL") || other.includes("PRS_MEAL")) meal++;
-
-    totalJam += parseFloat((r["Jam Lembur"]||"0").replace(",", "."))||0;
-    totalIndeks += parseFloat((r["Indeks Lembur"]||"0").replace(",", "."))||0;
-  });
-
-  const gaji=((hariKerja+cuti)*DAILY_RATE) + (totalIndeks*OVERTIME_RATE) + (meal*MEAL_RATE) - (((hariKerja+cuti)>POTONGAN_THRESHOLD)?POTONGAN:0);
-
-  return {hariKerja,cuti,absen,off,totalJam,totalIndeks,gaji};
-}
-
-function generateSummaryHtml(stats,startLabel,endLabel){
-  return `
-    <table class="summary-table">
-      <tr><th colspan="2">Periode: ${startLabel} — ${endLabel}</th></tr>
-      <tr><td>Nama Karyawan</td><td>${user.nama}</td></tr>
-      <tr><td>NIK / ID</td><td>${user.id}</td></tr>
-      <tr><td>Posisi / Jabatan</td><td>${user.jabatan}</td></tr>
-      <tr><td>Hari Kerja</td><td>${stats.hariKerja}</td></tr>
-      <tr><td>Cuti</td><td>${stats.cuti}</td></tr>
-      <tr><td>Absen</td><td>${stats.absen}</td></tr>
-      <tr><td>Jam Lembur</td><td>${stats.totalJam.toFixed(2)} jam</td></tr>
-      <tr><td>Indeks Lembur</td><td>${stats.totalIndeks.toFixed(2)}</td></tr>
-      <tr><td>Estimasi Gaji</td><td>${formatRupiah(stats.gaji)}</td></tr>
+      <tr><td colspan="2"><button id="btnAdd">TAMBAH</button></td></tr>
+      <tr><td colspan="2"><button id="btnReset" style="background:#ef4444">HAPUS SEMUA DATA</button></td></tr>
     </table>
-  `;
-}
 
-function editCell(i,k,v){
-  parsedData[i][k]=v;
-  saveLocal();
-  refreshUI();
-}
+    <footer>&copy; Mardhi Project</footer>
+  </main>
 
-function deleteRow(i){
-  if(!confirm("Hapus baris ini?"))return;
-  parsedData.splice(i,1);
-  saveLocal();
-  refreshUI();
-}
+  <script>
+  (function(){
+    // Konstanta
+    const DAILY_RATE = 121592.2;
+    const OVERTIME_RATE = 17571.127;
+    const MEAL_RATE = 15199.025;
+    const POTONGAN = 150000;
+    const POTONGAN_THRESHOLD = 10;
 
-function addManualEntry(){
-  const iso=manualTanggal.value;
-  if(!iso)return alert("Tanggal belum diisi.");
-  const [y,m,d]=iso.split("-");
-  const tgl=`${d}/${m}/${y}`;
+    // State
+    let parsedData = [];
+    let user = { nama:'-', id:'-', jabatan:'-' };
 
-  const jam=parseFloat(manualJamLembur.value)||0;
-  const menit=Math.round(jam*60);
-  const tipe=document.querySelector("input[name='manualTipeHari']:checked").value;
-  const status=document.querySelector("input[name='manualStatus']:checked").value;
-  const other=Array.from(document.querySelectorAll(".other-status:checked")).map(c=>c.value).join(",");
+    // Element refs (akan diinisialisasi setelah DOM ready)
+    let fileInput, tips, summaryOutput, tableOutput;
+    let manualTanggal, manualJamLembur, manualMenitLembur, manualIndeks;
+    let btnAdd, btnReset;
+    let tipeHariRadios, statusRadios;
 
-  parsedData.push({
-    "Tanggal": tgl,
-    "Tipe Hari": tipe,
-    "Menit Lembur": menit,
-    "Jam Lembur": jam.toFixed(2),
-    "Indeks Lembur": hitungIndeksByJam(jam, tipe).toFixed(2),
-    "Status": status,
-    "Other Status": other
-  });
+    // Helpers
+    function $(id){ return document.getElementById(id); }
+    function saveLocal(){ localStorage.setItem("sunfishData", JSON.stringify(parsedData)); }
+    function loadLocal(){ const s = localStorage.getItem("sunfishData"); if (s) parsedData = JSON.parse(s); }
+    function saveUser(){ localStorage.setItem("userInfo", JSON.stringify(user)); }
+    function loadUser(){ const u = localStorage.getItem("userInfo"); if (u) user = JSON.parse(u); }
 
-  saveLocal();
-  refreshUI();
-}
+    function parseIndoDate(str){
+      if (!str) return null;
+      const p = str.split('/');
+      if (p.length !== 3) return null;
+      return new Date(parseInt(p[2],10), parseInt(p[1],10)-1, parseInt(p[0],10));
+    }
+    function ddmmyyyy(d){
+      return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+    }
+    function formatRupiah(n){ return "Rp " + Number(Math.round(n||0)).toLocaleString("id-ID"); }
 
-function resetData(){
-  if(!confirm("Hapus semua data?"))return;
-  parsedData=[];
-  saveLocal();
-  refreshUI();
-}
+    // Perhitungan indeks
+    function hitungIndeksByJam(jam, tipeHari){
+      jam = Number(jam) || 0;
+      if (jam <= 0) return 0;
+      if (tipeHari === "OFF" || tipeHari === "PHOFF") {
+        if (jam <= 7) return jam * 2;
+        return (7 * 2) + (jam - 7) * 3 + 2;
+      } else if (tipeHari === "WD") {
+        if (jam <= 1) return 1.5;
+        if (jam <= 7) return 1.5 + (jam - 1) * 2;
+        return 1.5 + (6 * 2) + ((jam - 7) * 3) + 2;
+      }
+      return 0;
+    }
 
-function handleFileSelect(evt){
-  const file=evt.target.files[0];
-  if(!file)return;
-  if(!file.name.toLowerCase().endsWith(".xls"))return alert("Gunakan file .xls dari ESS");
-
-  const reader=new FileReader();
-  reader.onload=function(e){
-    const doc=new DOMParser().parseFromString(e.target.result,"text/html");
-    const table=doc.querySelector("table.tabGen");
-    if(!table)return alert("Tabel tabGen tidak ditemukan.");
-    const rows=table.querySelectorAll("tbody tr");
-    const res=[];
-
-    rows.forEach(r=>{
-      const td=r.querySelectorAll("td");
-      if(!td||td.length<23)return;
-
-      const serial=parseFloat(td[0].textContent.trim());
-      const date=isNaN(serial)?td[0].textContent.trim():new Date((serial-25569)*86400*1000).toLocaleDateString("id-ID");
-
-      user={
-        nama:td[1].textContent.trim()||'-',
-        id:td[2].textContent.trim()||'-',
-        jabatan:td[3].textContent.trim()||'-'
-      };
-      saveUser();
-
-      res.push({
-        "Tanggal": date,
-        "Tipe Hari": (td[15].textContent||'').trim().toUpperCase(),
-        "Menit Lembur": (td[17].textContent||'').trim(),
-        "Jam Lembur": (parseFloat((td[17].textContent||'0'))/60).toFixed(2),
-        "Indeks Lembur": (td[18].textContent||'').trim(),
-        "Status": (td[21].textContent||'').trim().toUpperCase(),
-        "Other Status": (td[22].textContent||'').trim().toUpperCase()
+    // Kalkulasi ringkasan
+    function calculateStats(data){
+      let hariKerja=0, cuti=0, absen=0, off=0, totalJam=0, totalIndeks=0, meal=0;
+      data.forEach(r=>{
+        const tipe = (r["Tipe Hari"]||"").toUpperCase();
+        const status = (r["Status"]||"").toUpperCase();
+        const other = (r["Other Status"]||"").toUpperCase();
+        if ((tipe==="WD" && status==="PRS") || (tipe==="PHOFF" && status==="PRS")) hariKerja++;
+        if (tipe==="OFF" && status==="PRS") off++;
+        if (status==="ABS") absen++;
+        if (status==="CT" || status==="CS") cuti++;
+        if (other.includes("MEAL") || other.includes("PRS_MEAL")) meal++;
+        totalJam += parseFloat((r["Jam Lembur"]||"0").toString().replace(",", ".")) || 0;
+        totalIndeks += parseFloat((r["Indeks Lembur"]||"0").toString().replace(",", ".")) || 0;
       });
+      const gaji = ((hariKerja+cuti)*DAILY_RATE) + (totalIndeks*OVERTIME_RATE) + (meal*MEAL_RATE) - (((hariKerja+cuti)>POTONGAN_THRESHOLD)?POTONGAN:0);
+      return { hariKerja, cuti, absen, off, totalJam, totalIndeks, gaji };
+    }
+
+    function generateSummaryHtml(stats, startLabel, endLabel){
+      return `
+        <table class="summary-table">
+          <tr><th colspan="2">Periode: ${startLabel} — ${endLabel}</th></tr>
+          <tr><td>Nama Karyawan</td><td>${user.nama}</td></tr>
+          <tr><td>NIK / ID</td><td>${user.id}</td></tr>
+          <tr><td>Posisi / Jabatan</td><td>${user.jabatan}</td></tr>
+          <tr><td>Hari Kerja</td><td>${stats.hariKerja}</td></tr>
+          <tr><td>Cuti</td><td>${stats.cuti}</td></tr>
+          <tr><td>Absen</td><td>${stats.absen}</td></tr>
+          <tr><td>Jam Lembur</td><td>${stats.totalJam.toFixed(2)} jam</td></tr>
+          <tr><td>Indeks Lembur</td><td>${stats.totalIndeks.toFixed(2)}</td></tr>
+          <tr><td>Estimasi Gaji</td><td>${formatRupiah(stats.gaji)}</td></tr>
+        </table>
+      `;
+    }
+
+    // Row class untuk styling
+    function getRowClass(row){
+      const t=(row["Tipe Hari"]||"").toUpperCase();
+      const s=(row["Status"]||"").toUpperCase();
+      if(s==="ABS") return "abs";
+      if(s==="CT" || s==="CS") return "ct";
+      if(t==="PHOFF") return "phoff";
+      if(t==="OFF") return "off";
+      if(t==="WD") return "wd";
+      return "";
+    }
+
+    // Generate table (contenteditable cells)
+    function generateTableHtml(data){
+      if(!data.length) return "<p>Tidak ada data</p>";
+      const headers = Object.keys(data[0]).filter(k => k !== "dateObj");
+      let html = "<div class='table-responsive'><table class='data-table'><thead><tr>";
+      headers.forEach(h => html += `<th>${h}</th>`);
+      html += "<th>Aksi</th></tr></thead><tbody>";
+      data.forEach((row, idx) => {
+        html += `<tr class="${getRowClass(row)}">`;
+        headers.forEach(h => {
+          // Escape single quotes in header for inline call
+          const safeH = h.replace(/'/g,"\\'");
+          // Show empty string rather than undefined/null
+          const cellValue = row[h] == null ? "" : row[h];
+          html += `<td contenteditable onblur="window.appEditCell(${idx},'${safeH}', this.innerText)">${cellValue}</td>`;
+        });
+        html += `<td><button class="delBtn" data-idx="${idx}">Hapus</button></td></tr>`;
+      });
+      html += "</tbody></table></div>";
+      return html;
+    }
+
+    // Synchronisasi nilai dalam satu baris (dipanggil setelah edit)
+    function syncTableValues(row, editedField){
+      // normalisasi angka
+      const toNum = v => {
+        if (v === undefined || v === null) return 0;
+        const s = String(v).replace(/\s+/g,'').replace(',', '.').replace(/[^0-9.\-]/g,'');
+        const n = parseFloat(s);
+        return isNaN(n) ? 0 : n;
+      };
+
+      let jam = toNum(row["Jam Lembur"]);
+      let menit = toNum(row["Menit Lembur"]);
+      let indeks = toNum(row["Indeks Lembur"]);
+      const tipe = (row["Tipe Hari"] || "WD").toUpperCase();
+
+      if (editedField === "Jam Lembur") {
+        // jam sudah terisi, hitung menit & indeks
+        menit = Math.round(jam * 60);
+        indeks = hitungIndeksByJam(jam, tipe);
+      } else if (editedField === "Menit Lembur") {
+        // menit sudah terisi, hitung jam & indeks
+        jam = menit / 60;
+        indeks = hitungIndeksByJam(jam, tipe);
+      } else if (editedField === "Indeks Lembur") {
+        // user memasukkan indeks manual -> estimasi jam balik
+        if (tipe === "WD") {
+          if (indeks <= 1.5) jam = 1;
+          else if (indeks <= 13.5) jam = ((indeks - 1.5) / 2) + 1;
+          else jam = ((indeks - 13.5) / 3) + 7;
+        } else {
+          if (indeks <= 14) jam = indeks / 2;
+          else jam = ((indeks - 14) / 3) + 7;
+        }
+        menit = Math.round(jam * 60);
+      } else {
+        // jika bukan salah satu, coba jaga konsistensi: prefer jam jika ada
+        if (jam > 0) {
+          menit = Math.round(jam * 60);
+          indeks = hitungIndeksByJam(jam, tipe);
+        } else if (menit > 0) {
+          jam = menit / 60;
+          indeks = hitungIndeksByJam(jam, tipe);
+        } else {
+          indeks = toNum(row["Indeks Lembur"]);
+        }
+      }
+
+      // Simpan kembali dengan format
+      row["Jam Lembur"] = Number(jam).toFixed(2);
+      row["Menit Lembur"] = Math.round(menit);
+      row["Indeks Lembur"] = Number(indeks).toFixed(2);
+    }
+
+    // Edit cell API yang dipanggil dari HTML (global)
+    window.appEditCell = function(i, k, v){
+      // Pastikan index valid
+      if (!parsedData[i]) return;
+      // Simpan nilai mentah ke object
+      parsedData[i][k] = v.trim();
+      // Sinkron berdasarkan kolom yang diedit
+      syncTableValues(parsedData[i], k);
+      saveLocal();
+      refreshUI();
+    };
+
+    // Delete row handler (delegated)
+    function attachDeleteButtons(){
+      const delBtns = tableOutput.querySelectorAll('.delBtn');
+      delBtns.forEach(btn => {
+        btn.removeEventListener('click', onDeleteRow);
+        btn.addEventListener('click', onDeleteRow);
+      });
+    }
+    function onDeleteRow(e){
+      const idx = Number(this.dataset.idx);
+      if (isNaN(idx)) return;
+      if (!confirm("Hapus baris ini?")) return;
+      parsedData.splice(idx,1);
+      saveLocal();
+      refreshUI();
+    }
+
+    // Tambah manual
+    function addManualEntry(){
+      const iso = manualTanggal.value;
+      if (!iso) return alert("Tanggal belum diisi.");
+      const [y,m,d] = iso.split("-");
+      const tgl = `${d}/${m}/${y}`;
+      const jam = parseFloat(manualJamLembur.value) || 0;
+      const menit = Math.round(jam * 60);
+      const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
+      const status = document.querySelector("input[name='manualStatus']:checked").value;
+      const other = Array.from(document.querySelectorAll(".other-status:checked")).map(c=>c.value).join(",");
+      parsedData.push({
+        "Tanggal": tgl,
+        "Tipe Hari": tipe,
+        "Menit Lembur": menit,
+        "Jam Lembur": Number(jam).toFixed(2),
+        "Indeks Lembur": hitungIndeksByJam(jam, tipe).toFixed(2),
+        "Status": status,
+        "Other Status": other
+      });
+      saveLocal();
+      refreshUI();
+    }
+
+    // Reset data
+    function resetData(){
+      if (!confirm("Hapus semua data?")) return;
+      parsedData = [];
+      saveLocal();
+      refreshUI();
+    }
+
+    // Handle file import
+    function handleFileSelect(evt){
+      const file = evt.target.files[0];
+      if (!file) return;
+      if (!file.name.toLowerCase().endsWith(".xls")) return alert("Gunakan file .xls dari ESS");
+      const reader = new FileReader();
+      reader.onload = function(e){
+        const doc = new DOMParser().parseFromString(e.target.result, "text/html");
+        const table = doc.querySelector("table.tabGen");
+        if (!table) return alert("Tabel tabGen tidak ditemukan.");
+        const rows = table.querySelectorAll("tbody tr");
+        const res = [];
+        rows.forEach(r=>{
+          const td = r.querySelectorAll("td");
+          if (!td || td.length < 23) return;
+          const serial = parseFloat(td[0].textContent.trim());
+          const date = isNaN(serial) ? td[0].textContent.trim() : new Date((serial - 25569) * 86400 * 1000).toLocaleDateString("id-ID");
+          user = {
+            nama: td[1].textContent.trim() || '-',
+            id: td[2].textContent.trim() || '-',
+            jabatan: td[3].textContent.trim() || '-'
+          };
+          saveUser();
+          res.push({
+            "Tanggal": date,
+            "Tipe Hari": (td[15].textContent || '').trim().toUpperCase(),
+            "Menit Lembur": (td[17].textContent || '').trim(),
+            "Jam Lembur": (parseFloat((td[17].textContent||'0'))/60).toFixed(2),
+            "Indeks Lembur": (td[18].textContent || '').trim(),
+            "Status": (td[21].textContent || '').trim().toUpperCase(),
+            "Other Status": (td[22].textContent || '').trim().toUpperCase()
+          });
+        });
+        parsedData = res;
+        saveLocal();
+        refreshUI();
+      };
+      reader.readAsText(file);
+    }
+
+    // Refresh UI
+    function refreshUI(){
+      parsedData.forEach(r => { r.dateObj = parseIndoDate(r["Tanggal"]); });
+      parsedData.sort((a,b) => {
+        if (!a.dateObj || !b.dateObj) return 0;
+        return a.dateObj - b.dateObj;
+      });
+
+      tableOutput.innerHTML = generateTableHtml(parsedData);
+      attachDeleteButtons();
+
+      if (parsedData.length) {
+        const stats = calculateStats(parsedData);
+        const startLabel = parsedData[0]["Tanggal"];
+        const endLabel = parsedData[parsedData.length-1]["Tanggal"];
+        summaryOutput.innerHTML = generateSummaryHtml(stats, startLabel, endLabel);
+        tips.style.display = "none";
+      } else {
+        summaryOutput.innerHTML = "";
+        tips.style.display = "block";
+      }
+      saveLocal();
+    }
+
+    // Update other-status based on tipe/status (UI helper)
+    function updateOtherStatus(tipeHari){
+      const checkboxes = document.querySelectorAll('.other-status'); checkboxes.forEach(cb=>cb.checked=false);
+      if (tipeHari === 'WD'){
+        $('eai').checked = true; $('prs').checked = true; $('prsmeal').checked = true; $('statusPRS').checked = true;
+      } else if (tipeHari === 'OFF' || tipeHari === 'PHOFF'){
+        $('off').checked = true; $('statusOFF') && ($('statusOFF').checked = true);
+      }
+    }
+    function updateStatus(status){
+      const checkboxes = document.querySelectorAll('.other-status'); checkboxes.forEach(cb=>cb.checked=false);
+      if (status === 'PRS'){ $('tipeHariWD').checked=true; $('eai').checked=true; $('prs').checked=true; $('prsmeal').checked=true; }
+      else if (status === 'ABS'){ $('tipeHariWD').checked=true; $('abs').checked=true; }
+      else if (status === 'OFF'){ $('tipeHariOFF').checked=true; $('off').checked=true; }
+      else { $('tipeHariWD').checked=true; $('ct').checked=true; }
+    }
+
+    // Inisialisasi setelah DOM siap
+    document.addEventListener('DOMContentLoaded', () => {
+      // assign elements
+      fileInput = $('fileInput'); tips = $('tips'); summaryOutput = $('summaryOutput'); tableOutput = $('tableOutput');
+      manualTanggal = $('manualTanggal'); manualJamLembur = $('manualJamLembur'); manualMenitLembur = $('manualMenitLembur'); manualIndeks = $('manualIndeks');
+      btnAdd = $('btnAdd'); btnReset = $('btnReset');
+      tipeHariRadios = document.querySelectorAll('input[name="manualTipeHari"]');
+      statusRadios = document.querySelectorAll('input[name="manualStatus"]');
+
+      // Load data
+      loadLocal(); loadUser();
+
+      // Set tanggal hari ini default
+      const now = new Date();
+      manualTanggal.value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+
+      // Event listeners
+      fileInput.addEventListener('change', handleFileSelect);
+
+      // sync manual inputs
+      manualJamLembur.addEventListener('input', () => {
+        const jam = parseFloat(manualJamLembur.value) || 0;
+        manualMenitLembur.value = Math.round(jam * 60);
+        const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
+        manualIndeks.value = hitungIndeksByJam(jam, tipe).toFixed(2);
+      });
+      manualMenitLembur.addEventListener('input', () => {
+        const menit = parseFloat(manualMenitLembur.value) || 0;
+        const jam = menit / 60;
+        manualJamLembur.value = jam.toFixed(2);
+        const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
+        manualIndeks.value = hitungIndeksByJam(jam, tipe).toFixed(2);
+      });
+
+      btnAdd.addEventListener('click', (e) => { e.preventDefault(); addManualEntry(); });
+      btnReset.addEventListener('click', (e) => { e.preventDefault(); resetData(); });
+
+      tipeHariRadios.forEach(r => r.addEventListener('change', () => { if (r.checked) updateOtherStatus(r.value); }));
+      statusRadios.forEach(r => r.addEventListener('change', () => { if (r.checked) updateStatus(r.value); }));
+
+      // initial update of other-status according to default radio
+      const checkedRadio = document.querySelector('input[name="manualTipeHari"]:checked');
+      if (checkedRadio) updateOtherStatus(checkedRadio.value);
+
+      // hide loader and refresh UI
+      setTimeout(()=>{ document.getElementById("load-wrapper").style.display = "none"; }, 300);
+      refreshUI();
     });
 
-    parsedData=res;
-    saveLocal();
-    refreshUI();
-  };
-
-  reader.readAsText(file);
-}
-
-fileInput.addEventListener("change", handleFileSelect);
-
-manualTanggal.addEventListener("change",()=>{
-  const iso=manualTanggal.value;
-  if(!iso)return;
-  const d=new Date(iso);
-  if(d.getDay()===0) document.querySelector("input[value='OFF']").checked=true;
-  else document.querySelector("input[value='WD']").checked=true;
-});
-
-function refreshUI(){
-  parsedData.forEach(r=>{ r.dateObj=parseIndoDate(r["Tanggal"]); });
-  parsedData.sort((a,b)=>a.dateObj-b.dateObj);
-
-  tableOutput.innerHTML = generateTableHtml(parsedData);
-
-  if(parsedData.length){
-    const stats=calculateStats(parsedData);
-    const startLabel=parsedData[0]["Tanggal"];
-    const endLabel=parsedData[parsedData.length-1]["Tanggal"];
-    summaryOutput.innerHTML=generateSummaryHtml(stats,startLabel,endLabel);
-    tips.style.display="none";
-  } else {
-    summaryOutput.innerHTML="";
-    tips.style.display="block";
-  }
-
-  saveLocal();
-}
-
-window.onload=function(){
-  loadLocal();
-  loadUser();
-  const now=new Date();
-  manualTanggal.value=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-  refreshUI();
-  setTimeout(()=>{document.getElementById("load-wrapper").style.display="none";},500);
-};
-
-// Update Other Status otomatis
-let tipeHariRadios=document.querySelectorAll('input[name="manualTipeHari"]');
-let statusRadios=document.querySelectorAll('input[name="manualStatus"]');
-
-function updateOtherStatus(tipeHari){
-  let checkboxes=document.querySelectorAll('.other-status');
-  checkboxes.forEach(cb=>cb.checked=false);
-
-  if(tipeHari==='WD'){
-    eai.checked=true;
-    prs.checked=true;
-    prsmeal.checked=true;
-    statusPRS.checked=true;
-  } else if(tipeHari==='OFF' || tipeHari==='PHOFF'){
-    off.checked=true;
-    statusOFF.checked=true;
-  }
-}
-
-function updateStatus(status){
-  let checkboxes=document.querySelectorAll('.other-status');
-  checkboxes.forEach(cb=>cb.checked=false);
-
-  if(status==='PRS'){
-    tipeHariWD.checked=true;
-    eai.checked=true;
-    prs.checked=true;
-    prsmeal.checked=true;
-  } else if(status==='ABS'){
-    tipeHariWD.checked=true;
-    abs.checked=true;
-  } else if(status==='OFF'){
-    tipeHariOFF.checked=true;
-    off.checked=true;
-  } else {
-    tipeHariWD.checked=true;
-    ct.checked=true;
-  }
-}
-
-tipeHariRadios.forEach(r=>{
-  r.addEventListener('change',()=>{ if(r.checked) updateOtherStatus(r.value); });
-});
-
-statusRadios.forEach(r=>{
-  r.addEventListener('change',()=>{ if(r.checked) updateStatus(r.value); });
-});
-
-let checkedRadio=document.querySelector('input[name="manualTipeHari"]:checked');
-if(checkedRadio) updateOtherStatus(checkedRadio.value);
-</script>
-
+    // expose some functions for debugging if perlu (tidak perlu diubah)
+    window._app = { refreshUI, saveLocal, loadLocal, parsedData };
+  })();
+  </script>
 </body>
 </html>
