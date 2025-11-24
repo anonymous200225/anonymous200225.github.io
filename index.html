@@ -90,9 +90,9 @@
       <td>Tipe Hari</td>
       <td>
         <div class="radio-group">
-          <label><input type="radio" name="manualTipeHari" value="WD" checked>WD</label>
-          <label><input type="radio" name="manualTipeHari" value="OFF">OFF</label>
-          <label><input type="radio" name="manualTipeHari" value="PHOFF">PHOFF</label>
+          <label><input id="tipeHariWD" type="radio" name="manualTipeHari" value="WD" checked>WD</label>
+          <label><input id="tipeHariOFF" type="radio" name="manualTipeHari" value="OFF">OFF</label>
+          <label><input id="tipeHariPHOFF" type="radio" name="manualTipeHari" value="PHOFF">PHOFF</label>
         </div>
       </td>
     </tr>
@@ -105,10 +105,10 @@
       <td>Status</td>
       <td>
         <div class="radio-group">
-          <label><input type="radio" name="manualStatus" value="PRS" checked>PRS</label>
-          <label><input type="radio" name="manualStatus" value="ABS">ABS</label>
-          <label><input type="radio" name="manualStatus" value="OFF">OFF</label>
-          <label><input type="radio" name="manualStatus" value="CT">CT</label>
+          <label><input id="statusPRS" type="radio" name="manualStatus" value="PRS" checked>PRS</label>
+          <label><input id="statusABS" type="radio" name="manualStatus" value="ABS">ABS</label>
+          <label><input id="statusOFF" type="radio" name="manualStatus" value="OFF">OFF</label>
+          <label><input id="statusCT" type="radio" name="manualStatus" value="CT">CT</label>
         </div>
       </td>
     </tr>
@@ -117,16 +117,16 @@
       <td>Other Status</td>
       <td>
         <div class="checkbox-group">
-          <label><input type="checkbox" class="other-status" value="EAI" checked>EAI</label>
-          <label><input type="checkbox" class="other-status" value="NSI">NSI</label>
-          <label><input type="checkbox" class="other-status" value="NSO">NSO</label>
-          <label><input type="checkbox" class="other-status" value="PRS" checked>PRS</label>
-          <label><input type="checkbox" class="other-status" value="PRS_MEAL" checked>PRS_MEAL</label>
-          <label><input type="checkbox" class="other-status" value="OVT" checked>OVT</label>
-          <label><input type="checkbox" class="other-status" value="OVH">OVH</label>
-          <label><input type="checkbox" class="other-status" value="ABS">ABS</label>
-          <label><input type="checkbox" class="other-status" value="CT">CT</label>
-          <label><input type="checkbox" class="other-status" value="OFF">OFF</label>
+          <label><input id="eai" type="checkbox" class="other-status" value="EAI" checked>EAI</label>
+<label><input id="ovt" type="checkbox" class="other-status" value="OVT">OVT</label>
+          <label><input id="ovh" type="checkbox" class="other-status" value="OVH">OVH</label>
+          <label><input id="nsi" type="checkbox" class="other-status" value="NSI">NSI</label>
+          <label><input id="nso" type="checkbox" class="other-status" value="NSO">NSO</label>
+          <label><input id="prs" type="checkbox" class="other-status" value="PRS" checked>PRS</label>
+          <label><input id="prsmeal" type="checkbox" class="other-status" value="PRS_MEAL">PRS_MEAL</label>
+          <label><input id="abs" type="checkbox" class="other-status" value="ABS">ABS</label>
+          <label><input id="ct" type="checkbox" class="other-status" value="CT">CT</label>
+          <label><input id="off" type="checkbox" class="other-status" value="OFF">OFF</label>
         </div>
       </td>
     </tr>
@@ -176,7 +176,12 @@ function ddmmyyyy(d) {
 
 function hitungIndeksByJam(jam, tipeHari) {
   jam = Number(jam) || 0;
-  if (jam <= 0) return 0;
+  if (jam <= 0){
+    document.getElementById('ovt').checked = false;
+    return 0;
+  } else {
+    document.getElementById('ovt').checked = true;
+  }
   if (tipeHari === "OFF" || tipeHari === "PHOFF") {
     if (jam <= 7) return jam * 2;
     return (7 * 2) + (jam - 7) * 3 + 2;
@@ -424,8 +429,58 @@ window.onload = function(){
   const now=new Date();
   document.getElementById("manualTanggal").value=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
   refreshUI();
-  setTimeout(()=>{document.getElementById("load-wrapper").style.display="none";},400);
+  setTimeout(()=>{document.getElementById("load-wrapper").style.display="none";}, 500);
 };
+
+
+
+/*
+// Ambil semua radio button dengan name "manualTipeHari"
+let tipeHariRadios = document.querySelectorAll('input[name="manualTipeHari"]');
+
+tipeHariRadios.forEach(radio => {
+  radio.addEventListener('change', function() {
+    if (this.checked) {
+      alert("Tipe Hari dipilih:"+ this.value);
+    }
+  });
+});
+*/
+
+
+// Ambil semua radio Tipe Hari
+let tipeHariRadios = document.querySelectorAll('input[name="manualTipeHari"]');
+
+function updateOtherStatus(tipeHari) {
+  let checkboxes = document.querySelectorAll('.other-status');
+  
+  // reset semua checkbox
+  checkboxes.forEach(cb => cb.checked = false);
+
+  if (tipeHari === 'WD') {
+    document.getElementById('eai').checked = true;
+    document.getElementById('prs').checked = true;
+  } else if (tipeHari === 'OFF' || tipeHari === 'PHOFF') {
+    document.getElementById('off').checked = true;
+
+document.getElementById('statusOFF').checked = true;
+  }
+}
+
+
+// Tambahkan event listener untuk setiap radio
+tipeHariRadios.forEach(radio => {
+  radio.addEventListener('change', function() {
+    if (this.checked) {
+      updateOtherStatus(this.value);
+    }
+  });
+});
+
+// Optional: jalankan saat halaman load untuk inisialisasi sesuai radio yang sudah dicentang
+let checkedRadio = document.querySelector('input[name="manualTipeHari"]:checked');
+if (checkedRadio) updateOtherStatus(checkedRadio.value);
+
 </script>
 
 </body>
