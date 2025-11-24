@@ -8,8 +8,8 @@
 
   <style>
     * { box-sizing: border-box; margin:0; padding:0; user-select:none; }
-    html,body{height:100%; width:100%; font-family:system-ui,-apple-system,Segoe UI,Roboto; background:#f3f4f6; color:#111;}
-    .header{position:fixed; top:0; left:0; right:0; background:#0b6b3a; color:#fff; padding:12px 14px; text-align:center; font-weight:700; z-index:30; box-shadow:0 4px 14px rgba(0,0,0,.12);border-bottom:1px solid #555;}
+    html,body{height:100%; width:100%; font-family:system-ui,-apple-system,Segoe UI,Roboto; background:#f3f4f6; color:#111; margin-top: -8px;}
+    .header{position:fixed; top:0; left:0; right:0; background:#0b6b3a; color:#fff; padding:12px 14px; text-align:center; font-weight:700; z-index:30; box-shadow:0 4px 14px rgba(0,0,0,.12);border-bottom: 2px solid #222;}
     .container{max-width:980px; margin:84px auto 40px; background:#fff; border-radius:10px; padding:12px; box-shadow:0 6px 22px rgba(0,0,0,.06);}
     #fileInput{width:100%; padding:10px 12px; border-radius:10px; border:1px solid #cbd5e1; background:#0b6b3a; color:#fff; font-weight:800;}
     #tips{padding:10px 6px; color:#374151; font-size:13px;}
@@ -62,9 +62,6 @@
   font-weight: 600;
 }
   </style>
-
-  <script src="/init.js"></script>
-
 </head>
 <body>
 
@@ -128,8 +125,8 @@
           <label><input id="prs" type="checkbox" class="other-status" value="PRS" checked>PRS</label>
           <label><input id="prsmeal" type="checkbox" class="other-status" value="PRS_MEAL">PRS_MEAL</label>
           <label><input id="abs" type="checkbox" class="other-status" value="ABS">ABS</label>
-          <label><input id="ct" type="checkbox" class="other-status" value="CT">CT</label>
           <label><input id="off" type="checkbox" class="other-status" value="OFF">OFF</label>
+          <label><input id="ct" type="checkbox" class="other-status" value="CT">CT</label>
         </div>
       </td>
     </tr>
@@ -173,26 +170,59 @@ function parseIndoDate(str) {
   if (p.length !== 3) return null;
   return new Date(parseInt(p[2],10), parseInt(p[1],10)-1, parseInt(p[0],10));
 }
+
 function ddmmyyyy(d) {
   return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
 }
 
+
+function checkOffDay(jam, tipeHari) {
+  const ovh = document.getElementById('ovh');
+  const ovt = document.getElementById('ovt');
+  const off = document.getElementById('off');
+  const prs = document.getElementById('prs');
+
+  if (!ovh || !ovt) return;
+
+  if (!jam || Number(jam) <= 0) {
+    ovh.checked = false;
+    ovt.checked = false;
+    if (tipeHari === "OFF" || tipeHari === "PHOFF") prs.checked = false;
+  } else if (tipeHari === "OFF" || tipeHari === "PHOFF") {
+    ovh.checked = true;
+    ovt.checked = false;
+    off.checked = false;
+    prs.checked = true;
+  } else if (tipeHari === "WD") {
+    ovh.checked = false;
+    ovt.checked = true;
+    prs.checked = true;
+  } else {
+    ovh.checked = false;
+    ovt.checked = false;
+    off.checked = true;
+    prs.checked = false;
+  }
+}
+
 function hitungIndeksByJam(jam, tipeHari) {
   jam = Number(jam) || 0;
-  if (jam <= 0){
-    document.getElementById('ovt').checked = false;
-    return 0;
-  } else {
-    document.getElementById('ovt').checked = true;
-  }
+  checkOffDay(jam, tipeHari);
+
+  if (jam <= 0) return 0;
+
   if (tipeHari === "OFF" || tipeHari === "PHOFF") {
     if (jam <= 7) return jam * 2;
     return (7 * 2) + (jam - 7) * 3 + 2;
+  } else if (tipeHari === "WD") {
+    if (jam <= 1) return 1.5;
+    if (jam <= 7) return 1.5 + (jam - 1) * 2;
+    return 1.5 + (6 * 2) + ((jam - 7) * 3) + 2;
+  } else {
+    return 0;
   }
-  if (jam === 1) return 1.5;
-  if (jam <= 7) return 1.5 + (jam - 1) * 2;
-  return 1.5 + (6 * 2) + ((jam - 7) * 3) + 2;
 }
+
 
 let syncing = false;
 function syncMenitLembur(){
@@ -437,22 +467,11 @@ window.onload = function(){
 
 
 
-/*
-// Ambil semua radio button dengan name "manualTipeHari"
-let tipeHariRadios = document.querySelectorAll('input[name="manualTipeHari"]');
-
-tipeHariRadios.forEach(radio => {
-  radio.addEventListener('change', function() {
-    if (this.checked) {
-      alert("Tipe Hari dipilih:"+ this.value);
-    }
-  });
-});
-*/
-
-
 // Ambil semua radio Tipe Hari
 let tipeHariRadios = document.querySelectorAll('input[name="manualTipeHari"]');
+
+// Ambil semua radio Tipe Hari
+let statusRadios = document.querySelectorAll('input[name="manualStatus"]');
 
 function updateOtherStatus(tipeHari) {
   let checkboxes = document.querySelectorAll('.other-status');
@@ -463,10 +482,36 @@ function updateOtherStatus(tipeHari) {
   if (tipeHari === 'WD') {
     document.getElementById('eai').checked = true;
     document.getElementById('prs').checked = true;
+    document.getElementById('prsmeal').checked = true;
+    document.getElementById('statusPRS').checked = true;
   } else if (tipeHari === 'OFF' || tipeHari === 'PHOFF') {
     document.getElementById('off').checked = true;
 
 document.getElementById('statusOFF').checked = true;
+  }
+}
+
+
+function updateStatus(status) {
+  let checkboxes = document.querySelectorAll('.other-status');
+  
+  // reset semua checkbox
+  checkboxes.forEach(cb => cb.checked = false);
+
+  if(status === 'PRS'){
+    document.getElementById('tipeHariWD').checked = true;
+    document.getElementById('eai').checked = true;
+    document.getElementById('prs').checked = true;
+    document.getElementById('prsmeal').checked = true;
+    } else if(status === 'ABS'){
+    document.getElementById('tipeHariWD').checked = true;
+    document.getElementById('abs').checked = true;
+  } else if(status === 'OFF'){
+    document.getElementById('tipeHariOFF').checked = true;
+    document.getElementById('off').checked = true;
+  } else {
+    document.getElementById('tipeHariWD').checked = true;
+    document.getElementById('ct').checked = true;
   }
 }
 
@@ -479,6 +524,16 @@ tipeHariRadios.forEach(radio => {
     }
   });
 });
+
+
+statusRadios.forEach(radio => {
+  radio.addEventListener('change', function() {
+    if (this.checked) {
+      updateStatus(this.value);
+    }
+  });
+});
+
 
 // Optional: jalankan saat halaman load untuk inisialisasi sesuai radio yang sudah dicentang
 let checkedRadio = document.querySelector('input[name="manualTipeHari"]:checked');
