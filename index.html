@@ -78,10 +78,10 @@
     • Data dapat diedit langsung & tersimpan otomatis.
   </div>
 
-  <div id="periodSummary" hidden></div>
   <div id="summaryOutput"></div>
   <div id="tableOutput"></div>
 
+  <!-- Form Input Manual -->
   <table class="input-form">
     <tr><th colspan="2">Tambah Data</th></tr>
     <tr><td>Tanggal</td><td><input id="manualTanggal" type="date"></td></tr>
@@ -118,7 +118,7 @@
       <td>
         <div class="checkbox-group">
           <label><input id="eai" type="checkbox" class="other-status" value="EAI" checked>EAI</label>
-<label><input id="ovt" type="checkbox" class="other-status" value="OVT">OVT</label>
+          <label><input id="ovt" type="checkbox" class="other-status" value="OVT">OVT</label>
           <label><input id="ovh" type="checkbox" class="other-status" value="OVH">OVH</label>
           <label><input id="nsi" type="checkbox" class="other-status" value="NSI">NSI</label>
           <label><input id="nso" type="checkbox" class="other-status" value="NSO">NSO</label>
@@ -148,35 +148,24 @@ const POTONGAN_THRESHOLD = 10;
 let parsedData = [];
 let user = { nama:'-', id:'-', jabatan:'-' };
 
-function saveLocal() {
-  localStorage.setItem("sunfishData", JSON.stringify(parsedData));
-}
-function loadLocal() {
-  const s = localStorage.getItem("sunfishData");
-  if (s) parsedData = JSON.parse(s);
-}
+function saveLocal(){ localStorage.setItem("sunfishData", JSON.stringify(parsedData)); }
+function loadLocal(){ const s = localStorage.getItem("sunfishData"); if (s) parsedData = JSON.parse(s); }
 
-function saveUser() {
-  localStorage.setItem("userInfo", JSON.stringify(user));
-}
-function loadUser() {
-  const u = localStorage.getItem("userInfo");
-  if (u) user = JSON.parse(u);
-}
+function saveUser(){ localStorage.setItem("userInfo", JSON.stringify(user)); }
+function loadUser(){ const u = localStorage.getItem("userInfo"); if (u) user = JSON.parse(u); }
 
-function parseIndoDate(str) {
+function parseIndoDate(str){
   if (!str) return null;
   const p = str.split('/');
   if (p.length !== 3) return null;
   return new Date(parseInt(p[2],10), parseInt(p[1],10)-1, parseInt(p[0],10));
 }
 
-function ddmmyyyy(d) {
+function ddmmyyyy(d){
   return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
 }
 
-
-function checkOffDay(jam, tipeHari) {
+function checkOffDay(jam, tipeHari){
   const ovh = document.getElementById('ovh');
   const ovt = document.getElementById('ovt');
   const off = document.getElementById('off');
@@ -197,18 +186,12 @@ function checkOffDay(jam, tipeHari) {
     ovh.checked = false;
     ovt.checked = true;
     prs.checked = true;
-  } else {
-    ovh.checked = false;
-    ovt.checked = false;
-    off.checked = true;
-    prs.checked = false;
   }
 }
 
-function hitungIndeksByJam(jam, tipeHari) {
+function hitungIndeksByJam(jam, tipeHari){
   jam = Number(jam) || 0;
   checkOffDay(jam, tipeHari);
-
   if (jam <= 0) return 0;
 
   if (tipeHari === "OFF" || tipeHari === "PHOFF") {
@@ -218,84 +201,90 @@ function hitungIndeksByJam(jam, tipeHari) {
     if (jam <= 1) return 1.5;
     if (jam <= 7) return 1.5 + (jam - 1) * 2;
     return 1.5 + (6 * 2) + ((jam - 7) * 3) + 2;
-  } else {
-    return 0;
   }
+  return 0;
 }
 
-
-let syncing = false;
+let syncing=false;
 function syncMenitLembur(){
-  if (syncing) return;
-  syncing = true;
-  const jam = parseFloat(document.getElementById("manualJamLembur").value) || 0;
-  document.getElementById("manualMenitLembur").value = Math.round(jam * 60);
-  const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
-  document.getElementById("manualIndeks").value = hitungIndeksByJam(jam, tipe).toFixed(2);
-  syncing = false;
+  if(syncing)return;
+  syncing=true;
+  const jam=parseFloat(manualJamLembur.value)||0;
+  manualMenitLembur.value=Math.round(jam*60);
+  const tipe=document.querySelector("input[name='manualTipeHari']:checked").value;
+  manualIndeks.value=hitungIndeksByJam(jam,tipe).toFixed(2);
+  syncing=false;
 }
+
 function syncJamLembur(){
-  if (syncing) return;
-  syncing = true;
-  const menit = parseFloat(document.getElementById("manualMenitLembur").value) || 0;
-  const jam = menit / 60;
-  document.getElementById("manualJamLembur").value = jam.toFixed(2);
-  const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
-  document.getElementById("manualIndeks").value = hitungIndeksByJam(jam, tipe).toFixed(2);
-  syncing = false;
+  if(syncing)return;
+  syncing=true;
+  const menit=parseFloat(manualMenitLembur.value)||0;
+  const jam=menit/60;
+  manualJamLembur.value=jam.toFixed(2);
+  const tipe=document.querySelector("input[name='manualTipeHari']:checked").value;
+  manualIndeks.value=hitungIndeksByJam(jam,tipe).toFixed(2);
+  syncing=false;
 }
 
-function getRowClass(row) {
-  const t = (row["Tipe Hari"] || "").toUpperCase();
-  const s = (row["Status"] || "").toUpperCase();
-  if (s === "ABS") return "abs";
-  if (s === "CT" || s === "CS") return "ct";
-  if (t === "PHOFF") return "phoff";
-  if (t === "OFF") return "off";
-  if (t === "WD") return "wd";
-  return "";
+function getRowClass(row){
+  const t=(row["Tipe Hari"]||"").toUpperCase();
+  const s=(row["Status"]||"").toUpperCase();
+  if(s==="ABS")return"abs";
+  if(s==="CT"||s==="CS")return"ct";
+  if(t==="PHOFF")return"phoff";
+  if(t==="OFF")return"off";
+  if(t==="WD")return"wd";
+  return"";
 }
 
-function generateTableHtml(data) {
-  if (!data.length) return "<p>Tidak ada data</p>";
-  const headers = Object.keys(data[0]).filter(k => k !== "dateObj");
-  let html = "<div class='table-responsive'><table class='data-table'><thead><tr>";
-  headers.forEach(h => html += `<th>${h}</th>`);
-  html += "<th>Aksi</th></tr></thead><tbody>";
-  data.forEach((row, idx) => {
-    html += `<tr class="${getRowClass(row)}">`;
-    headers.forEach(h => {
-      html += `<td contenteditable onblur="editCell(${idx},'${h}', this.innerText)">${row[h]}</td>`;
+function generateTableHtml(data){
+  if(!data.length)return"<p>Tidak ada data</p>";
+  const headers=Object.keys(data[0]).filter(k=>k!=="dateObj");
+  let html="<div class='table-responsive'><table class='data-table'><thead><tr>";
+  headers.forEach(h=>html+=`<th>${h}</th>`);
+  html+="<th>Aksi</th></tr></thead><tbody>";
+
+  data.forEach((row,idx)=>{
+    html+=`<tr class="${getRowClass(row)}">`;
+    headers.forEach(h=>{
+      html+=`<td contenteditable onblur="editCell(${idx},'${h}', this.innerText)">${row[h]}</td>`;
     });
-    html += `<td><button class="delBtn" onclick="deleteRow(${idx})">Hapus</button></td></tr>`;
+    html+=`<td><button class="delBtn" onclick="deleteRow(${idx})">Hapus</button></td></tr>`;
   });
-  html += "</tbody></table></div>";
+
+  html+="</tbody></table></div>";
   return html;
 }
 
-function formatRupiah(n) {
-  return "Rp " + Number(Math.round(n || 0)).toLocaleString("id-ID");
+function formatRupiah(n){
+  return "Rp " + Number(Math.round(n||0)).toLocaleString("id-ID");
 }
 
-function calculateStats(data) {
-  let hariKerja = 0, cuti = 0, absen = 0, off = 0, totalJam = 0, totalIndeks = 0, meal = 0;
-  data.forEach(r => {
-    const tipe = (r["Tipe Hari"] || "").toUpperCase();
-    const status = (r["Status"] || "").toUpperCase();
-    const other = (r["Other Status"] || "").toUpperCase();
-    if ((tipe === "WD" && status === "PRS") || (tipe === "PHOFF" && status === "PRS")) hariKerja++;
-    if (tipe === "OFF" && status === "PRS") off++;
-    if (status === "ABS") absen++;
-    if (status === "CT" || status === "CS") cuti++;
-    if (other.includes("MEAL") || other.includes("PRS_MEAL")) meal++;
-    totalJam += parseFloat((r["Jam Lembur"] || "0").replace(",", ".")) || 0;
-    totalIndeks += parseFloat((r["Indeks Lembur"] || "0").replace(",", ".")) || 0;
+function calculateStats(data){
+  let hariKerja=0,cuti=0,absen=0,off=0,totalJam=0,totalIndeks=0,meal=0;
+
+  data.forEach(r=>{
+    const tipe=(r["Tipe Hari"]||"").toUpperCase();
+    const status=(r["Status"]||"").toUpperCase();
+    const other=(r["Other Status"]||"").toUpperCase();
+
+    if ((tipe==="WD" && status==="PRS") || (tipe==="PHOFF" && status==="PRS")) hariKerja++;
+    if(tipe==="OFF" && status==="PRS") off++;
+    if(status==="ABS") absen++;
+    if(status==="CT" || status==="CS") cuti++;
+    if(other.includes("MEAL") || other.includes("PRS_MEAL")) meal++;
+
+    totalJam += parseFloat((r["Jam Lembur"]||"0").replace(",", "."))||0;
+    totalIndeks += parseFloat((r["Indeks Lembur"]||"0").replace(",", "."))||0;
   });
-  const gaji = ((hariKerja + cuti) * DAILY_RATE) + (totalIndeks * OVERTIME_RATE) + (meal * MEAL_RATE) - (((hariKerja + cuti) > POTONGAN_THRESHOLD) ? POTONGAN : 0);
-  return { hariKerja, cuti, absen, off, totalJam, totalIndeks, gaji };
+
+  const gaji=((hariKerja+cuti)*DAILY_RATE) + (totalIndeks*OVERTIME_RATE) + (meal*MEAL_RATE) - (((hariKerja+cuti)>POTONGAN_THRESHOLD)?POTONGAN:0);
+
+  return {hariKerja,cuti,absen,off,totalJam,totalIndeks,gaji};
 }
 
-function generateSummaryHtml(stats, startLabel, endLabel) {
+function generateSummaryHtml(stats,startLabel,endLabel){
   return `
     <table class="summary-table">
       <tr><th colspan="2">Periode: ${startLabel} — ${endLabel}</th></tr>
@@ -312,28 +301,12 @@ function generateSummaryHtml(stats, startLabel, endLabel) {
   `;
 }
 
-function currentPayrollPeriod(refDate) {
-  const d = refDate ? new Date(refDate) : new Date();
-  let start, end;
-  if (d.getDate() >= 20) {
-    start = new Date(d.getFullYear(), d.getMonth(), 20);
-    end = new Date(d.getFullYear(), d.getMonth() + 1, 19);
-  } else {
-    start = new Date(d.getFullYear(), d.getMonth() - 1, 20);
-    end = new Date(d.getFullYear(), d.getMonth(), 19);
-  }
-  start.setHours(0,0,0,0); end.setHours(23,59,59,999);
-  return { start, end };
-}
-function filterBetween(data, start, end) {
-  return data.filter(r => r.dateObj && r.dateObj >= start && r.dateObj <= end);
-}
-
 function editCell(i,k,v){
   parsedData[i][k]=v;
   saveLocal();
   refreshUI();
 }
+
 function deleteRow(i){
   if(!confirm("Hapus baris ini?"))return;
   parsedData.splice(i,1);
@@ -341,16 +314,18 @@ function deleteRow(i){
   refreshUI();
 }
 
-function addManualEntry() {
-  const iso = document.getElementById("manualTanggal").value;
-  if (!iso) return alert("Tanggal belum diisi.");
-  const [y,m,d] = iso.split("-");
-  const tgl = `${d}/${m}/${y}`;
-  const jam = parseFloat(document.getElementById("manualJamLembur").value) || 0;
-  const menit = Math.round(jam * 60);
-  const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
-  const status = document.querySelector("input[name='manualStatus']:checked").value;
-  const other = Array.from(document.querySelectorAll(".other-status:checked")).map(c=>c.value).join(",");
+function addManualEntry(){
+  const iso=manualTanggal.value;
+  if(!iso)return alert("Tanggal belum diisi.");
+  const [y,m,d]=iso.split("-");
+  const tgl=`${d}/${m}/${y}`;
+
+  const jam=parseFloat(manualJamLembur.value)||0;
+  const menit=Math.round(jam*60);
+  const tipe=document.querySelector("input[name='manualTipeHari']:checked").value;
+  const status=document.querySelector("input[name='manualStatus']:checked").value;
+  const other=Array.from(document.querySelectorAll(".other-status:checked")).map(c=>c.value).join(",");
+
   parsedData.push({
     "Tanggal": tgl,
     "Tipe Hari": tipe,
@@ -360,6 +335,7 @@ function addManualEntry() {
     "Status": status,
     "Other Status": other
   });
+
   saveLocal();
   refreshUI();
 }
@@ -372,173 +348,140 @@ function resetData(){
 }
 
 function handleFileSelect(evt){
-  const file = evt.target.files[0];
-  if (!file) return;
-  if (!file.name.toLowerCase().endsWith(".xls")) return alert("Gunakan file .xls dari ESS");
-  const reader = new FileReader();
-  reader.onload = function(e){
-    const doc = new DOMParser().parseFromString(e.target.result, "text/html");
-    const table = doc.querySelector("table.tabGen");
-    if (!table) return alert("Tabel tabGen tidak ditemukan.");
-    const rows = table.querySelectorAll("tbody tr");
-    const res = [];
-    rows.forEach(r=>{
-      const td = r.querySelectorAll("td");
-      if(!td || td.length < 23) return;
-      const serial = parseFloat(td[0].textContent.trim());
-      const date = isNaN(serial) ? td[0].textContent.trim() : new Date((serial - 25569) * 86400 * 1000).toLocaleDateString("id-ID");
+  const file=evt.target.files[0];
+  if(!file)return;
+  if(!file.name.toLowerCase().endsWith(".xls"))return alert("Gunakan file .xls dari ESS");
 
-      user = {
-        nama: td[1].textContent.trim() || '-',
-        id: td[2].textContent.trim() || '-',
-        jabatan: td[3].textContent.trim() || '-'
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const doc=new DOMParser().parseFromString(e.target.result,"text/html");
+    const table=doc.querySelector("table.tabGen");
+    if(!table)return alert("Tabel tabGen tidak ditemukan.");
+    const rows=table.querySelectorAll("tbody tr");
+    const res=[];
+
+    rows.forEach(r=>{
+      const td=r.querySelectorAll("td");
+      if(!td||td.length<23)return;
+
+      const serial=parseFloat(td[0].textContent.trim());
+      const date=isNaN(serial)?td[0].textContent.trim():new Date((serial-25569)*86400*1000).toLocaleDateString("id-ID");
+
+      user={
+        nama:td[1].textContent.trim()||'-',
+        id:td[2].textContent.trim()||'-',
+        jabatan:td[3].textContent.trim()||'-'
       };
       saveUser();
 
       res.push({
         "Tanggal": date,
-        "Tipe Hari": (td[15].textContent || '').trim().toUpperCase(),
-        "Menit Lembur": (td[17].textContent || '').trim(),
+        "Tipe Hari": (td[15].textContent||'').trim().toUpperCase(),
+        "Menit Lembur": (td[17].textContent||'').trim(),
         "Jam Lembur": (parseFloat((td[17].textContent||'0'))/60).toFixed(2),
-        "Indeks Lembur": (td[18].textContent || '').trim(),
-        "Status": (td[21].textContent || '').trim().toUpperCase(),
-        "Other Status": (td[22].textContent || '').trim().toUpperCase()
+        "Indeks Lembur": (td[18].textContent||'').trim(),
+        "Status": (td[21].textContent||'').trim().toUpperCase(),
+        "Other Status": (td[22].textContent||'').trim().toUpperCase()
       });
     });
-    parsedData = res;
+
+    parsedData=res;
     saveLocal();
     refreshUI();
   };
+
   reader.readAsText(file);
 }
 
-document.getElementById("fileInput").addEventListener("change", handleFileSelect);
+fileInput.addEventListener("change", handleFileSelect);
 
-document.getElementById("manualTanggal").addEventListener("change", () => {
-  const iso = document.getElementById("manualTanggal").value;
-  if (!iso) return;
-  const d = new Date(iso);
-  if (d.getDay() === 0) {
-    document.querySelector("input[value='OFF']").checked = true;
-  } else {
-    document.querySelector("input[value='WD']").checked = true;
-  }
+manualTanggal.addEventListener("change",()=>{
+  const iso=manualTanggal.value;
+  if(!iso)return;
+  const d=new Date(iso);
+  if(d.getDay()===0) document.querySelector("input[value='OFF']").checked=true;
+  else document.querySelector("input[value='WD']").checked=true;
 });
 
 function refreshUI(){
-  parsedData.forEach(r => { r.dateObj = parseIndoDate(r["Tanggal"]); });
+  parsedData.forEach(r=>{ r.dateObj=parseIndoDate(r["Tanggal"]); });
   parsedData.sort((a,b)=>a.dateObj-b.dateObj);
 
-  document.getElementById("tableOutput").innerHTML = generateTableHtml(parsedData);
+  tableOutput.innerHTML = generateTableHtml(parsedData);
 
-  if (parsedData.length) {
-    const stats = calculateStats(parsedData);
-    const startLabel = parsedData[0]["Tanggal"];
-    const endLabel = parsedData[parsedData.length-1]["Tanggal"];
-    document.getElementById("summaryOutput").innerHTML = generateSummaryHtml(stats,startLabel,endLabel);
-    document.getElementById("tips").style.display="none";
+  if(parsedData.length){
+    const stats=calculateStats(parsedData);
+    const startLabel=parsedData[0]["Tanggal"];
+    const endLabel=parsedData[parsedData.length-1]["Tanggal"];
+    summaryOutput.innerHTML=generateSummaryHtml(stats,startLabel,endLabel);
+    tips.style.display="none";
   } else {
-    document.getElementById("summaryOutput").innerHTML = "";
-    document.getElementById("tips").style.display="block";
-  }
-
-  const p = currentPayrollPeriod();
-  const periodData = filterBetween(parsedData, p.start, p.end);
-  const periodStats = calculateStats(periodData);
-  const has = periodStats.hariKerja || periodStats.cuti || periodStats.absen || periodStats.totalJam || periodStats.totalIndeks;
-
-  if (has) {
-    document.getElementById("periodSummary").innerHTML = generateSummaryHtml(periodStats, ddmmyyyy(p.start), ddmmyyyy(p.end));
-  } else {
-    document.getElementById("periodSummary").innerHTML = "";
+    summaryOutput.innerHTML="";
+    tips.style.display="block";
   }
 
   saveLocal();
 }
 
-window.onload = function(){
+window.onload=function(){
   loadLocal();
   loadUser();
   const now=new Date();
-  document.getElementById("manualTanggal").value=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  manualTanggal.value=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
   refreshUI();
-  setTimeout(()=>{document.getElementById("load-wrapper").style.display="none";}, 500);
+  setTimeout(()=>{document.getElementById("load-wrapper").style.display="none";},500);
 };
 
+// Update Other Status otomatis
+let tipeHariRadios=document.querySelectorAll('input[name="manualTipeHari"]');
+let statusRadios=document.querySelectorAll('input[name="manualStatus"]');
 
+function updateOtherStatus(tipeHari){
+  let checkboxes=document.querySelectorAll('.other-status');
+  checkboxes.forEach(cb=>cb.checked=false);
 
-// Ambil semua radio Tipe Hari
-let tipeHariRadios = document.querySelectorAll('input[name="manualTipeHari"]');
-
-// Ambil semua radio Tipe Hari
-let statusRadios = document.querySelectorAll('input[name="manualStatus"]');
-
-function updateOtherStatus(tipeHari) {
-  let checkboxes = document.querySelectorAll('.other-status');
-  
-  // reset semua checkbox
-  checkboxes.forEach(cb => cb.checked = false);
-
-  if (tipeHari === 'WD') {
-    document.getElementById('eai').checked = true;
-    document.getElementById('prs').checked = true;
-    document.getElementById('prsmeal').checked = true;
-    document.getElementById('statusPRS').checked = true;
-  } else if (tipeHari === 'OFF' || tipeHari === 'PHOFF') {
-    document.getElementById('off').checked = true;
-
-document.getElementById('statusOFF').checked = true;
+  if(tipeHari==='WD'){
+    eai.checked=true;
+    prs.checked=true;
+    prsmeal.checked=true;
+    statusPRS.checked=true;
+  } else if(tipeHari==='OFF' || tipeHari==='PHOFF'){
+    off.checked=true;
+    statusOFF.checked=true;
   }
 }
 
+function updateStatus(status){
+  let checkboxes=document.querySelectorAll('.other-status');
+  checkboxes.forEach(cb=>cb.checked=false);
 
-function updateStatus(status) {
-  let checkboxes = document.querySelectorAll('.other-status');
-  
-  // reset semua checkbox
-  checkboxes.forEach(cb => cb.checked = false);
-
-  if(status === 'PRS'){
-    document.getElementById('tipeHariWD').checked = true;
-    document.getElementById('eai').checked = true;
-    document.getElementById('prs').checked = true;
-    document.getElementById('prsmeal').checked = true;
-    } else if(status === 'ABS'){
-    document.getElementById('tipeHariWD').checked = true;
-    document.getElementById('abs').checked = true;
-  } else if(status === 'OFF'){
-    document.getElementById('tipeHariOFF').checked = true;
-    document.getElementById('off').checked = true;
+  if(status==='PRS'){
+    tipeHariWD.checked=true;
+    eai.checked=true;
+    prs.checked=true;
+    prsmeal.checked=true;
+  } else if(status==='ABS'){
+    tipeHariWD.checked=true;
+    abs.checked=true;
+  } else if(status==='OFF'){
+    tipeHariOFF.checked=true;
+    off.checked=true;
   } else {
-    document.getElementById('tipeHariWD').checked = true;
-    document.getElementById('ct').checked = true;
+    tipeHariWD.checked=true;
+    ct.checked=true;
   }
 }
 
-
-// Tambahkan event listener untuk setiap radio
-tipeHariRadios.forEach(radio => {
-  radio.addEventListener('change', function() {
-    if (this.checked) {
-      updateOtherStatus(this.value);
-    }
-  });
+tipeHariRadios.forEach(r=>{
+  r.addEventListener('change',()=>{ if(r.checked) updateOtherStatus(r.value); });
 });
 
-
-statusRadios.forEach(radio => {
-  radio.addEventListener('change', function() {
-    if (this.checked) {
-      updateStatus(this.value);
-    }
-  });
+statusRadios.forEach(r=>{
+  r.addEventListener('change',()=>{ if(r.checked) updateStatus(r.value); });
 });
 
-
-// Optional: jalankan saat halaman load untuk inisialisasi sesuai radio yang sudah dicentang
-let checkedRadio = document.querySelector('input[name="manualTipeHari"]:checked');
-if (checkedRadio) updateOtherStatus(checkedRadio.value);
-
+let checkedRadio=document.querySelector('input[name="manualTipeHari"]:checked');
+if(checkedRadio) updateOtherStatus(checkedRadio.value);
 </script>
 
 </body>
