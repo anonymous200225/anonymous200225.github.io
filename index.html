@@ -161,9 +161,12 @@
   if (!ovh || !ovt) return;
 
   if (!jam || Number(jam) <= 0) {
+
     ovh.checked = false;
     ovt.checked = false;
+
     if (tipeHari === "OFF" || tipeHari === "PHOFF") prs.checked = false;
+
   } else if (tipeHari === "PHOFF") {
     ovh.checked = true;
     ovt.checked = false;
@@ -455,14 +458,16 @@
       const checkboxes = document.querySelectorAll('.other-status'); checkboxes.forEach(cb=>cb.checked=false);
       if (tipeHari === 'WD'){
         $('eai').checked = true; $('prs').checked = true; $('prsmeal').checked = true; $('statusPRS').checked = true;
-      } else if (tipeHari === 'OFF' || tipeHari === 'PHOFF'){
-        $('off').checked = true; $('statusOFF') && ($('statusOFF').checked = true);
       }
     }
+
     function updateStatus(status){
       const checkboxes = document.querySelectorAll('.other-status'); checkboxes.forEach(cb=>cb.checked=false);
-      if (status === 'PRS'){ $('tipeHariWD').checked=true; $('eai').checked=true; $('prs').checked=true; $('prsmeal').checked=true; }
-      else if (status === 'ABS'){ $('tipeHariWD').checked=true; $('abs').checked=true; }
+      if (status === 'PRS'){
+$('eai').checked=true;
+$('prs').checked=true;
+$('prsmeal').checked=true;
+      } else if (status === 'ABS'){ $('tipeHariWD').checked=true; $('abs').checked=true; }
       else if (status === 'OFF'){ $('tipeHariOFF').checked=true; $('off').checked=true; }
       else { $('tipeHariWD').checked=true; $('ct').checked=true; }
     }
@@ -505,6 +510,7 @@
       btnReset.addEventListener('click', (e) => { e.preventDefault(); resetData(); });
 
       tipeHariRadios.forEach(r => r.addEventListener('change', () => { if (r.checked) updateOtherStatus(r.value); }));
+
       statusRadios.forEach(r => r.addEventListener('change', () => { if (r.checked) updateStatus(r.value); }));
 
       // initial update of other-status according to default radio
