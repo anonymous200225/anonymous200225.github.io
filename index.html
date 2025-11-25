@@ -463,14 +463,18 @@
 
     function updateStatus(status){
       const checkboxes = document.querySelectorAll('.other-status'); checkboxes.forEach(cb=>cb.checked=false);
-      if (status === 'PRS'){
+      if (status === 'PRS' && $('tipeHariWD').checked === true){
 $('eai').checked=true;
 $('prs').checked=true;
 $('prsmeal').checked=true;
       } else if (status === 'ABS'){ $('tipeHariWD').checked=true; $('abs').checked=true; }
       else if (status === 'OFF'){ $('tipeHariOFF').checked=true; $('off').checked=true; }
-      else { $('tipeHariWD').checked=true; $('ct').checked=true; }
+      else if (status === 'CT'){
+$('tipeHariWD').checked=true;
+$('ct').checked=true;
+      }
     }
+
 
     // Inisialisasi setelah DOM siap
     document.addEventListener('DOMContentLoaded', () => {
