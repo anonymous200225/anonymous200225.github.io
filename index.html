@@ -150,9 +150,46 @@
     }
     function formatRupiah(n){ return "Rp " + Number(Math.round(n||0)).toLocaleString("id-ID"); }
 
+    // check of day
+    function checkOffDay(jam, tipeHari) {
+  const ovh = document.getElementById('ovh');
+  const ovt = document.getElementById('ovt');
+  const off = document.getElementById('off');
+  const prs = document.getElementById('prs');
+  const statusPRS = document.getElementById('statusPRS');
+
+  if (!ovh || !ovt) return;
+
+  if (!jam || Number(jam) <= 0) {
+    ovh.checked = false;
+    ovt.checked = false;
+    if (tipeHari === "OFF" || tipeHari === "PHOFF") prs.checked = false;
+  } else if (tipeHari === "PHOFF") {
+    ovh.checked = true;
+    ovt.checked = false;
+    off.checked = false;
+    prs.checked = true;
+    statusPRS.checked = true;
+  } else if (tipeHari === "WD" || tipeHari === "OFF") {
+    ovh.checked = false;
+    ovt.checked = true;
+    prs.checked = true;
+    off.checked = false;
+    statusPRS.checked = true;
+  } else {
+    ovh.checked = false;
+    ovt.checked = false;
+    off.checked = true;
+    prs.checked = false;
+  }
+}
+
+
     // Perhitungan indeks
     function hitungIndeksByJam(jam, tipeHari){
       jam = Number(jam) || 0;
+      checkOffDay(jam, tipeHari);
+
       if (jam <= 0) return 0;
       if (tipeHari === "OFF" || tipeHari === "PHOFF") {
         if (jam <= 7) return jam * 2;
