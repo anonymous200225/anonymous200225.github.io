@@ -46,6 +46,68 @@
     .clear-filter-btn { background:transparent; border:none; color:#ef4444; font-weight:800; cursor:pointer; margin-left:8px; }
     .hidden-date-input { position:absolute; left:-9999px; top:-9999px; opacity:0; }
 
+
+.period-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.period-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.period-clear {
+  position: absolute;
+  right: 8px;
+  top: 21.5%;
+  transform: translateY(-50%);
+  display: none;
+}
+
+.month-shift-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid #bbb;
+  background: #f0f0f0;
+  font-size: 16px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.month-shift-btn:active {
+  background: #e0e0e0;
+  transform: scale(0.92);
+}
+
+.clear-filter-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid #ff7272;
+  background: #ffe5e5;
+  font-size: 14px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.clear-filter-btn:active {
+  background: #ddd;
+  transform: scale(0.9);
+}
+
   </style>
 </head>
 <body>
@@ -221,26 +283,50 @@
       return { hariKerja, cuti, absen, off, totalJam, totalIndeks, gaji };
     }
 
-    function generateSummaryHtml(stats, startLabel, endLabel){
-      const startDisplay = startLabel || '-';
-      const endDisplay = endLabel || '-';
-      const filterBadge = (filterStart || filterEnd) ? `<span class="filter-indicator">FILTER</span>` : '';
-      const clearBtn = (filterStart || filterEnd) ? `<button class="clear-filter-btn" id="clearFilterBtn">❌</button>` : '';
-      return `
-        <table class="summary-table">
-          <tr><th colspan="2">Periode: <span id="periodStart" class="period-clickable">${startDisplay}</span> — <span id="periodEnd" class="period-clickable">${endDisplay}</span> ${filterBadge} ${clearBtn}</th></tr>
-          <tr><td>Nama Karyawan</td><td>${user.nama}</td></tr>
-          <tr><td>NIK / ID</td><td>${user.id}</td></tr>
-          <tr><td>Posisi / Jabatan</td><td>${user.jabatan}</td></tr>
-          <tr><td>Hari Kerja</td><td>${stats.hariKerja}</td></tr>
-          <tr><td>Cuti</td><td>${stats.cuti}</td></tr>
-          <tr><td>Absen</td><td>${stats.absen}</td></tr>
-          <tr><td>Jam Lembur</td><td>${stats.totalJam.toFixed(2)} jam</td></tr>
-          <tr><td>Indeks Lembur</td><td>${stats.totalIndeks.toFixed(2)}</td></tr>
-          <tr><td>Estimasi Gaji</td><td>${formatRupiah(stats.gaji)}</td></tr>
-        </table>
-      `;
-    }
+
+function generateSummaryHtml(stats, startLabel, endLabel){
+  const startDisplay = startLabel || '-';
+  const endDisplay = endLabel || '-';
+
+  const clearBtn = (filterStart || filterEnd)
+    ? `<button class="clear-filter-btn" id="clearFilterBtn">❌</button>`
+    : '';
+
+  const prevBtn = `<button id="prevMonthBtn" class="month-shift-btn">‹</button>`;
+  const nextBtn = `<button id="nextMonthBtn" class="month-shift-btn">›</button>`;
+
+  return `
+    <table class="summary-table">
+      <tr>
+        <th colspan="2">
+          <div class="period-wrapper">
+            <div class="period-center">
+              ${prevBtn}
+              <span id="periodStart" class="period-clickable">${startDisplay}</span>
+              —
+              <span id="periodEnd" class="period-clickable">${endDisplay}</span>
+              ${nextBtn}
+            </div>
+            <div class="period-clear">
+              ${clearBtn}
+            </div>
+          </div>
+        </th>
+      </tr>
+
+      <tr><td>Nama Karyawan</td><td>${user.nama}</td></tr>
+      <tr><td>NIK / ID</td><td>${user.id}</td></tr>
+      <tr><td>Posisi / Jabatan</td><td>${user.jabatan}</td></tr>
+      <tr><td>Hari Kerja</td><td>${stats.hariKerja}</td></tr>
+      <tr><td>Cuti</td><td>${stats.cuti}</td></tr>
+      <tr><td>Absen</td><td>${stats.absen}</td></tr>
+      <tr><td>Jam Lembur</td><td>${stats.totalJam.toFixed(2)} jam</td></tr>
+      <tr><td>Indeks Lembur</td><td>${stats.totalIndeks.toFixed(2)}</td></tr>
+      <tr><td>Estimasi Gaji</td><td>${formatRupiah(stats.gaji)}</td></tr>
+    </table>
+  `;
+}
+
 
     function getRowClass(row){
       const t=(row["Tipe Hari"]||"").toUpperCase();
@@ -504,6 +590,14 @@ refreshUI();
       const startSpan = document.getElementById('periodStart');
       const endSpan = document.getElementById('periodEnd');
       const clearBtn = document.getElementById('clearFilterBtn');
+
+      const prev = document.getElementById("prevMonthBtn");
+      const next = document.getElementById("nextMonthBtn");
+
+      if (prev) prev.onclick = () => shiftMonth(-1);
+      if (next) next.onclick = () => shiftMonth(+1);
+
+
       if (startSpan) {
         startSpan.removeEventListener('click', onStartClick);
         startSpan.addEventListener('click', onStartClick);
@@ -516,6 +610,53 @@ refreshUI();
         clearBtn.onclick = onClearFilter; // lebih aman setelah redraw
       }
     }
+
+
+   function shiftMonth(offset){
+  // jika belum ada filter, coba ambil periode dari parsedData (display seluruh data)
+  if (!filterStart || !filterEnd) {
+    if (!parsedData || !parsedData.length) return;
+    // pastikan parsedData sudah punya dateObj dan terurut
+    parsedData.forEach(r => { r.dateObj = parseIndoDate(r["Tanggal"]); });
+    parsedData.sort((a,b)=> (a.dateObj && b.dateObj) ? a.dateObj - b.dateObj : 0);
+    const first = parsedData[0];
+    const last = parsedData[parsedData.length-1];
+    if (!first || !last) return;
+    // set filterStart/filterEnd berdasarkan periode saat ini (tampilkan semua data dulu)
+    filterStart = first.dateObj ? new Date(first.dateObj) : parseIndoDate(first["Tanggal"]);
+    filterEnd = last.dateObj ? new Date(last.dateObj) : parseIndoDate(last["Tanggal"]);
+  }
+
+  // geser bulan sesuai offset, jaga tanggal tetap sama
+  const s = new Date(filterStart);
+  const e = new Date(filterEnd);
+
+  s.setMonth(s.getMonth() + offset);
+  e.setMonth(e.getMonth() + offset);
+
+  filterStart = s;
+  filterEnd = e;
+
+  // simpan ke localStorage jika fitur simpan filter aktif
+  try {
+    localStorage.setItem("filterStart", formatInputDate(s));
+    localStorage.setItem("filterEnd", formatInputDate(e));
+  } catch (err) { /* ignore storage errors */ }
+
+  // update hidden inputs supaya UI datepicker sinkron
+  const fsi = $('filterStartInput');
+  const fei = $('filterEndInput');
+  if (fsi) fsi.value = formatInputDate(s);
+  if (fei) fei.value = formatInputDate(e);
+
+  refreshUI();
+}
+
+
+function formatInputDate(d){
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
 
 function onClearFilter(){
   filterStart = null;
