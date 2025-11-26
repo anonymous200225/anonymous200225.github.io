@@ -398,6 +398,15 @@ function addManualEntry(){
 }
 
 
+    // Reset data
+    function resetData(){
+      if (!confirm("Hapus semua data?")) return;
+      parsedData = [];
+      saveLocal();
+      refreshUI();
+    }
+
+
     // Handle file import
     function handleFileSelect(evt){
       const file = evt.target.files[0];
