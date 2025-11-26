@@ -51,7 +51,7 @@
     <input id="fileInput" type="file" accept=".xls" />
     <div id="tips">
       <b class="kedip">HOW TO USE?</b><br>
-      • Login SunFish → ekspor Laporan Kehadiran (.xls).<br>
+      • Login SunFish >> <a href="https://workplaze.dataon.com/auth">KLIK DISINI</a> << → ekspor Laporan Kehadiran (.xls).<br>
       • Upload file .xls di atas.<br>
       • Data dapat diedit langsung & tersimpan otomatis.
     </div>
@@ -357,37 +357,46 @@
       refreshUI();
     }
 
-    // Tambah manual
-    function addManualEntry(){
-      const iso = manualTanggal.value;
-      if (!iso) return alert("Tanggal belum diisi.");
-      const [y,m,d] = iso.split("-");
-      const tgl = `${d}/${m}/${y}`;
-      const jam = parseFloat(manualJamLembur.value) || 0;
-      const menit = Math.round(jam * 60);
-      const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
-      const status = document.querySelector("input[name='manualStatus']:checked").value;
-      const other = Array.from(document.querySelectorAll(".other-status:checked")).map(c=>c.value).join(",");
-      parsedData.push({
-        "Tanggal": tgl,
-        "Tipe Hari": tipe,
-        "Menit Lembur": menit,
-        "Jam Lembur": Number(jam).toFixed(2),
-        "Indeks Lembur": hitungIndeksByJam(jam, tipe).toFixed(2),
-        "Status": status,
-        "Other Status": other
-      });
-      saveLocal();
-      refreshUI();
-    }
 
-    // Reset data
-    function resetData(){
-      if (!confirm("Hapus semua data?")) return;
-      parsedData = [];
-      saveLocal();
-      refreshUI();
-    }
+// Tambah manual (dengan auto-replace jika tanggal sudah ada)
+function addManualEntry(){
+  const iso = manualTanggal.value;
+  if (!iso) return alert("Tanggal belum diisi.");
+
+  const [y,m,d] = iso.split("-");
+  const tgl = `${d}/${m}/${y}`;
+
+  const jam = parseFloat(manualJamLembur.value) || 0;
+  const menit = Math.round(jam * 60);
+  const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
+  const status = document.querySelector("input[name='manualStatus']:checked").value;
+  const other = Array.from(
+      document.querySelectorAll(".other-status:checked")
+    ).map(c=>c.value).join(",");
+
+  // === PERBAIKAN DI SINI: CEK TANGGAL SUDAH ADA ===
+  const existIndex = parsedData.findIndex(r => r["Tanggal"] === tgl);
+
+  const newRow = {
+    "Tanggal": tgl,
+    "Tipe Hari": tipe,
+    "Menit Lembur": menit,
+    "Jam Lembur": Number(jam).toFixed(2),
+    "Indeks Lembur": hitungIndeksByJam(jam, tipe).toFixed(2),
+    "Status": status,
+    "Other Status": other
+  };
+
+  if (existIndex !== -1) {
+    parsedData[existIndex] = newRow; // replace data lama
+  } else {
+    parsedData.push(newRow); // tambah data baru
+  }
+
+  saveLocal();
+  refreshUI();
+}
+
 
     // Handle file import
     function handleFileSelect(evt){
