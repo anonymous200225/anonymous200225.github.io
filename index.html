@@ -412,9 +412,27 @@
             "Other Status": (td[22].textContent || '').trim().toUpperCase()
           });
         });
-        parsedData = res;
-        saveLocal();
-        refreshUI();
+
+
+// === PATCH: MERGE TANPA HAPUS DATA LAMA ===
+res.forEach(row => {
+  const tgl = row["Tanggal"];
+  if (!tgl) return;
+
+  const existing = parsedData.findIndex(x => x["Tanggal"] === tgl);
+
+  if (existing >= 0) {
+    // Ganti hanya tanggal yang sama
+    parsedData[existing] = row;
+  } else {
+    // Tambahkan data baru
+    parsedData.push(row);
+  }
+});
+
+saveLocal();
+refreshUI();
+
       };
       reader.readAsText(file);
     }
