@@ -29,8 +29,8 @@
     .input-form td{padding:8px;border:1px solid #eef2f7; font-size: 14px;}
     .input-form td label{font-size: 12px;}
     .input-form input, .input-form select{width:100%; padding:8px; border-radius:8px; border:1px solid #cbd5e1; font-weight:700;}
-    .input-form button{padding:10px; width:100%; border-radius:8px; background:#0b6b3a; color:#fff; border:none; font-weight:800; cursor:pointer;}
-    .delBtn{padding:6px 8px; border-radius:6px; background:#fee2e2; color:#b91c1c; border:none; cursor:pointer; font-weight:700;}
+    .input-form button{padding:10px; width:100%; border-radius:8px; background:#0b6b3a; color:#fff; border:none; font-weight:700; cursor:pointer;}
+    .delBtn{padding:6px 8px; border-radius:50%; background:#fee2e2; color:#b91c1c; border: 1px solid #ccc; cursor:pointer; font-weight:bold; font-size:10px;}
     #load-wrapper{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.45); z-index:60;}
     #loader{width:64px;height:64px;border-radius:50%;border:6px solid #eee;border-top-color:#0b6b3a;animation:spin 1s linear infinite;}
     @keyframes spin{to{transform:rotate(360deg)}}
@@ -38,12 +38,14 @@
     @media (max-width:480px){ .container{margin:96px 8px 24px;padding:10px;} .summary-table td{font-size:13px;} .data-table td{font-size:12px;padding:6px;} }
     .radio-group, .checkbox-group { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
     .radio-group label, .checkbox-group label { display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; }
+
+/*
     td[contenteditable] { outline: none; min-width:64px; }
     td[contenteditable]:focus { box-shadow: inset 0 0 0 2px rgba(11,107,58,0.12); background: #fcfff7; }
+*/
 
     .period-clickable { cursor:pointer; text-decoration:underline; }
     .filter-indicator { font-weight:800; color:#0b6b3a; margin-left:6px; font-size:12px; }
-    .clear-filter-btn { background:transparent; border:none; color:#ef4444; font-weight:800; cursor:pointer; margin-left:8px; }
     .hidden-date-input { position:absolute; left:-9999px; top:-9999px; opacity:0; }
 
 
@@ -93,8 +95,19 @@
   transform: scale(0.92);
 }
 
-  </style>
 
+#sunfishBtn{
+position: fixed;
+top: 3%;
+right: 3%;
+z-index: 35;
+border: none;
+border-radius: 5px;
+padding: 5px;
+font-size: 12px;
+font-weight: bold;
+}
+  </style>
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-E0SX0JC3BX"></script>
@@ -106,7 +119,6 @@
   gtag('config', 'G-E0SX0JC3BX');
 </script>
 
-
 </head>
 <body>
   <div class="header">Ringkasan Laporan <br> Kehadiran & Lembur ESS</div>
@@ -114,18 +126,12 @@
 
   <main class="container">
     <input id="fileInput" type="file" accept=".xls" />
-    <div id="tips">
-      <b class="kedip">HOW TO USE?</b><br>
-      • Login SunFish >> <a href="https://workplaze.dataon.com/auth">KLIK DISINI</a> << → ekspor Laporan Kehadiran (.xls).<br>
-      • Upload file .xls di atas.<br>
-      • Data dapat diedit langsung & tersimpan otomatis.
-    </div>
 
     <div id="summaryOutput"></div>
     <div id="tableOutput"></div>
 
     <table class="input-form">
-      <tr><th colspan="2">Tambah Data</th></tr>
+      <tr><th colspan="2">Tambah/Edit Data</th></tr>
       <tr><td>Tanggal</td><td><input id="manualTanggal" type="date"></td></tr>
       <tr>
         <td>Tipe Hari</td>
@@ -171,12 +177,14 @@
         </td>
       </tr>
 
-      <tr><td colspan="2"><button id="btnAdd">TAMBAH</button></td></tr>
+      <tr><td colspan="2"><button id="btnAdd">SIMPAN</button></td></tr>
       <tr><td colspan="2"><button id="btnReset" style="background:#ef4444">HAPUS SEMUA DATA</button></td></tr>
     </table>
 
     <footer>&copy; Mardhi Project</footer>
   </main>
+
+  <button id="sunfishBtn">Login</button>
 
   <input id="filterStartInput" class="hidden-date-input" type="date" />
   <input id="filterEndInput" class="hidden-date-input" type="date" />
@@ -192,7 +200,7 @@
     let parsedData = [];
     let user = { nama:'-', id:'-', jabatan:'-' };
 
-    let fileInput, tips, summaryOutput, tableOutput;
+    let fileInput, summaryOutput, tableOutput;
     let manualTanggal, manualJamLembur, manualMenitLembur, manualIndeks;
     let btnAdd, btnReset;
     let tipeHariRadios, statusRadios;
@@ -330,78 +338,80 @@ function generateSummaryHtml(stats, startLabel, endLabel){
       return "";
     }
 
+
     function generateTableHtml(data){
-      if(!data.length) return "<p>Tidak ada data</p>";
+      if(!data.length) return "";
+
       const headers = Object.keys(data[0]).filter(k => k !== "dateObj");
-      let html = "<div class='table-responsive'><table class='data-table'><thead><tr>";
+      let html = "<div class='table-responsive' id='dataTable'><table class='data-table'><thead><tr>";
       headers.forEach(h => html += `<th>${h}</th>`);
       html += "<th>Aksi</th></tr></thead><tbody>";
+
       data.forEach((row, idx) => {
-        html += `<tr class="${getRowClass(row)}">`;
+html += `<tr class="${getRowClass(row)}" data-idx="${idx}">`;
+
         headers.forEach(h => {
-          const safeH = h.replace(/'/g,"\\'");
           const cellValue = row[h] == null ? "" : row[h];
-          html += `<td contenteditable onblur="window.appEditCell(${idx},'${safeH}', this.innerText)">${cellValue}</td>`;
+          html += `<td>${cellValue}</td>`;
         });
-        html += `<td><button class="delBtn" data-idx="${idx}">Hapus</button></td></tr>`;
+        html += `<td><button class="delBtn" data-idx="${idx}">❌</button></td></tr>`;
       });
+
       html += "</tbody></table></div>";
       return html;
     }
 
-    function syncTableValues(row, editedField){
-      const toNum = v => {
-        if (v === undefined || v === null) return 0;
-        const s = String(v).replace(/\s+/g,'').replace(',', '.').replace(/[^0-9.\-]/g,'');
-        const n = parseFloat(s);
-        return isNaN(n) ? 0 : n;
-      };
 
-      let jam = toNum(row["Jam Lembur"]);
-      let menit = toNum(row["Menit Lembur"]);
-      let indeks = toNum(row["Indeks Lembur"]);
-      const tipe = (row["Tipe Hari"] || "WD").toUpperCase();
 
-      if (editedField === "Jam Lembur") {
-        menit = Math.round(jam * 60);
-        indeks = hitungIndeksByJam(jam, tipe);
-      } else if (editedField === "Menit Lembur") {
-        jam = menit / 60;
-        indeks = hitungIndeksByJam(jam, tipe);
-      } else if (editedField === "Indeks Lembur") {
-        if (tipe === "WD") {
-          if (indeks <= 1.5) jam = 1;
-          else if (indeks <= 13.5) jam = ((indeks - 1.5) / 2) + 1;
-          else jam = ((indeks - 13.5) / 3) + 7;
-        } else {
-          if (indeks <= 14) jam = indeks / 2;
-          else jam = ((indeks - 14) / 3) + 7;
-        }
-        menit = Math.round(jam * 60);
-      } else {
-        if (jam > 0) {
-          menit = Math.round(jam * 60);
-          indeks = hitungIndeksByJam(jam, tipe);
-        } else if (menit > 0) {
-          jam = menit / 60;
-          indeks = hitungIndeksByJam(jam, tipe);
-        } else {
-          indeks = toNum(row["Indeks Lembur"]);
-        }
-      }
+// === KLIK BARIS TABEL UNTUK EDIT DI FORM ===
+document.addEventListener("click", function (e) {
+  const tr = e.target.closest("tr");
+  if (!tr || tr.parentElement.tagName !== "TBODY") return;
 
-      row["Jam Lembur"] = Number(jam).toFixed(2);
-      row["Menit Lembur"] = Math.round(menit);
-      row["Indeks Lembur"] = Number(indeks).toFixed(2);
-    }
+  const td = tr.querySelectorAll("td");
+  if (td.length < 1) return;
 
-    window.appEditCell = function(i, k, v){
-      if (!parsedData[i]) return;
-      parsedData[i][k] = v.trim();
-      syncTableValues(parsedData[i], k);
-      saveLocal();
-      refreshUI();
-    };
+  // DATA DARI TABEL
+  const tgl       = td[0].textContent.trim();      // dd/mm/yyyy
+  const tipeHari  = td[1].textContent.trim();
+  const jam       = td[2].textContent.trim();
+  const menit     = td[3].textContent.trim();
+  const indeks    = td[4].textContent.trim();      // bisa "3,5"
+  const status    = td[5].textContent.trim();
+  const otherText = td[6].textContent.trim();
+
+  // FORMAT TANGGAL UNTUK INPUT
+  function toInputDateFormat(t){
+    const p = t.split("/");
+    if (p.length !== 3) return "";
+    return `${p[2]}-${p[1]}-${p[0]}`; // yyyy-mm-dd
+  }
+
+  // === SET KE FORM ===
+  manualTanggal.value = toInputDateFormat(tgl);
+  manualJamLembur.value = jam;
+  manualMenitLembur.value = menit;
+  manualIndeks.value = indeks.replace(",", ".");
+
+  // RADIO TIPE HARI
+  const r1 = document.querySelector(`input[name="manualTipeHari"][value="${tipeHari}"]`);
+  if (r1) r1.checked = true;
+
+  // RADIO STATUS
+  const r2 = document.querySelector(`input[name="manualStatus"][value="${status}"]`);
+  if (r2) r2.checked = true;
+
+  // CHECKBOX OTHER STATUS
+  document.querySelectorAll(".other-status").forEach(cb => cb.checked = false);
+
+  if (otherText !== "") {
+    otherText.split(",").forEach(o => {
+      const c = document.querySelector(`.other-status[value="${o.trim()}"]`);
+      if (c) c.checked = true;
+    });
+  }
+
+});
 
     function attachDeleteButtons(){
       const delBtns = tableOutput.querySelectorAll('.delBtn');
@@ -410,6 +420,7 @@ function generateSummaryHtml(stats, startLabel, endLabel){
         btn.addEventListener('click', onDeleteRow);
       });
     }
+
     function onDeleteRow(e){
       const idx = Number(this.dataset.idx);
       if (isNaN(idx)) return;
@@ -490,8 +501,6 @@ function generateSummaryHtml(stats, startLabel, endLabel){
           });
         });
 
-
-// === PATCH: MERGE TANPA HAPUS DATA LAMA ===
 res.forEach(row => {
   const tgl = row["Tanggal"];
   if (!tgl) return;
@@ -499,10 +508,8 @@ res.forEach(row => {
   const existing = parsedData.findIndex(x => x["Tanggal"] === tgl);
 
   if (existing >= 0) {
-    // Ganti hanya tanggal yang sama
     parsedData[existing] = row;
   } else {
-    // Tambahkan data baru
     parsedData.push(row);
   }
 });
@@ -539,18 +546,17 @@ refreshUI();
       tableOutput.innerHTML = generateTableHtml(displayData);
       attachDeleteButtons();
 
+
       if (displayData.length) {
         const stats = calculateStats(displayData);
         const startLabel = displayData[0]["Tanggal"];
         const endLabel = displayData[displayData.length-1]["Tanggal"];
         summaryOutput.innerHTML = generateSummaryHtml(stats, startLabel, endLabel);
-        tips.style.display = "none";
       } else {
         const stats = calculateStats([]);
         const startLabel = (filterStart) ? ddmmyyyy(filterStart) : (parsedData[0] ? parsedData[0]["Tanggal"] : '-');
         const endLabel = (filterEnd) ? ddmmyyyy(filterEnd) : (parsedData[parsedData.length-1] ? parsedData[parsedData.length-1]["Tanggal"] : '-');
         summaryOutput.innerHTML = generateSummaryHtml(stats, startLabel, endLabel);
-        tips.style.display = "block";
       }
       saveLocal();
       attachPeriodHandlers();
@@ -580,7 +586,6 @@ refreshUI();
     function attachPeriodHandlers(){
       const startSpan = document.getElementById('periodStart');
       const endSpan = document.getElementById('periodEnd');
-      const clearBtn = document.getElementById('clearFilterBtn');
 
       const prev = document.getElementById("prevMonthBtn");
       const next = document.getElementById("nextMonthBtn");
@@ -597,28 +602,23 @@ refreshUI();
         endSpan.removeEventListener('click', onEndClick);
         endSpan.addEventListener('click', onEndClick);
       }
-      if (clearBtn) {
-        clearBtn.onclick = onClearFilter; // lebih aman setelah redraw
-      }
     }
 
 
+
    function shiftMonth(offset){
-  // jika belum ada filter, coba ambil periode dari parsedData (display seluruh data)
   if (!filterStart || !filterEnd) {
     if (!parsedData || !parsedData.length) return;
-    // pastikan parsedData sudah punya dateObj dan terurut
     parsedData.forEach(r => { r.dateObj = parseIndoDate(r["Tanggal"]); });
     parsedData.sort((a,b)=> (a.dateObj && b.dateObj) ? a.dateObj - b.dateObj : 0);
     const first = parsedData[0];
     const last = parsedData[parsedData.length-1];
     if (!first || !last) return;
-    // set filterStart/filterEnd berdasarkan periode saat ini (tampilkan semua data dulu)
     filterStart = first.dateObj ? new Date(first.dateObj) : parseIndoDate(first["Tanggal"]);
     filterEnd = last.dateObj ? new Date(last.dateObj) : parseIndoDate(last["Tanggal"]);
   }
 
-  // geser bulan sesuai offset, jaga tanggal tetap sama
+
   const s = new Date(filterStart);
   const e = new Date(filterEnd);
 
@@ -628,13 +628,12 @@ refreshUI();
   filterStart = s;
   filterEnd = e;
 
-  // simpan ke localStorage jika fitur simpan filter aktif
+
   try {
     localStorage.setItem("filterStart", formatInputDate(s));
     localStorage.setItem("filterEnd", formatInputDate(e));
-  } catch (err) { /* ignore storage errors */ }
+  } catch (err) { }
 
-  // update hidden inputs supaya UI datepicker sinkron
   const fsi = $('filterStartInput');
   const fei = $('filterEndInput');
   if (fsi) fsi.value = formatInputDate(s);
@@ -648,23 +647,6 @@ function formatInputDate(d){
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
-
-function onClearFilter(){
-  filterStart = null;
-  filterEnd = null;
-
-  $('filterStartInput').value = "";
-  $('filterEndInput').value = "";
-
-  // === HAPUS FILTER DARI localStorage ===
-  localStorage.removeItem('filterStart');
-  localStorage.removeItem('filterEnd');
-
-  refreshUI();
-
-  const c = document.getElementById("clearFilterBtn");
-  if (c) c.remove();
-}
 
 function onStartClick(){
   const input = $('filterStartInput');
@@ -681,22 +663,26 @@ function onStartClick(){
 }
 
 
+
 function onEndClick(){
-  const input = $('filterEndInput');
-  if (!input) return;
+  const input = $('filterEndInput');
+  if (!input) return;
 
-  const txt = document.getElementById('periodEnd').innerText.trim();
-  const p = txt.split('/');
+  const txt = document.getElementById('periodEnd').innerText.trim();
+  const p = txt.split('/');
 
-  if (p.length === 3) {
-    input.value = `${p[2]}-${p[1]}-${p[0]}`;
-  }
+  if (p.length === 3) {
+    input.value = `${p[2]}-${p[1]}-${p[0]}`;
+  }
 
-  input.click();
+  input.click();
 }
 
+
     document.addEventListener('DOMContentLoaded', () => {
-      fileInput = $('fileInput'); tips = $('tips'); summaryOutput = $('summaryOutput'); tableOutput = $('tableOutput');
+      fileInput = $('fileInput');
+      summaryOutput = $('summaryOutput');
+      tableOutput = $('tableOutput');
       manualTanggal = $('manualTanggal'); manualJamLembur = $('manualJamLembur'); manualMenitLembur = $('manualMenitLembur'); manualIndeks = $('manualIndeks');
       btnAdd = $('btnAdd'); btnReset = $('btnReset');
       tipeHariRadios = document.querySelectorAll('input[name="manualTipeHari"]');
@@ -789,6 +775,12 @@ if (fe) {
 });
 
 
+
+document.getElementById("sunfishBtn").addEventListener("click", function(){
+window.open("https://workplaze.dataon.com/auth");
+}, false);
+
+
       const checkedRadio = document.querySelector('input[name="manualTipeHari"]:checked');
       if (checkedRadio) updateOtherStatus(checkedRadio.value);
 
@@ -797,6 +789,7 @@ if (fe) {
     });
 
     window._app = { refreshUI, saveLocal, loadLocal, parsedData };
+
   })();
   </script>
 </body>
