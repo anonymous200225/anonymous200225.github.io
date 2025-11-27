@@ -61,8 +61,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 6px;
+  gap: 16px; /* jarak tombol < > ke tanggal */
 }
+
 
 .period-clear {
   position: absolute;
@@ -83,29 +84,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  margin: 0 4px; /* tambah jarak kecil */
 }
 
 .month-shift-btn:active {
   background: #e0e0e0;
   transform: scale(0.92);
-}
-
-.clear-filter-btn {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  border: 1px solid #ff7272;
-  background: #ffe5e5;
-  font-size: 14px;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.clear-filter-btn:active {
-  background: #ddd;
-  transform: scale(0.9);
 }
 
   </style>
@@ -288,10 +273,6 @@ function generateSummaryHtml(stats, startLabel, endLabel){
   const startDisplay = startLabel || '-';
   const endDisplay = endLabel || '-';
 
-  const clearBtn = (filterStart || filterEnd)
-    ? `<button class="clear-filter-btn" id="clearFilterBtn">❌</button>`
-    : '';
-
   const prevBtn = `<button id="prevMonthBtn" class="month-shift-btn">‹</button>`;
   const nextBtn = `<button id="nextMonthBtn" class="month-shift-btn">›</button>`;
 
@@ -306,9 +287,6 @@ function generateSummaryHtml(stats, startLabel, endLabel){
               —
               <span id="periodEnd" class="period-clickable">${endDisplay}</span>
               ${nextBtn}
-            </div>
-            <div class="period-clear">
-              ${clearBtn}
             </div>
           </div>
         </th>
@@ -675,17 +653,15 @@ function onClearFilter(){
   if (c) c.remove();
 }
 
-    function onStartClick(){
+function onStartClick(){
   const input = $('filterStartInput');
   if (!input) return;
 
   const txt = document.getElementById('periodStart').innerText.trim();
   const p = txt.split('/');
+
   if (p.length === 3) {
-    const yyyy = p[2];
-    const mm = p[1];
-    const dd = p[0];
-    input.value = `${yyyy}-${mm}-${dd}`;
+    input.value = `${p[2]}-${p[1]}-${p[0]}`;
   }
 
   input.click();
@@ -698,16 +674,13 @@ function onEndClick(){
 
   const txt = document.getElementById('periodEnd').innerText.trim();
   const p = txt.split('/');
+
   if (p.length === 3) {
-    const yyyy = p[2];
-    const mm = p[1];
-    const dd = p[0];
-    input.value = `${yyyy}-${mm}-${dd}`;
+    input.value = `${p[2]}-${p[1]}-${p[0]}`;
   }
 
   input.click();
 }
-
 
     document.addEventListener('DOMContentLoaded', () => {
       fileInput = $('fileInput'); tips = $('tips'); summaryOutput = $('summaryOutput'); tableOutput = $('tableOutput');
