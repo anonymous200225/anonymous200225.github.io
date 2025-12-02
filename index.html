@@ -192,10 +192,13 @@ display: none;
 
   <script>
   (function(){
-    const DAILY_RATE = 121592.2;
+    const GAJI_POKOK = 3039805
+    const DAILY_RATE = GAJI_POKOK / 25;
     const OVERTIME_RATE = 17571.127;
-    const MEAL_RATE = 11000; //15199.025;
-    const POTONGAN = (25 * DAILY_RATE) * 0.02;
+    const MEAL_RATE = 11791;
+    const JHT = GAJI_POKOK * 0.02;
+    const JP = GAJI_POKOK * 0.01;
+    const POTONGAN = JHT + JP;
     const POTONGAN_THRESHOLD = 10;
 
     let parsedData = [];
@@ -286,8 +289,9 @@ display: none;
         totalJam += parseFloat((r["Jam Lembur"]||"0").toString().replace(",", ".")) || 0;
         totalIndeks += parseFloat((r["Indeks Lembur"]||"0").toString().replace(",", ".")) || 0;
       });
-      const gaji = ((hariKerja+cuti)*DAILY_RATE) + (totalIndeks*OVERTIME_RATE) + (meal*MEAL_RATE) - (((hariKerja+cuti)>POTONGAN_THRESHOLD)?POTONGAN:0);
-      //gaji = gaji - 5214335;
+      
+      let gaji = ((hariKerja+cuti)*DAILY_RATE) + (totalIndeks*OVERTIME_RATE) + (meal*MEAL_RATE) - (((hariKerja+cuti)>POTONGAN_THRESHOLD)?POTONGAN:0);
+      gaji = GAJI_POKOK + (totalIndeks*OVERTIME_RATE) + (meal*MEAL_RATE) - POTONGAN;
       return { hariKerja, cuti, absen, off, totalJam, totalIndeks, gaji };
     }
 
