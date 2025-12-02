@@ -194,8 +194,8 @@ display: none;
   (function(){
     const DAILY_RATE = 121592.2;
     const OVERTIME_RATE = 17571.127;
-    const MEAL_RATE = 15199.025;
-    const POTONGAN = 150000;
+    const MEAL_RATE = 11000; //15199.025;
+    const POTONGAN = (25 * DAILY_RATE) * 0.02;
     const POTONGAN_THRESHOLD = 10;
 
     let parsedData = [];
@@ -286,8 +286,8 @@ display: none;
         totalJam += parseFloat((r["Jam Lembur"]||"0").toString().replace(",", ".")) || 0;
         totalIndeks += parseFloat((r["Indeks Lembur"]||"0").toString().replace(",", ".")) || 0;
       });
-
       const gaji = ((hariKerja+cuti)*DAILY_RATE) + (totalIndeks*OVERTIME_RATE) + (meal*MEAL_RATE) - (((hariKerja+cuti)>POTONGAN_THRESHOLD)?POTONGAN:0);
+      //gaji = gaji - 5214335;
       return { hariKerja, cuti, absen, off, totalJam, totalIndeks, gaji };
     }
 
@@ -349,15 +349,14 @@ function generateSummaryHtml(stats, startLabel, endLabel){
       headers.forEach(h => html += `<th>${h}</th>`);
       html += "<th>Aksi</th></tr></thead><tbody>";
 
-data.forEach(row => {
-  const realIndex = parsedData.indexOf(row);
-  html += `<tr class="${getRowClass(row)}" data-idx="${realIndex}">`;
+      data.forEach((row, idx) => {
+html += `<tr class="${getRowClass(row)}" data-idx="${idx}">`;
 
         headers.forEach(h => {
           const cellValue = row[h] == null ? "" : row[h];
           html += `<td>${cellValue}</td>`;
         });
-html += `<td><button class="delBtn" data-idx="${realIndex}">❌</button></td>`;
+        html += `<td><button class="delBtn" data-idx="${idx}">❌</button></td></tr>`;
       });
 
       html += "</tbody></table></div>";
@@ -377,8 +376,8 @@ document.addEventListener("click", function (e) {
   // DATA DARI TABEL
   const tgl       = td[0].textContent.trim();      // dd/mm/yyyy
   const tipeHari  = td[1].textContent.trim();
-  const menit       = td[2].textContent.trim();
-  const jam     = td[3].textContent.trim();
+  const jam       = td[2].textContent.trim();
+  const menit     = td[3].textContent.trim();
   const indeks    = td[4].textContent.trim();      // bisa "3,5"
   const status    = td[5].textContent.trim();
   const otherText = td[6].textContent.trim();
@@ -424,16 +423,14 @@ document.addEventListener("click", function (e) {
       });
     }
 
-function onDeleteRow(e){
-  e.stopPropagation();
-  const idx = Number(this.dataset.idx);
-  if (isNaN(idx)) return;
-  if (!confirm("Hapus baris ini?")) return;
-  parsedData.splice(idx, 1);
-  saveLocal();
-  refreshUI();
-}
-
+    function onDeleteRow(e){
+      const idx = Number(this.dataset.idx);
+      if (isNaN(idx)) return;
+      if (!confirm("Hapus baris ini?")) return;
+      parsedData.splice(idx,1);
+      saveLocal();
+      refreshUI();
+    }
 
     function addManualEntry(){
       const iso = manualTanggal.value;
@@ -670,17 +667,17 @@ function onStartClick(){
 
 
 function onEndClick(){
-  const input = $('filterEndInput');
-  if (!input) return;
+  const input = $('filterEndInput');
+  if (!input) return;
 
-  const txt = document.getElementById('periodEnd').innerText.trim();
-  const p = txt.split('/');
+  const txt = document.getElementById('periodEnd').innerText.trim();
+  const p = txt.split('/');
 
-  if (p.length === 3) {
-    input.value = `${p[2]}-${p[1]}-${p[0]}`;
-  }
+  if (p.length === 3) {
+    input.value = `${p[2]}-${p[1]}-${p[0]}`;
+  }
 
-  input.click();
+  input.click();
 }
 
 
