@@ -59,22 +59,12 @@ body {
   background: #257;
 }
 
-/* Fullscreen button khusus */
-#fullscreenBtn {
-  background: #333;
-  color: #fff;
-  border: none;
-  padding: 10px 14px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: 0.2s;
+#btnFullscreen {
+  flex: 0 0 auto;
+  width: 60px;
+  background: #444;
+  font-size: 20px;
 }
-
-#fullscreenBtn:hover {
-  background: #46f;
-  color: #fff;
-}
-
 
 /* EDITOR */
 #editor {
@@ -135,7 +125,7 @@ textarea {
     <button onclick="switchTab('js')">JS</button>
 
     <!-- tombol fullscreen -->
-    <button id="fullscreenBtn" onclick="toggleFullscreen()">↗</button>
+    <button id="btnFullscreen" onclick="toggleFullscreen()">↗</button>
   </div>
 
   <textarea id="htmlEditor"></textarea>
@@ -185,28 +175,27 @@ document.querySelectorAll("textarea").forEach(t => {
   });
 });
 
-// ---------------- FULLSCREEN ----------------
+// ---------------- FULLSCREEN EDITOR --------------- //
 let isFull = false;
 
 function toggleFullscreen() {
   const editor = document.getElementById("editor");
-  const preview = document.getElementById("previewArea");
-  const btn = document.getElementById("fullscreenBtn");
+  const btn = document.getElementById("btnFullscreen");
 
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen();
-    btn.textContent = "↙";   // ikon keluar fullscreen
+  if (!isFull) {
+    // MASUK FULLSCREEN
+    editor.classList.add("fullscreen-editor");
+    document.body.style.overflow = "hidden";
+    btn.textContent = "↙"; // ikon keluar fullscreen
   } else {
-    document.exitFullscreen();
-    btn.textContent = "↗";   // ikon masuk fullscreen
+    // KELUAR FULLSCREEN
+    editor.classList.remove("fullscreen-editor");
+    document.body.style.overflow = "auto";
+    btn.textContent = "↗"; // ikon masuk fullscreen
   }
-}
 
-// Update ikon jika user keluar fullscreen via gesture / tombol HP
-document.addEventListener("fullscreenchange", function () {
-  const btn = document.getElementById("fullscreenBtn");
-  if (!document.fullscreenElement) btn.textContent = "↗";
-});
+  isFull = !isFull;
+}
 
 // ---------------- LOAD SAVED DATA ----------------
 htmlEditor.value = localStorage.getItem("IDE_HTML") || "<h1>Hello world!</h1>";
