@@ -2,15 +2,68 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>WEB IDE v1.1</title>
+<title>WEB IDE v3.0</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
+:root {
+  /* Dark Theme Default */
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #222;
+  --bg-tertiary: #333;
+  --bg-editor: #1e1e1e;
+  --bg-card: #2a2a2a;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-code: #d4d4d4;
+  --accent: #4dabf7;
+  --accent-secondary: #40c057;
+  --tag-color: #569cd6;
+  --attribute-color: #9cdcfe;
+  --value-color: #ce9178;
+  --string-color: #ce9178;
+  --comment-color: #6a9955;
+  --danger: #ff6b6b;
+  --success: #51cf66;
+  --warning: #ffd43b;
+  --border-color: #444;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --radius: 8px;
+  --radius-sm: 4px;
+}
+
+.light-theme {
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #e9ecef;
+  --bg-editor: #ffffff;
+  --bg-card: #ffffff;
+  --text-primary: #212529;
+  --text-secondary: #495057;
+  --text-code: #000000;
+  --accent: #228be6;
+  --accent-secondary: #20c997;
+  --tag-color: #800000;
+  --attribute-color: #e50000;
+  --value-color: #0451a5;
+  --string-color: #a31515;
+  --comment-color: #008000;
+  --border-color: #dee2e6;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
 
 body {
-  background: #555;
-  font-family: sans-serif;
+  background: var(--bg-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
   margin: 0;
+  color: var(--text-primary);
+  overflow: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* HEADER */
@@ -19,478 +72,2715 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  background: #222;
-  padding: 10px;
-  z-index: 10;
-}
-#header #title {
-  font-weight: bold;
-  color: white;
-  padding-left: 10px;
+  background: var(--bg-secondary);
+  padding: 10px 15px;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow);
+  border-bottom: 1px solid var(--border-color);
+  height: 60px;
 }
 
-/* PREVIEW */
-#previewArea {
-  position: absolute;
-  top: 42px;
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+#header #title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#header #version {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  background: var(--bg-tertiary);
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+.header-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* PROJECT SELECTOR */
+.project-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+  max-width: 200px;
+}
+
+#projectName {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  outline: none;
+  min-width: 0;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: var(--radius-sm);
+}
+
+#projectName:hover {
+  background: var(--bg-tertiary);
+}
+
+/* BUTTONS */
+.btn {
+  padding: 8px 12px;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: var(--accent);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-sm {
+  padding: 6px 8px;
+  font-size: 0.8rem;
+}
+
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 1.2rem;
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-success {
+  background: var(--success);
+  color: white;
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-warning {
+  background: var(--warning);
+  color: var(--text-primary);
+}
+
+/* MAIN CONTAINER */
+#container {
+  position: fixed;
+  top: 60px;
   left: 0;
   width: 100%;
-  height: 60%;
+  height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
 }
+
+/* MOBILE TOP BAR (for tabs and toolbar) */
+.mobile-top-bar {
+  display: none;
+  background: var(--bg-tertiary);
+  padding: 5px;
+  border-bottom: 1px solid var(--border-color);
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-top-bar.active {
+  display: flex;
+  gap: 5px;
+}
+
+/* RESIZABLE PANELS */
+#previewArea {
+  flex: 1;
+  min-height: 200px;
+  max-height: 70vh;
+  background: white;
+  position: relative;
+  border-bottom: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.resize-handle {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: var(--accent);
+  cursor: row-resize;
+  z-index: 50;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.resize-handle:hover {
+  opacity: 0.7;
+}
+
+.resize-handle:active {
+  opacity: 1;
+}
+
+.resize-handle::after {
+  content: "≡";
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+#editorArea {
+  flex: 1;
+  min-height: 200px;
+  background: var(--bg-editor);
+  position: relative;
+  overflow: hidden;
+}
+
 #previewFrame {
   width: 100%;
   height: 100%;
   border: none;
 }
 
-/* TABS */
-#tabs {
+/* EDITOR WITH LINE NUMBERS */
+.editor-container {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 50px);
+  overflow: hidden;
   display: flex;
-  background: #333;
 }
-#tabs button {
+
+.line-numbers {
+  width: 50px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: right;
+  padding: 15px 5px;
+  overflow: hidden;
+  user-select: none;
+  border-right: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+#codeEditor {
   flex: 1;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  background: var(--bg-editor);
+  color: var(--text-code);
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 14px;
   border: none;
-  padding: 10px;
-  background: #333;
-  color: #fff;
+  outline: none;
+  resize: none;
+  line-height: 1.5;
+  tab-size: 2;
+  white-space: pre;
+  overflow-wrap: normal;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* TABS */
+.tab-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background: var(--bg-tertiary);
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  z-index: 10;
+}
+
+.tab {
+  padding: 12px 20px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: none;
+  border-right: 1px solid var(--border-color);
   cursor: pointer;
-}
-#tabs button.active {
-  background: #257;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 100px;
+  -webkit-tap-highlight-color: transparent;
 }
 
-#btnFullscreen {
-  flex: 0 0 auto;
-  width: 60px;
-  background: #444;
+.tab:hover {
+  background: var(--bg-primary);
+}
+
+.tab.active {
+  background: var(--bg-editor);
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--accent);
+}
+
+.tab-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tab-close:hover {
+  background: var(--danger);
+  color: white;
+}
+
+.add-tab {
+  min-width: 50px;
   font-size: 20px;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-/* EDITOR */
-#editor {
+/* TOOLBAR */
+.toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 8px;
+  z-index: 5;
+  border-bottom: 1px solid var(--border-color);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.toolbar button {
+  padding: 8px 12px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.toolbar button:hover {
+  background: var(--bg-primary);
+  transform: translateY(-1px);
+}
+
+.toolbar button:active {
+  transform: translateY(0);
+}
+
+/* MOBILE BOTTOM TOOLBAR */
+.mobile-bottom-bar {
+  display: none;
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  transition: all 0.35s ease; /* animasi */
+  background: var(--bg-secondary);
+  padding: 10px;
+  z-index: 100;
+  border-top: 1px solid var(--border-color);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* TEXTAREA */
-textarea {
-  width: 100%;
-  height: 250px;
-  padding: 8px;
-  background: #222;
-  color: white;
-  font-size: 14px;
+.mobile-bottom-bar.active {
+  display: flex;
+  justify-content: space-around;
+}
+
+.mobile-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
   border: none;
-  outline: none;
-  transition: height 0.35s ease; /* animasi halus */
-}
-
-/* FULLSCREEN MODE FINAL */
-.fullscreen-editor {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 100vh !important;
-  background: #222 !important;
-  z-index: 9999 !important;
-  padding-top: 45px; /* jarak untuk tabs */
-}
-
-.fullscreen-editor textarea {
-  height: calc(100vh - 90px) !important;
-}
-
-
-.btn {
+  color: var(--text-primary);
   padding: 5px 10px;
-  font-size: 18px;
-  background:#222;
-  color:white;
-  border:none;
-  cursor:pointer;
-}
-.btn:active {
-  opacity:0.7;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.7rem;
+  gap: 3px;
+  min-width: 60px;
+  -webkit-tap-highlight-color: transparent;
 }
 
+.mobile-btn i {
+  font-size: 1.2rem;
+}
 
-.preview-fullscreen {
+.mobile-btn:hover {
+  background: var(--bg-tertiary);
+}
+
+.mobile-btn.active {
+  color: var(--accent);
+}
+
+/* MODALS */
+.modal-overlay {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw !important;
-  height: 100vh !important;
-  z-index: 9999;
-  background: #fff;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal {
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
   margin: 0;
-  padding: 0;
+  color: var(--accent);
 }
 
-.hide-editor {
-  display: none !important;
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
 }
 
-  #exitPreviewBtn {
+.modal-close:hover {
+  background: var(--danger);
+  color: white;
+}
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-footer {
+  padding: 15px 20px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* PROJECTS LIST */
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.project-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.project-item:hover {
+  border-color: var(--accent);
+  transform: translateX(5px);
+}
+
+.project-item.active {
+  border-color: var(--accent);
+  background: rgba(77, 171, 247, 0.1);
+}
+
+.project-info h4 {
+  margin: 0 0 5px 0;
+  color: var(--text-primary);
+}
+
+.project-info p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.project-actions {
+  display: flex;
+  gap: 5px;
+}
+
+/* FORM ELEMENTS */
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.input-group input,
+.input-group textarea,
+.input-group select {
+  width: 100%;
+  padding: 10px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+  border-color: var(--accent);
+}
+
+/* STATUS INDICATOR */
+#status {
   position: fixed;
-  top: 10px;
-  right: 10px;
-  z-index: 10000;
-  background: #000a;
+  bottom: 80px;
+  right: 15px;
+  background: var(--success);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 25px;
+  font-size: 0.85rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 100;
+  box-shadow: var(--shadow);
+  max-width: 300px;
+  word-break: break-word;
+}
+
+/* FULLSCREEN BUTTONS */
+#exitPreviewBtn {
+  position: fixed;
+  top: 70px;
+  right: 15px;
+  z-index: 1001;
+  background: rgba(0, 0, 0, 0.8);
   color: white;
   border: none;
-  padding: 8px 12px;
-  font-size: 22px;
-  border-radius: 8px;
-  display: none;
-}
-
-
-/* FIND BOX */
-.find-panel {
-  position: fixed;
-  bottom: 255px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1e1e1e;
-  color: white;
   padding: 12px;
-  border-radius: 8px;
-  z-index: 9999;
-  width: 90%;
-  max-width: 400px;
+  font-size: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 50px;
+  height: 50px;
   display: none;
-  box-shadow: 0 0 15px #0007;
-  font-family: sans-serif;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.find-panel h3 {
-  margin: 0 0 8px 0;
-  font-size: 16px;
+#exitPreviewBtn:hover {
+  background: rgba(255, 0, 0, 0.8);
+  transform: scale(1.1);
+}
+
+/* MOBILE ORIENTATION */
+.orientation-warning {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-primary);
+  z-index: 3000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
   text-align: center;
 }
 
-.find-panel input {
-  width: 100%;
-  padding: 7px;
-  background: #333;
-  color: white;
-  border: 1px solid #555;
-  border-radius: 5px;
-  margin-top: 5px;
+.orientation-warning i {
+  font-size: 3rem;
+  color: var(--warning);
+  margin-bottom: 20px;
 }
 
-.find-panel button {
-  margin-top: 10px;
-  padding: 7px 12px;
-  background: #257;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
+/* RESPONSIVE STYLES */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+  
+  #header {
+    padding: 8px 10px;
+    height: 50px;
+  }
+  
+  .header-left {
+    gap: 5px;
+  }
+  
+  .btn {
+    padding: 6px 8px;
+    font-size: 0.8rem;
+  }
+  
+  .btn-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+  
+  .project-selector {
+    max-width: 150px;
+  }
+  
+  #container {
+    top: 50px;
+    height: calc(100vh - 50px);
+  }
+  
+  .tab-container {
+    display: none;
+  }
+  
+  .toolbar {
+    display: none;
+  }
+  
+  .mobile-top-bar.active {
+    display: flex;
+  }
+  
+  .mobile-bottom-bar.active {
+    display: flex;
+  }
+  
+  .editor-container {
+    top: 45px;
+    height: calc(100% - 45px);
+  }
+  
+  .tab {
+    min-width: 80px;
+    padding: 10px 15px;
+    font-size: 0.8rem;
+  }
+  
+  .line-numbers {
+    width: 40px;
+    font-size: 12px;
+    padding: 10px 3px;
+  }
+  
+  #codeEditor {
+    font-size: 13px;
+    padding: 10px;
+  }
+  
+  #status {
+    bottom: 70px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+    text-align: center;
+  }
+  
+  /* Show orientation warning on mobile in portrait mode */
+  @media (orientation: portrait) and (max-width: 768px) {
+    .orientation-warning {
+      display: flex;
+    }
+  }
 }
 
-.find-panel button:active {
-  opacity: 0.7;
+@media (max-width: 480px) {
+  #header {
+    height: 45px;
+  }
+  
+  .header-controls {
+    gap: 5px;
+  }
+  
+  .btn-sm {
+    padding: 4px 6px;
+    font-size: 0.75rem;
+  }
+  
+  #container {
+    top: 45px;
+    height: calc(100vh - 45px);
+  }
+  
+  .mobile-btn {
+    min-width: 50px;
+    font-size: 0.65rem;
+  }
+  
+  .mobile-btn i {
+    font-size: 1rem;
+  }
+  
+  .modal {
+    max-height: 80vh;
+  }
+  
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding: 15px;
+  }
 }
 
+/* KEYBOARD AVOIDANCE FOR MOBILE */
+@media (max-height: 500px) {
+  .mobile-bottom-bar {
+    display: none !important;
+  }
+  
+  #status {
+    bottom: 20px;
+  }
+}
 
+/* HIGHLIGHTING */
+.code-tag { color: var(--tag-color); font-weight: bold; }
+.code-attribute { color: var(--attribute-color); }
+.code-value { color: var(--value-color); }
+.code-string { color: var(--string-color); }
+.code-comment { color: var(--comment-color); font-style: italic; }
+.code-doctype { color: var(--text-secondary); }
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div id="header">
-  <span id="title">WEB IDE v1.1</span>
-</div>
-
-<div id="previewArea">
-  <iframe id="previewFrame"></iframe>
-</div>
-
-  <button id="exitPreviewBtn">⨯</button>
-
-
-<!-- EDITOR AREA -->
-<div id="editor">
-
-  <div id="tabs">
-    <button class="active" onclick="switchTab('html')">HTML</button>
-    <button onclick="switchTab('css')">CSS</button>
-    <button onclick="switchTab('js')">JS</button>
-    
-    <button id="btnReset">❌</button>
-    <button id="btnCopy">📄</button>
-    <button id="btnPaste">📑</button>
-    <button id="btnFindPanel" class="btn">🔍</button>
-    
-    <!-- tombol fullscreen -->
-    <button id="btnFullscreen" onclick="toggleFullscreen()">↗</button>
-
-    <button id="previewFullBtn" class="btn">⛶</button>
-
+  <div class="header-left">
+    <button class="btn btn-icon" id="menuBtn" title="Menu">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="project-selector">
+      <span id="projectName" title="Klik untuk mengganti proyek">Proyek Baru</span>
+    </div>
+    <span id="version">v3.0</span>
   </div>
-
-  <textarea id="htmlEditor"></textarea>
-  <textarea id="cssEditor" style="display:none"></textarea>
-  <textarea id="jsEditor" style="display:none"></textarea>
-
-
-<div id="findReplaceBox" class="find-panel">
-  <h3>Cari & Ganti</h3>
-
-  <input id="findText" placeholder="Cari teks...">
-  <input id="replaceText" placeholder="Ganti dengan...">
-
-  <div style="margin-top:10px; display:flex; gap:5px; justify-content:center;">
-    <button onclick="findNext()">Next</button>
-    <button onclick="replaceOne()">Replace</button>
-    <button onclick="replaceAll()">Replace All</button>
-    <button onclick="closeFindBox()" style="background:#922;">Tutup</button>
+  <div class="header-controls">
+    <button class="btn btn-sm" id="themeToggle" title="Ganti tema">
+      <i class="fas fa-moon"></i>
+    </button>
+    <button class="btn btn-sm btn-accent" id="saveBtn" title="Simpan proyek">
+      <i class="fas fa-save"></i>
+    </button>
   </div>
 </div>
 
-
-
-</div>
-
-
+<!-- MAIN CONTAINER -->
+<div id="container">
+  <!-- PREVIEW AREA -->
+  <div id="previewArea">
+    <iframe id="previewFrame" title="Live Preview"></iframe>
+    <div class="resize-handle" id="resizeHandle"></div>
+  </div>
   
+  <!-- MOBILE TOP BAR (Tabs) -->
+  <div class="mobile-top-bar" id="mobileTabs">
+    <!-- Tabs will be added here -->
+  </div>
+  
+  <!-- EDITOR AREA -->
+  <div id="editorArea">
+    <!-- DESKTOP TABS -->
+    <div class="tab-container" id="tabContainer">
+      <!-- Tabs will be added dynamically -->
+    </div>
+    
+    <!-- DESKTOP TOOLBAR -->
+    <div class="toolbar" id="toolbar">
+      <button id="btnNewFile" title="File baru">
+        <i class="fas fa-file"></i> New
+      </button>
+      <button id="btnSaveFile" title="Simpan file">
+        <i class="fas fa-save"></i> Save
+      </button>
+      <button id="btnExport" title="Export proyek">
+        <i class="fas fa-download"></i> Export
+      </button>
+      <button id="btnCopy" title="Salin kode">
+        <i class="fas fa-copy"></i> Copy
+      </button>
+      <button id="btnFormat" title="Format kode">
+        <i class="fas fa-indent"></i> Format
+      </button>
+      <button id="btnFind" title="Cari teks">
+        <i class="fas fa-search"></i> Find
+      </button>
+      <button id="btnFullscreen" title="Mode layar penuh">
+        <i class="fas fa-expand"></i> Full
+      </button>
+    </div>
+    
+    <!-- EDITOR WITH LINE NUMBERS -->
+    <div class="editor-container">
+      <div class="line-numbers" id="lineNumbers">1</div>
+      <textarea id="codeEditor" spellcheck="false" placeholder="Ketik kode di sini..."></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE BOTTOM TOOLBAR -->
+<div class="mobile-bottom-bar" id="mobileToolbar">
+  <button class="mobile-btn" id="mobileTabBtn" title="Tabs">
+    <i class="fas fa-file-code"></i>
+    <span>Files</span>
+  </button>
+  <button class="mobile-btn" id="mobileSaveBtn" title="Simpan">
+    <i class="fas fa-save"></i>
+    <span>Save</span>
+  </button>
+  <button class="mobile-btn" id="mobilePreviewBtn" title="Preview">
+    <i class="fas fa-eye"></i>
+    <span>Preview</span>
+  </button>
+  <button class="mobile-btn" id="mobileToolsBtn" title="Tools">
+    <i class="fas fa-tools"></i>
+    <span>Tools</span>
+  </button>
+  <button class="mobile-btn" id="mobileMenuBtn" title="Menu">
+    <i class="fas fa-ellipsis-h"></i>
+    <span>More</span>
+  </button>
+</div>
+
+<!-- FULLSCREEN EXIT BUTTON -->
+<button id="exitPreviewBtn" title="Keluar mode layar penuh">
+  <i class="fas fa-times"></i>
+</button>
+
+<!-- STATUS INDICATOR -->
+<div id="status">Auto-saved</div>
+
+<!-- ORIENTATION WARNING (MOBILE) -->
+<div class="orientation-warning">
+  <div>
+    <i class="fas fa-sync-alt fa-spin"></i>
+    <h3>Putar Perangkat Anda</h3>
+    <p>Untuk pengalaman terbaik, gunakan WEB IDE dalam mode landscape di perangkat mobile.</p>
+    <p style="margin-top: 20px; font-size: 0.9rem; color: var(--text-secondary);">
+      <i class="fas fa-mobile-alt"></i> Putar ponsel ke samping
+    </p>
+  </div>
+</div>
+
+<!-- MODALS -->
+
+<!-- MAIN MENU MODAL -->
+<div class="modal-overlay" id="menuModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3><i class="fas fa-bars"></i> Menu WEB IDE</h3>
+      <button class="modal-close" id="closeMenu">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="input-group">
+        <h4>Proyek Saat Ini</h4>
+        <input type="text" id="currentProjectName" placeholder="Nama Proyek">
+        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">
+          Tekan Enter untuk mengganti nama
+        </p>
+      </div>
+      
+      <div class="input-group">
+        <h4>Proyek Lainnya</h4>
+        <div class="projects-list" id="projectsList">
+          <!-- Projects will be loaded here -->
+        </div>
+      </div>
+      
+      <div style="margin-top: 20px;">
+        <button class="btn btn-accent" id="newProjectBtn" style="width: 100%;">
+          <i class="fas fa-plus"></i> Buat Proyek Baru
+        </button>
+      </div>
+      
+      <div style="margin-top: 15px;">
+        <h4>Pengaturan</h4>
+        <button class="btn" id="settingsBtn" style="width: 100%; margin-bottom: 10px;">
+          <i class="fas fa-cog"></i> Pengaturan
+        </button>
+        <button class="btn" id="helpBtn" style="width: 100%;">
+          <i class="fas fa-question-circle"></i> Bantuan
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW PROJECT MODAL -->
+<div class="modal-overlay" id="newProjectModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3><i class="fas fa-plus"></i> Proyek Baru</h3>
+      <button class="modal-close" id="closeNewProject">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="input-group">
+        <label for="projectNameInput">Nama Proyek</label>
+        <input type="text" id="projectNameInput" placeholder="Misal: Website Saya">
+      </div>
+      
+      <div class="input-group">
+        <label for="projectTemplate">Template</label>
+        <select id="projectTemplate">
+          <option value="blank">Blank (Kosong)</option>
+          <option value="html5">HTML5 Starter</option>
+          <option value="portfolio">Portfolio Template</option>
+          <option value="landing">Landing Page</option>
+          <option value="dashboard">Admin Dashboard</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <label for="projectDescription">Deskripsi (Opsional)</label>
+        <textarea id="projectDescription" rows="3" placeholder="Deskripsi proyek..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="cancelNewProject">Batal</button>
+      <button class="btn btn-success" id="createProjectBtn">Buat Proyek</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="modal-overlay" id="exportModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3><i class="fas fa-download"></i> Export Proyek</h3>
+      <button class="modal-close" id="closeExport">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p>Pilih format export untuk proyek <strong id="exportProjectName">Proyek Baru</strong>:</p>
+      
+      <div style="margin: 20px 0;">
+        <label style="display: block; margin: 10px 0; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); cursor: pointer;">
+          <input type="radio" name="exportType" value="html" checked style="margin-right: 10px;">
+          <strong>Single HTML File</strong>
+          <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: var(--text-secondary);">
+            Semua kode (HTML, CSS, JS) dalam satu file HTML
+          </p>
+        </label>
+        
+        <label style="display: block; margin: 10px 0; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); cursor: pointer;">
+          <input type="radio" name="exportType" value="zip" style="margin-right: 10px;">
+          <strong>ZIP Archive</strong>
+          <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: var(--text-secondary);">
+            File terpisah (index.html, style.css, script.js) dalam ZIP
+          </p>
+        </label>
+        
+        <label style="display: block; margin: 10px 0; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); cursor: pointer;">
+          <input type="radio" name="exportType" value="json" style="margin-right: 10px;">
+          <strong>JSON Backup</strong>
+          <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: var(--text-secondary);">
+            File JSON untuk backup/restore proyek WEB IDE
+          </p>
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="cancelExport">Batal</button>
+      <button class="btn btn-success" id="confirmExport">Export</button>
+    </div>
+  </div>
+</div>
+
+<!-- FIND/REPLACE MODAL -->
+<div class="modal-overlay" id="findModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3><i class="fas fa-search"></i> Cari & Ganti</h3>
+      <button class="modal-close" id="closeFind">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="input-group">
+        <label for="findInput">Cari teks:</label>
+        <input type="text" id="findInput" placeholder="Masukkan teks yang dicari...">
+      </div>
+      
+      <div class="input-group">
+        <label for="replaceInput">Ganti dengan:</label>
+        <input type="text" id="replaceInput" placeholder="Masukkan teks pengganti...">
+      </div>
+      
+      <div style="display: flex; gap: 10px; margin-top: 15px;">
+        <button class="btn" id="findNextBtn">
+          <i class="fas fa-arrow-down"></i> Next
+        </button>
+        <button class="btn" id="replaceBtn">
+          <i class="fas fa-exchange-alt"></i> Replace
+        </button>
+        <button class="btn btn-danger" id="replaceAllBtn">
+          <i class="fas fa-redo"></i> Replace All
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLS MODAL (MOBILE) -->
+<div class="modal-overlay" id="toolsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3><i class="fas fa-tools"></i> Tools</h3>
+      <button class="modal-close" id="closeTools">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+        <button class="btn" id="mobileCopyBtn">
+          <i class="fas fa-copy"></i> Copy
+        </button>
+        <button class="btn" id="mobilePasteBtn">
+          <i class="fas fa-paste"></i> Paste
+        </button>
+        <button class="btn" id="mobileFormatBtn">
+          <i class="fas fa-indent"></i> Format
+        </button>
+        <button class="btn" id="mobileFindBtn">
+          <i class="fas fa-search"></i> Find
+        </button>
+        <button class="btn" id="mobileFullBtn">
+          <i class="fas fa-expand"></i> Fullscreen
+        </button>
+        <button class="btn" id="mobileClearBtn">
+          <i class="fas fa-trash"></i> Clear
+        </button>
+        <button class="btn" id="mobileUndoBtn">
+          <i class="fas fa-undo"></i> Undo
+        </button>
+        <button class="btn" id="mobileRedoBtn">
+          <i class="fas fa-redo"></i> Redo
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3><i class="fas fa-cog"></i> Pengaturan</h3>
+      <button class="modal-close" id="closeSettings">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="input-group">
+        <label for="fontSize">Ukuran Font Editor:</label>
+        <select id="fontSize">
+          <option value="12">12px</option>
+          <option value="13">13px</option>
+          <option value="14" selected>14px</option>
+          <option value="15">15px</option>
+          <option value="16">16px</option>
+          <option value="18">18px</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <label for="tabSize">Tab Size:</label>
+        <select id="tabSize">
+          <option value="2">2 Spasi</option>
+          <option value="4" selected>4 Spasi</option>
+          <option value="8">8 Spasi</option>
+          <option value="tab">Tab Character</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <label for="autoSave">Auto-save:</label>
+        <select id="autoSave">
+          <option value="1000">1 detik</option>
+          <option value="2000" selected>2 detik</option>
+          <option value="5000">5 detik</option>
+          <option value="10000">10 detik</option>
+          <option value="0">Mati</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <label>
+          <input type="checkbox" id="wordWrap" checked>
+          Word Wrap
+        </label>
+      </div>
+      
+      <div class="input-group">
+        <label>
+          <input type="checkbox" id="lineNumbersToggle" checked>
+          Tampilkan Nomor Baris
+        </label>
+      </div>
+      
+      <div class="input-group">
+        <label>
+          <input type="checkbox" id="autoPreview" checked>
+          Auto Preview (Live)
+        </label>
+      </div>
+      
+      <div style="margin-top: 20px;">
+        <button class="btn btn-danger" id="clearDataBtn" style="width: 100%;">
+          <i class="fas fa-trash"></i> Hapus Semua Data
+        </button>
+        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">
+          Hati-hati! Ini akan menghapus semua proyek dan pengaturan.
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-success" id="saveSettingsBtn">Simpan Pengaturan</button>
+    </div>
+  </div>
+</div>
+
+<!-- HELP MODAL -->
+<div class="modal-overlay" id="helpModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3><i class="fas fa-question-circle"></i> Bantuan WEB IDE</h3>
+      <button class="modal-close" id="closeHelp">&times;</button>
+    </div>
+    <div class="modal-body">
+      <h4>Fitur Utama:</h4>
+      <ul style="padding-left: 20px; margin-bottom: 20px;">
+        <li><strong>Multi-Proyek</strong> - Buat dan kelola banyak proyek</li>
+        <li><strong>Mobile Friendly</strong> - Optimasi untuk ponsel</li>
+        <li><strong>Live Preview</strong> - Lihat hasil kode secara realtime</li>
+        <li><strong>Syntax Highlighting</strong> - Warna untuk HTML, CSS, JS</li>
+        <li><strong>Export</strong> - Download proyek dalam berbagai format</li>
+      </ul>
+      
+      <h4>Shortcut Keyboard:</h4>
+      <ul style="padding-left: 20px; margin-bottom: 20px;">
+        <li><kbd>Ctrl/Cmd + S</kbd> - Simpan proyek</li>
+        <li><kbd>Ctrl/Cmd + F</kbd> - Cari teks</li>
+        <li><kbd>Tab</kbd> - Indentasi kode</li>
+        <li><kbd>Shift + Tab</kbd> - Outdent kode</li>
+      </ul>
+      
+      <h4>Untuk Mobile:</h4>
+      <p>Gunakan toolbar di bagian bawah untuk akses cepat ke fitur utama.</p>
+      
+      <div style="margin-top: 20px; padding: 15px; background: var(--bg-card); border-radius: var(--radius-sm);">
+        <h4 style="margin-top: 0;">Tips:</h4>
+        <p>• Gunakan mode landscape untuk pengalaman terbaik di ponsel</p>
+        <p>• Export proyek secara berkala untuk backup</p>
+        <p>• Gunakan template untuk mulai cepat</p>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
-// ---------------- TAB ----------------
-function switchTab(tab) {
-  htmlEditor.style.display = "none";
-  cssEditor.style.display = "none";
-  jsEditor.style.display = "none";
+// ============ VARIABLES GLOBAL ============
+let currentProject = null;
+let currentTab = 'html';
+let projects = {};
+let isFullscreen = false;
+let isPreviewFullscreen = false;
+let theme = localStorage.getItem('ide_theme') || 'dark';
+let settings = {
+  fontSize: '14',
+  tabSize: '4',
+  autoSave: '2000',
+  wordWrap: true,
+  lineNumbers: true,
+  autoPreview: true
+};
 
-  document.getElementById(tab + "Editor").style.display = "block";
-
-  document.querySelectorAll("#tabs button").forEach(b => b.classList.remove("active"));
-  event.target.classList.add("active");
-}
-
-// ---------------- PREVIEW ----------------
-function updatePreview() {
-  const html = htmlEditor.value;
-  const css = "<style>" + cssEditor.value + "</style>";
-  const js = "<script>" + jsEditor.value + "<\\/script>";
-
-  const iframe = document.getElementById("previewFrame");
-  iframe.contentDocument.open();
-  iframe.contentDocument.write(html + css + js);
-  iframe.contentDocument.close();
-}
-
-// ---------------- AUTOSAVE ----------------
-function autoSave() {
-  localStorage.setItem("IDE_HTML", htmlEditor.value);
-  localStorage.setItem("IDE_CSS", cssEditor.value);
-  localStorage.setItem("IDE_JS", jsEditor.value);
-}
-
-document.querySelectorAll("textarea").forEach(t => {
-  t.addEventListener("input", () => {
-    clearTimeout(window.previewTimer);
-    window.previewTimer = setTimeout(updatePreview, 300);
-
-    autoSave();
-  });
+// ============ INITIALIZATION ============
+document.addEventListener('DOMContentLoaded', () => {
+  loadSettings();
+  initializeTheme();
+  loadProjects();
+  initializeEditor();
+  initializeModals();
+  initializeMobileUI();
+  initializeEventListeners();
+  
+  // Check if mobile
+  if (isMobile()) {
+    document.getElementById('mobileToolbar').classList.add('active');
+    document.getElementById('mobileTabs').classList.add('active');
+    updateMobileTabs();
+  }
+  
+  showStatus('WEB IDE v3.0 siap digunakan!', 'success');
 });
 
-// ---------------- FULLSCREEN EDITOR --------------- //
-let isFull = false;
-
-function toggleFullscreen() {
-  const editor = document.getElementById("editor");
-  const btn = document.getElementById("btnFullscreen");
-
-  if (!isFull) {
-    // Masuk fullscreen (halus)
-    editor.classList.add("fullscreen-editor");
-    document.body.style.overflow = "hidden";
-    btn.textContent = "↙"; // keluar fullscreen
-  } else {
-    // Keluar fullscreen (halus)
-    editor.classList.remove("fullscreen-editor");
-    document.body.style.overflow = "auto";
-    btn.textContent = "↗"; // masuk fullscreen
-  }
-
-  isFull = !isFull;
+// ============ MOBILE DETECTION ============
+function isMobile() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
+function isTouchDevice() {
+  return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+}
 
-const previewFullBtn = document.getElementById("previewFullBtn");
-const previewArea = document.getElementById("previewArea");
-const editor = document.getElementById("editor");
-const exitPreviewBtn = document.getElementById("exitPreviewBtn");
-
-let previewFullscreen = false;
-
-function applyPreviewFullscreen(state) {
-  previewFullscreen = state;
-
-  if (state) {
-    previewArea.classList.add("preview-fullscreen");
-    editor.classList.add("hide-editor");
-    previewFullBtn.textContent = "↙";
-    exitPreviewBtn.style.display = "block";
-    document.body.style.overflow = "hidden";
+// ============ PROJECT MANAGEMENT ============
+function loadProjects() {
+  const saved = localStorage.getItem('ide_projects');
+  if (saved) {
+    projects = JSON.parse(saved);
+  }
+  
+  // If no projects, create default
+  if (Object.keys(projects).length === 0) {
+    createDefaultProject();
+  }
+  
+  // Load last active project or first project
+  const lastProjectId = localStorage.getItem('ide_last_project');
+  if (lastProjectId && projects[lastProjectId]) {
+    loadProject(lastProjectId);
   } else {
-    previewArea.classList.remove("preview-fullscreen");
-    editor.classList.remove("hide-editor");
-    previewFullBtn.textContent = "⛶";
-    exitPreviewBtn.style.display = "none";
-    document.body.style.overflow = "auto";
+    const firstProjectId = Object.keys(projects)[0];
+    loadProject(firstProjectId);
+  }
+  
+  updateProjectsList();
+}
+
+function createDefaultProject() {
+  const projectId = 'project_' + Date.now();
+  
+  projects[projectId] = {
+    id: projectId,
+    name: 'Proyek Pertama',
+    description: 'Proyek contoh WEB IDE',
+    created: new Date().toISOString(),
+    modified: new Date().toISOString(),
+    files: {
+      html: `<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WEB IDE v3.0</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+    }
+    
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+    }
+    
+    p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+    
+    .highlight {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #e83e8c;
+    }
+    
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 30px 0;
+    }
+    
+    .feature {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: left;
+    }
+    
+    .feature i {
+      color: #667eea;
+      margin-right: 10px;
+    }
+    
+    .btn {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: transform 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎉 WEB IDE v3.0</h1>
+    <p>Selamat datang di editor web modern dengan fitur lengkap!</p>
+    
+    <div class="features">
+      <div class="feature">
+        <i class="fas fa-mobile-alt"></i>
+        <strong>Mobile Friendly</strong>
+        <p>Optimasi untuk ponsel dan tablet</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-folder"></i>
+        <strong>Multi-Proyek</strong>
+        <p>Kelola banyak proyek sekaligus</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-bolt"></i>
+        <strong>Live Preview</strong>
+        <p>Lihat perubahan secara realtime</p>
+      </div>
+    </div>
+    
+    <p>Edit file <span class="highlight">HTML</span>, <span class="highlight">CSS</span>, dan <span class="highlight">JavaScript</span> di editor dan lihat hasilnya langsung di preview.</p>
+    <p>Gunakan menu untuk membuat proyek baru atau mengelola proyek yang ada.</p>
+    
+    <button class="btn" onclick="showWelcomeAlert()">
+      <i class="fas fa-rocket"></i> Mulai Coding!
+    </button>
+  </div>
+
+  <script>
+    function showWelcomeAlert() {
+      alert('Selamat coding! 🚀\\nWEB IDE v3.0 siap membantu Anda membuat website.');
+      console.log('WEB IDE v3.0 - Proyek contoh');
+    }
+    
+    // Contoh JavaScript interaktif
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('feature')) {
+        e.target.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+          e.target.style.transform = '';
+        }, 200);
+      }
+    });
+  <\/script>
+</body>
+</html>`,
+      css: `/* CSS untuk proyek contoh */
+/* File ini bisa Anda edit sesuai kebutuhan */
+
+.feature {
+  transition: all 0.3s ease;
+}
+
+.feature:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.btn:focus:not(:active)::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  20% {
+    transform: scale(25, 25);
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(40, 40);
   }
 }
 
-previewFullBtn.onclick = () => applyPreviewFullscreen(!previewFullscreen);
-exitPreviewBtn.onclick = () => applyPreviewFullscreen(false);
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .features {
+    grid-template-columns: 1fr;
+  }
+}`,
+      js: `// JavaScript untuk proyek contoh
+// File ini bisa Anda edit sesuai kebutuhan
 
+console.log('WEB IDE v3.0 - Proyek contoh berjalan!');
 
-// ---------------- CLIPBOARD ----------------
-const btnCopy = document.getElementById("btnCopy");
-const btnPaste = document.getElementById("btnPaste");
+// Animasi saat halaman dimuat
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Halaman siap!');
+  
+  // Animasi elemen secara bertahap
+  const elements = document.querySelectorAll('.container > *');
+  elements.forEach((el, index) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    
+    setTimeout(() => {
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    }, index * 100);
+  });
+  
+  // Menambahkan efek ketik pada judul
+  const title = document.querySelector('h1');
+  if (title) {
+    const originalText = title.textContent;
+    title.textContent = '';
+    
+    let i = 0;
+    const typeWriter = () => {
+      if (i < originalText.length) {
+        title.textContent += originalText.charAt(i);
+        i++;
+        setTimeout(typeWriter, 50);
+      }
+    };
+    
+    // Mulai efek ketik setelah animasi masuk
+    setTimeout(typeWriter, 1000);
+  }
+});
 
-btnCopy.onclick = async ()=>{
-  let active = document.querySelector("textarea:not([style*='display: none'])");
-  await navigator.clipboard.writeText(active.value);
-  btnCopy.textContent = "✔";
-  setTimeout(()=>btnCopy.textContent="COPY",700);
-};
+// Fungsi utilitas
+function formatDate(date) {
+  return new Date(date).toLocaleDateString('id-ID', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
 
-btnPaste.onclick = async ()=>{
-  let active = document.querySelector("textarea:not([style*='display: none'])");
-  const text = await navigator.clipboard.readText();
-  active.value += text;
-  saveData();
+// Update tanggal di footer
+function updateFooterDate() {
+  const today = new Date();
+  const dateElement = document.getElementById('currentDate');
+  if (dateElement) {
+    dateElement.textContent = formatDate(today);
+  }
+}
+
+// Panggil fungsi
+updateFooterDate();`
+    }
+  };
+  
+  saveProjects();
+  loadProject(projectId);
+}
+
+function loadProject(projectId) {
+  if (!projects[projectId]) return;
+  
+  currentProject = projects[projectId];
+  document.getElementById('projectName').textContent = currentProject.name;
+  document.getElementById('exportProjectName').textContent = currentProject.name;
+  document.getElementById('currentProjectName').value = currentProject.name;
+  
+  // Update editor content
+  const editor = document.getElementById('codeEditor');
+  editor.value = currentProject.files[currentTab] || '';
+  
+  // Update preview
   updatePreview();
-  btnPaste.textContent = "✔";
-  setTimeout(()=>btnPaste.textContent="PASTE",700);
-};
-
-
-// ---------------- RESET ------------------ //
-const btnReset = document.getElementById("btnReset");
-
-btnReset.onclick = () => {
-  let active = document.querySelector("textarea:not([style*='display: none'])");
-
-  active.value = "";       // kosongkan
-  saveData();              // simpan kosong
-  updatePreview();         // update live preview
-
-  btnReset.textContent = "✔";
-  setTimeout(() => btnReset.textContent = "CLEAR", 700);
-};
-
-
-// ====================== FIND & REPLACE ========================= //
-const findBox = document.getElementById("findReplaceBox");
-const btnFindPanel = document.getElementById("btnFindPanel");
-
-let findIndex = 0;
-let findMatches = [];
-let activeTA;
-
-// buka panel
-btnFindPanel.onclick = () => {
-  activeTA = document.querySelector("textarea:not([style*='display:none'])");
-  findBox.style.display = "block";
-  document.getElementById("findText").focus();
-};
-
-// tutup panel
-function closeFindBox() {
-  findBox.style.display = "none";
-  findMatches = [];
-  findIndex = 0;
+  updateTabs();
+  updateLineNumbers();
+  
+  // Save last project
+  localStorage.setItem('ide_last_project', projectId);
+  
+  showStatus(`Memuat proyek: ${currentProject.name}`);
 }
 
-// cari semua hasil
-function findAll() {
-  const word = document.getElementById("findText").value;
-  if (!word) return [];
+function saveProject() {
+  if (!currentProject) return;
+  
+  const editor = document.getElementById('codeEditor');
+  currentProject.files[currentTab] = editor.value;
+  currentProject.modified = new Date().toISOString();
+  
+  saveProjects();
+  showStatus(`Proyek "${currentProject.name}" disimpan`);
+}
 
-  const text = activeTA.value;
-  let pos = text.indexOf(word);
-  let list = [];
+function saveProjects() {
+  localStorage.setItem('ide_projects', JSON.stringify(projects));
+}
 
-  while (pos !== -1) {
-    list.push(pos);
-    pos = text.indexOf(word, pos + word.length);
+function createNewProject(name, template = 'blank') {
+  const projectId = 'project_' + Date.now();
+  const now = new Date().toISOString();
+  
+  let html = '', css = '', js = '';
+  
+  // Set template content
+  switch(template) {
+    case 'html5':
+      html = `<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${name}</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Selamat Datang di ${name}</h1>
+  </header>
+  <main>
+    <p>Mulai mengembangkan website Anda di sini.</p>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>`;
+      css = `/* Styles untuk ${name} */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  padding: 20px;
+}
+
+header {
+  background: #4dabf7;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  margin-bottom: 10px;
+}`;
+      js = `// JavaScript untuk ${name}
+console.log('${name} loaded!');
+
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Document ready');
+});`;
+      break;
+      
+    case 'portfolio':
+      html = `<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - ${name}</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <nav>
+    <div class="logo">${name}</div>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  
+  <section id="home">
+    <div class="hero">
+      <h1>Halo, saya ${name}</h1>
+      <p>Web Developer & Designer</p>
+      <a href="#projects" class="btn">Lihat Projek Saya</a>
+    </div>
+  </section>
+  
+  <script src="script.js"></script>
+</body>
+</html>`;
+      break;
+      
+    default: // blank
+      html = `<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${name}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>${name}</h1>
+  <p>Proyek baru dibuat dengan WEB IDE v3.0</p>
+</body>
+</html>`;
   }
-  return list;
+  
+  projects[projectId] = {
+    id: projectId,
+    name: name,
+    description: document.getElementById('projectDescription').value || '',
+    created: now,
+    modified: now,
+    files: { html, css, js }
+  };
+  
+  saveProjects();
+  loadProject(projectId);
+  updateProjectsList();
+  
+  showStatus(`Proyek "${name}" dibuat`);
 }
 
-// pilih next
-function findNext() {
-  activeTA = document.querySelector("textarea:not([style*='display:none'])");
-
-  findMatches = findAll();
-  if (findMatches.length === 0) {
-    alert("Teks tidak ditemukan.");
+function deleteProject(projectId) {
+  if (Object.keys(projects).length <= 1) {
+    showStatus('Tidak bisa menghapus satu-satunya proyek', 'error');
     return;
   }
-
-  findIndex = (findIndex + 1) % findMatches.length;
-
-  const pos = findMatches[findIndex];
-  const word = document.getElementById("findText").value;
-
-  activeTA.focus();
-  activeTA.setSelectionRange(pos, pos + word.length);
-}
-
-// replace satu
-function replaceOne() {
-  if (!findMatches.length) findMatches = findAll();
-  if (!findMatches.length) return;
-
-  const from = document.getElementById("findText").value;
-  const to = document.getElementById("replaceText").value;
-
-  const pos = activeTA.selectionStart;
-  const end = activeTA.selectionEnd;
-
-  // hanya jika user sedang memilih kata yang dicari
-  if (activeTA.value.substring(pos, end) === from) {
-    activeTA.setRangeText(to, pos, end, "end");
-    autoSave();
-    updatePreview();
+  
+  if (confirm(`Hapus proyek "${projects[projectId].name}"?`)) {
+    delete projects[projectId];
+    saveProjects();
+    
+    // Load another project
+    const nextProjectId = Object.keys(projects)[0];
+    loadProject(nextProjectId);
+    updateProjectsList();
+    
+    showStatus('Proyek dihapus');
   }
-
-  findNext();
 }
 
-// replace all
-function replaceAll() {
-  const from = document.getElementById("findText").value;
-  const to = document.getElementById("replaceText").value;
-
-  if (!from) return;
-
-  activeTA.value = activeTA.value.split(from).join(to);
-
-  autoSave();
-  updatePreview();
+function updateProjectsList() {
+  const list = document.getElementById('projectsList');
+  list.innerHTML = '';
   
-  alert("Selesai mengganti semua.");
+  Object.values(projects).forEach(project => {
+    const item = document.createElement('div');
+    item.className = `project-item ${project.id === currentProject?.id ? 'active' : ''}`;
+    item.innerHTML = `
+      <div class="project-info">
+        <h4>${project.name}</h4>
+        <p>${new Date(project.modified).toLocaleDateString('id-ID')}</p>
+      </div>
+      <div class="project-actions">
+        <button class="btn btn-sm btn-danger delete-project" data-id="${project.id}">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    `;
+    
+    item.onclick = (e) => {
+      if (!e.target.closest('.delete-project')) {
+        loadProject(project.id);
+        closeModal('menuModal');
+      }
+    };
+    
+    list.appendChild(item);
+  });
+  
+  // Add delete event listeners
+  document.querySelectorAll('.delete-project').forEach(btn => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      deleteProject(btn.dataset.id);
+    };
+  });
 }
 
-
-
+// ============ THEME SYSTEM ============
+function initializeTheme() {
+  const themeToggle = document.getElementById('themeToggle');
   
-// ---------------- LOAD SAVED DATA ----------------
-htmlEditor.value = localStorage.getItem("IDE_HTML") || "<h1>Hello world!</h1>";
-cssEditor.value = localStorage.getItem("IDE_CSS") || "body { background: white; font-family: sans-serif; }";
-jsEditor.value = localStorage.getItem("IDE_JS") || "console.log('JS berjalan!');";
+  if (theme === 'light') {
+    document.body.classList.add('light-theme');
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+  } else {
+    document.body.classList.remove('light-theme');
+    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+  }
+  
+  themeToggle.onclick = () => {
+    if (theme === 'dark') {
+      theme = 'light';
+      document.body.classList.add('light-theme');
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    } else {
+      theme = 'dark';
+      document.body.classList.remove('light-theme');
+      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    }
+    localStorage.setItem('ide_theme', theme);
+    showStatus('Tema diganti');
+  };
+}
 
+// ============ EDITOR SYSTEM ============
+function initializeEditor() {
+  const editor = document.getElementById('codeEditor');
+  
+  // Apply settings
+  editor.style.fontSize = settings.fontSize + 'px';
+  editor.style.tabSize = settings.tabSize + 'ch';
+  editor.style.whiteSpace = settings.wordWrap ? 'pre-wrap' : 'pre';
+  
+  // Load content
+  if (currentProject) {
+    editor.value = currentProject.files[currentTab] || '';
+  }
+  
+  // Input event with auto-save
+  let saveTimer;
+  editor.addEventListener('input', () => {
+    if (currentProject) {
+      currentProject.files[currentTab] = editor.value;
+      currentProject.modified = new Date().toISOString();
+      
+      // Auto-save projects
+      clearTimeout(saveTimer);
+      if (settings.autoSave > 0) {
+        saveTimer = setTimeout(() => {
+          saveProjects();
+        }, parseInt(settings.autoSave));
+      }
+      
+      // Auto-preview for HTML
+      if (currentTab === 'html' && settings.autoPreview) {
+        clearTimeout(window.previewTimer);
+        window.previewTimer = setTimeout(updatePreview, 500);
+      }
+    }
+    
+    updateLineNumbers();
+  });
+  
+  // Tab key support
+  editor.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const start = editor.selectionStart;
+      const end = editor.selectionEnd;
+      const tab = settings.tabSize === 'tab' ? '\t' : ' '.repeat(parseInt(settings.tabSize));
+      
+      if (e.shiftKey) {
+        // Remove indentation
+        const before = editor.value.substring(0, start);
+        const after = editor.value.substring(end);
+        const lineStart = before.lastIndexOf('\n') + 1;
+        const line = editor.value.substring(lineStart, start);
+        
+        if (line.startsWith(tab)) {
+          editor.value = editor.value.substring(0, lineStart) + line.substring(tab.length) + editor.value.substring(start);
+          editor.selectionStart = editor.selectionEnd = start - tab.length;
+        }
+      } else {
+        // Add indentation
+        editor.value = editor.value.substring(0, start) + tab + editor.value.substring(end);
+        editor.selectionStart = editor.selectionEnd = start + tab.length;
+      }
+      
+      if (currentProject) {
+        currentProject.files[currentTab] = editor.value;
+      }
+    }
+    
+    // Ctrl/Cmd + S to save
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      saveProject();
+    }
+    
+    // Ctrl/Cmd + F to find
+    if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+      e.preventDefault();
+      openModal('findModal');
+    }
+  });
+  
+  updateTabs();
+  updateLineNumbers();
+}
+
+function updateTabs() {
+  const tabContainer = document.getElementById('tabContainer');
+  const mobileTabs = document.getElementById('mobileTabs');
+  
+  const tabs = [
+    { id: 'html', name: 'index.html', icon: 'fa-html5' },
+    { id: 'css', name: 'style.css', icon: 'fa-css3-alt' },
+    { id: 'js', name: 'script.js', icon: 'fa-js' }
+  ];
+  
+  // Desktop tabs
+  tabContainer.innerHTML = '';
+  tabs.forEach(tab => {
+    const tabElement = document.createElement('button');
+    tabElement.className = `tab ${tab.id === currentTab ? 'active' : ''}`;
+    tabElement.innerHTML = `
+      <i class="fab ${tab.icon}"></i> ${tab.name}
+      ${tab.id !== 'html' ? '<span class="tab-close">×</span>' : ''}
+    `;
+    
+    tabElement.onclick = () => switchTab(tab.id);
+    
+    if (tab.id !== 'html') {
+      const closeBtn = tabElement.querySelector('.tab-close');
+      closeBtn.onclick = (e) => {
+        e.stopPropagation();
+        if (confirm(`Reset file ${tab.name}?`)) {
+          currentProject.files[tab.id] = '';
+          switchTab(tab.id);
+        }
+      };
+    }
+    
+    tabContainer.appendChild(tabElement);
+  });
+  
+  // Add new tab button
+  const addTabBtn = document.createElement('button');
+  addTabBtn.className = 'tab add-tab';
+  addTabBtn.innerHTML = '<i class="fas fa-plus"></i>';
+  addTabBtn.title = 'Tambah file baru';
+  addTabBtn.onclick = addNewFile;
+  tabContainer.appendChild(addTabBtn);
+  
+  // Mobile tabs
+  if (isMobile()) {
+    updateMobileTabs();
+  }
+}
+
+function updateMobileTabs() {
+  const mobileTabs = document.getElementById('mobileTabs');
+  mobileTabs.innerHTML = '';
+  
+  const tabs = [
+    { id: 'html', name: 'HTML', icon: 'fa-html5' },
+    { id: 'css', name: 'CSS', icon: 'fa-css3-alt' },
+    { id: 'js', name: 'JS', icon: 'fa-js' }
+  ];
+  
+  tabs.forEach(tab => {
+    const tabBtn = document.createElement('button');
+    tabBtn.className = `btn btn-sm ${tab.id === currentTab ? 'btn-accent' : ''}`;
+    tabBtn.innerHTML = `<i class="fab ${tab.icon}"></i> ${tab.name}`;
+    tabBtn.onclick = () => switchTab(tab.id);
+    mobileTabs.appendChild(tabBtn);
+  });
+}
+
+function switchTab(tabId) {
+  // Save current tab content
+  const editor = document.getElementById('codeEditor');
+  if (currentProject) {
+    currentProject.files[currentTab] = editor.value;
+  }
+  
+  // Switch to new tab
+  currentTab = tabId;
+  editor.value = currentProject?.files[tabId] || '';
+  
+  // Update UI
+  updateTabs();
+  updateLineNumbers();
+  
+  // Update mobile button state
+  if (isMobile()) {
+    document.querySelectorAll('.mobile-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('mobileTabBtn').classList.add('active');
+  }
+  
+  showStatus(`Membuka ${tabId.toUpperCase()}`);
+}
+
+function addNewFile() {
+  const fileName = prompt('Nama file baru (dengan ekstensi):', 'newfile.js');
+  if (fileName) {
+    // For simplicity, we'll just show a message
+    // In a full implementation, you would add this as a new tab
+    showStatus(`Fitur tambah file baru akan segera hadir!`, 'warning');
+  }
+}
+
+function updateLineNumbers() {
+  const editor = document.getElementById('codeEditor');
+  const lineNumbers = document.getElementById('lineNumbers');
+  
+  if (!settings.lineNumbers) {
+    lineNumbers.style.display = 'none';
+    return;
+  }
+  
+  lineNumbers.style.display = 'block';
+  const lines = editor.value.split('\n').length;
+  const scrollTop = editor.scrollTop;
+  
+  let numbers = '';
+  for (let i = 1; i <= lines; i++) {
+    numbers += i + '<br>';
+  }
+  
+  lineNumbers.innerHTML = numbers;
+  lineNumbers.scrollTop = scrollTop;
+}
+
+function formatCode() {
+  const editor = document.getElementById('codeEditor');
+  let formatted = editor.value;
+  
+  // Simple formatting
+  if (currentTab === 'html') {
+    formatted = formatted
+      .replace(/(>)(<)(\/*)/g, '$1\n$2$3')
+      .replace(/^(.*)$/gm, line => line.trim())
+      .replace(/\n\s*\n/g, '\n');
+  } else if (currentTab === 'css') {
+    formatted = formatted
+      .replace(/{/g, ' {\n  ')
+      .replace(/}/g, '\n}\n\n')
+      .replace(/;/g, ';\n  ')
+      .replace(/,\s*/g, ', ');
+  } else if (currentTab === 'js') {
+    formatted = formatted
+      .replace(/{/g, ' {\n  ')
+      .replace(/}/g, '\n}\n\n')
+      .replace(/;/g, ';\n')
+      .replace(/(\w+)\(/g, '$1(');
+  }
+  
+  editor.value = formatted;
+  if (currentProject) {
+    currentProject.files[currentTab] = formatted;
+  }
+  
+  updateLineNumbers();
+  showStatus('Kode diformat');
+}
+
+// ============ PREVIEW SYSTEM ============
+function updatePreview() {
+  const iframe = document.getElementById('previewFrame');
+  if (!currentProject) return;
+  
+  const html = currentProject.files.html || '';
+  const css = currentProject.files.css || '';
+  const js = currentProject.files.js || '';
+  
+  const fullHTML = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>${css}</style>
+</head>
+<body>
+  ${html}
+  <script>${js}<\/script>
+</body>
+</html>`;
+  
+  try {
+    iframe.contentDocument.open();
+    iframe.contentDocument.write(fullHTML);
+    iframe.contentDocument.close();
+  } catch (error) {
+    console.error('Preview error:', error);
+  }
+}
+
+function togglePreview() {
+  const previewArea = document.getElementById('previewArea');
+  const editorArea = document.getElementById('editorArea');
+  const mobilePreviewBtn = document.getElementById('mobilePreviewBtn');
+  
+  if (previewArea.style.display === 'none') {
+    previewArea.style.display = 'block';
+    editorArea.style.display = 'flex';
+    mobilePreviewBtn.innerHTML = '<i class="fas fa-eye"></i><span>Preview</span>';
+    showStatus('Mode editor+preview');
+  } else {
+    previewArea.style.display = 'none';
+    editorArea.style.display = 'flex';
+    editorArea.style.height = '100%';
+    mobilePreviewBtn.innerHTML = '<i class="fas fa-code"></i><span>Editor</span>';
+    showStatus('Mode editor penuh');
+  }
+}
+
+// ============ MODAL SYSTEM ============
+function initializeModals() {
+  // Menu modal
+  document.getElementById('menuBtn').onclick = () => openModal('menuModal');
+  document.getElementById('closeMenu').onclick = () => closeModal('menuModal');
+  document.getElementById('mobileMenuBtn').onclick = () => openModal('menuModal');
+  
+  // New project modal
+  document.getElementById('newProjectBtn').onclick = () => openModal('newProjectModal');
+  document.getElementById('closeNewProject').onclick = () => closeModal('newProjectModal');
+  document.getElementById('cancelNewProject').onclick = () => closeModal('newProjectModal');
+  document.getElementById('createProjectBtn').onclick = createProjectFromModal;
+  
+  // Export modal
+  document.getElementById('btnExport').onclick = () => openModal('exportModal');
+  document.getElementById('mobileSaveBtn').onclick = () => openModal('exportModal');
+  document.getElementById('closeExport').onclick = () => closeModal('exportModal');
+  document.getElementById('cancelExport').onclick = () => closeModal('exportModal');
+  document.getElementById('confirmExport').onclick = exportProject;
+  
+  // Find modal
+  document.getElementById('btnFind').onclick = () => openModal('findModal');
+  document.getElementById('mobileFindBtn').onclick = () => openModal('findModal');
+  document.getElementById('closeFind').onclick = () => closeModal('findModal');
+  document.getElementById('findNextBtn').onclick = findNext;
+  document.getElementById('replaceBtn').onclick = replaceText;
+  document.getElementById('replaceAllBtn').onclick = replaceAllText;
+  
+  // Tools modal (mobile)
+  document.getElementById('mobileToolsBtn').onclick = () => openModal('toolsModal');
+  document.getElementById('closeTools').onclick = () => closeModal('toolsModal');
+  
+  // Settings modal
+  document.getElementById('settingsBtn').onclick = () => openModal('settingsModal');
+  document.getElementById('closeSettings').onclick = () => closeModal('settingsModal');
+  document.getElementById('saveSettingsBtn').onclick = saveSettings;
+  
+  // Help modal
+  document.getElementById('helpBtn').onclick = () => openModal('helpModal');
+  document.getElementById('closeHelp').onclick = () => closeModal('helpModal');
+  
+  // Project name edit
+  document.getElementById('currentProjectName').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && currentProject) {
+      currentProject.name = e.target.value;
+      document.getElementById('projectName').textContent = currentProject.name;
+      saveProjects();
+      updateProjectsList();
+      showStatus('Nama proyek diperbarui');
+    }
+  });
+  
+  // Close modals on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(modal => {
+    modal.onclick = (e) => {
+      if (e.target === modal) {
+        closeModal(modal.id);
+      }
+    };
+  });
+}
+
+function openModal(modalId) {
+  document.getElementById(modalId).style.display = 'flex';
+  
+  // Special handling for each modal
+  if (modalId === 'findModal') {
+    document.getElementById('findInput').focus();
+  } else if (modalId === 'settingsModal') {
+    loadSettingsToForm();
+  }
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).style.display = 'none';
+}
+
+function createProjectFromModal() {
+  const name = document.getElementById('projectNameInput').value.trim();
+  const template = document.getElementById('projectTemplate').value;
+  
+  if (!name) {
+    showStatus('Nama proyek tidak boleh kosong', 'error');
+    return;
+  }
+  
+  createNewProject(name, template);
+  closeModal('newProjectModal');
+  
+  // Reset form
+  document.getElementById('projectNameInput').value = '';
+  document.getElementById('projectDescription').value = '';
+}
+
+// ============ EXPORT SYSTEM ============
+function exportProject() {
+  if (!currentProject) return;
+  
+  const exportType = document.querySelector('input[name="exportType"]:checked').value;
+  
+  if (exportType === 'html') {
+    exportAsHTML();
+  } else if (exportType === 'zip') {
+    exportAsZIP();
+  } else if (exportType === 'json') {
+    exportAsJSON();
+  }
+  
+  closeModal('exportModal');
+}
+
+function exportAsHTML() {
+  const html = currentProject.files.html || '';
+  const css = currentProject.files.css || '';
+  const js = currentProject.files.js || '';
+  
+  const fullHTML = `<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${currentProject.name}</title>
+  <style>
+    ${css}
+  </style>
+</head>
+<body>
+  ${html}
+  <script>
+    ${js}
+  <\/script>
+</body>
+</html>`;
+  
+  downloadFile(`${currentProject.name}.html`, fullHTML, 'text/html');
+  showStatus(`Diexport sebagai HTML: ${currentProject.name}.html`);
+}
+
+function exportAsZIP() {
+  // Simple implementation - in reality you'd use a ZIP library
+  const files = {
+    'index.html': currentProject.files.html || '',
+    'style.css': currentProject.files.css || '',
+    'script.js': currentProject.files.js || ''
+  };
+  
+  // For now, we'll just create a text file with instructions
+  const zipContent = `WEB IDE Export - ${currentProject.name}
+
+File-file yang diexport:
+
+1. index.html
+${'='.repeat(50)}
+${currentProject.files.html || ''}
+
+2. style.css
+${'='.repeat(50)}
+${currentProject.files.css || ''}
+
+3. script.js
+${'='.repeat(50)}
+${currentProject.files.js || ''}
+
+Simpan masing-masing konten di atas ke file terpisah.
+
+Untuk membuat ZIP sebenarnya, WEB IDE perlu menggunakan library JSZip.
+`;
+  
+  downloadFile(`${currentProject.name}_files.txt`, zipContent, 'text/plain');
+  showStatus(`Diexport sebagai file teks (simpan manual sebagai file terpisah)`);
+}
+
+function exportAsJSON() {
+  const exportData = {
+    project: currentProject,
+    exportDate: new Date().toISOString(),
+    exportSource: 'WEB IDE v3.0'
+  };
+  
+  downloadFile(
+    `${currentProject.name}_backup.json`,
+    JSON.stringify(exportData, null, 2),
+    'application/json'
+  );
+  
+  showStatus(`Backup JSON dibuat: ${currentProject.name}_backup.json`);
+}
+
+function downloadFile(filename, content, type) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ============ FIND/REPLACE SYSTEM ============
+function findNext() {
+  const findText = document.getElementById('findInput').value;
+  const editor = document.getElementById('codeEditor');
+  
+  if (!findText) {
+    showStatus('Masukkan teks untuk dicari', 'error');
+    return;
+  }
+  
+  const startPos = editor.selectionEnd;
+  const content = editor.value;
+  const index = content.indexOf(findText, startPos);
+  
+  if (index === -1) {
+    // Wrap around
+    const wrapIndex = content.indexOf(findText, 0);
+    if (wrapIndex === -1) {
+      showStatus('Teks tidak ditemukan', 'error');
+      return;
+    }
+    editor.setSelectionRange(wrapIndex, wrapIndex + findText.length);
+  } else {
+    editor.setSelectionRange(index, index + findText.length);
+  }
+  
+  editor.focus();
+  showStatus('Teks ditemukan');
+}
+
+function replaceText() {
+  const findText = document.getElementById('findInput').value;
+  const replaceText = document.getElementById('replaceInput').value;
+  const editor = document.getElementById('codeEditor');
+  
+  if (!findText) {
+    showStatus('Masukkan teks untuk diganti', 'error');
+    return;
+  }
+  
+  const start = editor.selectionStart;
+  const end = editor.selectionEnd;
+  
+  if (editor.value.substring(start, end) === findText) {
+    editor.setRangeText(replaceText, start, end, 'end');
+    if (currentProject) {
+      currentProject.files[currentTab] = editor.value;
+    }
+    showStatus('Teks diganti');
+    
+    // Find next
+    findNext();
+  } else {
+    findNext();
+  }
+}
+
+function replaceAllText() {
+  const findText = document.getElementById('findInput').value;
+  const replaceText = document.getElementById('replaceInput').value;
+  const editor = document.getElementById('codeEditor');
+  
+  if (!findText) {
+    showStatus('Masukkan teks untuk diganti', 'error');
+    return;
+  }
+  
+  const regex = new RegExp(findText, 'g');
+  const count = (editor.value.match(regex) || []).length;
+  
+  editor.value = editor.value.replace(regex, replaceText);
+  if (currentProject) {
+    currentProject.files[currentTab] = editor.value;
+  }
+  
+  showStatus(`${count} teks diganti`);
+}
+
+// ============ SETTINGS SYSTEM ============
+function loadSettings() {
+  const saved = localStorage.getItem('ide_settings');
+  if (saved) {
+    settings = { ...settings, ...JSON.parse(saved) };
+  }
+}
+
+function loadSettingsToForm() {
+  document.getElementById('fontSize').value = settings.fontSize;
+  document.getElementById('tabSize').value = settings.tabSize;
+  document.getElementById('autoSave').value = settings.autoSave;
+  document.getElementById('wordWrap').checked = settings.wordWrap;
+  document.getElementById('lineNumbersToggle').checked = settings.lineNumbers;
+  document.getElementById('autoPreview').checked = settings.autoPreview;
+}
+
+function saveSettings() {
+  settings.fontSize = document.getElementById('fontSize').value;
+  settings.tabSize = document.getElementById('tabSize').value;
+  settings.autoSave = document.getElementById('autoSave').value;
+  settings.wordWrap = document.getElementById('wordWrap').checked;
+  settings.lineNumbers = document.getElementById('lineNumbersToggle').checked;
+  settings.autoPreview = document.getElementById('autoPreview').checked;
+  
+  // Apply to editor
+  const editor = document.getElementById('codeEditor');
+  editor.style.fontSize = settings.fontSize + 'px';
+  editor.style.tabSize = settings.tabSize + 'ch';
+  editor.style.whiteSpace = settings.wordWrap ? 'pre-wrap' : 'pre';
+  
+  // Show/hide line numbers
+  document.getElementById('lineNumbers').style.display = settings.lineNumbers ? 'block' : 'none';
+  
+  // Save to localStorage
+  localStorage.setItem('ide_settings', JSON.stringify(settings));
+  
+  closeModal('settingsModal');
+  showStatus('Pengaturan disimpan');
+}
+
+// ============ MOBILE UI ============
+function initializeMobileUI() {
+  // Mobile toolbar buttons
+  document.getElementById('mobileTabBtn').onclick = () => {
+    // Toggle mobile tabs visibility
+    const mobileTabs = document.getElementById('mobileTabs');
+    mobileTabs.style.display = mobileTabs.style.display === 'none' ? 'flex' : 'none';
+    
+    // Update button state
+    document.querySelectorAll('.mobile-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.closest('.mobile-btn').classList.add('active');
+  };
+  
+  document.getElementById('mobileSaveBtn').onclick = () => {
+    saveProject();
+    document.querySelectorAll('.mobile-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.closest('.mobile-btn').classList.add('active');
+  };
+  
+  document.getElementById('mobilePreviewBtn').onclick = () => {
+    togglePreview();
+    document.querySelectorAll('.mobile-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.closest('.mobile-btn').classList.add('active');
+  };
+  
+  document.getElementById('mobileToolsBtn').onclick = () => {
+    openModal('toolsModal');
+    document.querySelectorAll('.mobile-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.closest('.mobile-btn').classList.add('active');
+  };
+  
+  // Mobile tools buttons
+  document.getElementById('mobileCopyBtn').onclick = copyCode;
+  document.getElementById('mobilePasteBtn').onclick = pasteCode;
+  document.getElementById('mobileFormatBtn').onclick = formatCode;
+  document.getElementById('mobileFindBtn').onclick = () => openModal('findModal');
+  document.getElementById('mobileFullBtn').onclick = toggleFullscreen;
+  document.getElementById('mobileClearBtn').onclick = clearCurrentFile;
+  document.getElementById('mobileUndoBtn').onclick = undo;
+  document.getElementById('mobileRedoBtn').onclick = redo;
+  
+  // Clear data button
+  document.getElementById('clearDataBtn').onclick = clearAllData;
+}
+
+// ============ UTILITY FUNCTIONS ============
+function initializeEventListeners() {
+  // Save button
+  document.getElementById('saveBtn').onclick = saveProject;
+  document.getElementById('btnSaveFile').onclick = saveProject;
+  
+  // Format button
+  document.getElementById('btnFormat').onclick = formatCode;
+  
+  // Copy button
+  document.getElementById('btnCopy').onclick = copyCode;
+  
+  // Fullscreen button
+  document.getElementById('btnFullscreen').onclick = toggleFullscreen;
+  document.getElementById('exitPreviewBtn').onclick = toggleFullscreenPreview;
+  
+  // Resize handle
+  initializeResizable();
+  
+  // Prevent zoom on mobile
+  document.addEventListener('touchstart', (e) => {
+    if (e.touches.length > 1) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+  
+  // Handle keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    // Escape closes modals
+    if (e.key === 'Escape') {
+      const openModal = document.querySelector('.modal-overlay[style*="display: flex"]');
+      if (openModal) {
+        closeModal(openModal.id);
+      }
+    }
+  });
+}
+
+function initializeResizable() {
+  const resizeHandle = document.getElementById('resizeHandle');
+  const previewArea = document.getElementById('previewArea');
+  const editorArea = document.getElementById('editorArea');
+  const container = document.getElementById('container');
+  
+  let isResizing = false;
+  
+  resizeHandle.addEventListener('mousedown', startResize);
+  resizeHandle.addEventListener('touchstart', startResize);
+  
+  function startResize(e) {
+    isResizing = true;
+    e.preventDefault();
+    
+    document.addEventListener('mousemove', resize);
+    document.addEventListener('touchmove', resize);
+    document.addEventListener('mouseup', stopResize);
+    document.addEventListener('touchend', stopResize);
+  }
+  
+  function resize(e) {
+    if (!isResizing) return;
+    
+    const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+    if (!clientY) return;
+    
+    const containerRect = container.getBoundingClientRect();
+    const newHeight = clientY - containerRect.top;
+    
+    // Limit min and max heights
+    const minHeight = 100;
+    const maxHeight = containerRect.height - 150;
+    
+    if (newHeight >= minHeight && newHeight <= maxHeight) {
+      previewArea.style.height = newHeight + 'px';
+      editorArea.style.height = (containerRect.height - newHeight) + 'px';
+    }
+  }
+  
+  function stopResize() {
+    isResizing = false;
+    document.removeEventListener('mousemove', resize);
+    document.removeEventListener('touchmove', resize);
+    document.removeEventListener('mouseup', stopResize);
+    document.removeEventListener('touchend', stopResize);
+  }
+}
+
+async function copyCode() {
+  try {
+    const editor = document.getElementById('codeEditor');
+    await navigator.clipboard.writeText(editor.value);
+    showStatus('Kode disalin ke clipboard');
+  } catch (error) {
+    showStatus('Gagal menyalin', 'error');
+  }
+}
+
+async function pasteCode() {
+  try {
+    const text = await navigator.clipboard.readText();
+    const editor = document.getElementById('codeEditor');
+    const start = editor.selectionStart;
+    const end = editor.selectionEnd;
+    
+    editor.value = editor.value.substring(0, start) + text + editor.value.substring(end);
+    editor.selectionStart = editor.selectionEnd = start + text.length;
+    
+    if (currentProject) {
+      currentProject.files[currentTab] = editor.value;
+    }
+    
+    showStatus('Kode ditempel');
+  } catch (error) {
+    showStatus('Gagal menempel', 'error');
+  }
+}
+
+function clearCurrentFile() {
+  if (confirm('Hapus semua kode di file saat ini?')) {
+    const editor = document.getElementById('codeEditor');
+    editor.value = '';
+    
+    if (currentProject) {
+      currentProject.files[currentTab] = '';
+    }
+    
+    showStatus('File dikosongkan');
+  }
+}
+
+function undo() {
+  // Simple undo - in reality would need a proper undo stack
+  showStatus('Fitur undo akan segera hadir!', 'warning');
+}
+
+function redo() {
+  // Simple redo
+  showStatus('Fitur redo akan segera hadir!', 'warning');
+}
+
+function toggleFullscreen() {
+  const editorArea = document.getElementById('editorArea');
+  const btn = document.getElementById('btnFullscreen');
+  
+  if (!isFullscreen) {
+    editorArea.style.position = 'fixed';
+    editorArea.style.top = '0';
+    editorArea.style.left = '0';
+    editorArea.style.width = '100vw';
+    editorArea.style.height = '100vh';
+    editorArea.style.zIndex = '2000';
+    btn.innerHTML = '<i class="fas fa-compress"></i> Normal';
+    showStatus('Editor mode layar penuh');
+  } else {
+    editorArea.style.position = '';
+    editorArea.style.top = '';
+    editorArea.style.left = '';
+    editorArea.style.width = '';
+    editorArea.style.height = '';
+    editorArea.style.zIndex = '';
+    btn.innerHTML = '<i class="fas fa-expand"></i> Full';
+    showStatus('Editor mode normal');
+  }
+  
+  isFullscreen = !isFullscreen;
+  updateLineNumbers();
+}
+
+function toggleFullscreenPreview() {
+  const previewArea = document.getElementById('previewArea');
+  const exitBtn = document.getElementById('exitPreviewBtn');
+  
+  if (!isPreviewFullscreen) {
+    previewArea.style.position = 'fixed';
+    previewArea.style.top = '0';
+    previewArea.style.left = '0';
+    previewArea.style.width = '100vw';
+    previewArea.style.height = '100vh';
+    previewArea.style.zIndex = '2000';
+    exitBtn.style.display = 'flex';
+    showStatus('Preview mode layar penuh');
+  } else {
+    previewArea.style.position = '';
+    previewArea.style.top = '';
+    previewArea.style.left = '';
+    previewArea.style.width = '';
+    previewArea.style.height = '';
+    previewArea.style.zIndex = '';
+    exitBtn.style.display = 'none';
+    showStatus('Preview mode normal');
+  }
+  
+  isPreviewFullscreen = !isPreviewFullscreen;
+}
+
+function clearAllData() {
+  if (confirm('HAPUS SEMUA DATA?\nIni akan menghapus semua proyek dan pengaturan. Tindakan ini tidak dapat dibatalkan!')) {
+    localStorage.clear();
+    showStatus('Semua data dihapus. Halaman akan dimuat ulang.', 'warning');
+    setTimeout(() => location.reload(), 2000);
+  }
+}
+
+function showStatus(message, type = 'success') {
+  const status = document.getElementById('status');
+  status.textContent = message;
+  status.style.background = type === 'error' ? 'var(--danger)' : 
+                           type === 'warning' ? 'var(--warning)' : 
+                           'var(--success)';
+  status.style.color = type === 'warning' ? 'var(--text-primary)' : 'white';
+  status.style.opacity = '1';
+  
+  setTimeout(() => {
+    status.style.opacity = '0';
+  }, 3000);
+}
+
+// Initialize
 updatePreview();
 </script>
 
