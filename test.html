@@ -105,7 +105,36 @@ textarea {
   height: calc(100vh - 90px) !important;
 }
 
-  
+
+.btn {
+  padding: 5px 10px;
+  font-size: 18px;
+  background:#222;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+.btn:active {
+  opacity:0.7;
+}
+
+
+.preview-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999;
+  background: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+.hide-editor {
+  display: none !important;
+}
+
 </style>
 </head>
 <body>
@@ -128,6 +157,9 @@ textarea {
 
     <!-- tombol fullscreen -->
     <button id="btnFullscreen" onclick="toggleFullscreen()">↗</button>
+
+    <button id="previewFullBtn" class="btn">⛶</button>
+
   </div>
 
   <textarea id="htmlEditor"></textarea>
@@ -198,6 +230,32 @@ function toggleFullscreen() {
 
   isFull = !isFull;
 }
+
+
+const previewFullBtn = document.getElementById("previewFullBtn");
+const previewArea = document.getElementById("previewArea");
+const editor = document.getElementById("editor");
+
+
+let previewFullscreen = false;
+
+previewFullBtn.onclick = () => {
+  previewFullscreen = !previewFullscreen;
+
+if (previewFullscreen) {
+  previewArea.classList.add("preview-fullscreen");
+  editor.classList.add("hide-editor");
+  previewFullBtn.textContent = "↙";
+  document.body.style.overflow = "hidden";
+} else {
+  previewArea.classList.remove("preview-fullscreen");
+  editor.classList.remove("hide-editor");
+  previewFullBtn.textContent = "⛶";
+  document.body.style.overflow = "auto";
+}
+
+};
+
 
   
 // ---------------- LOAD SAVED DATA ----------------
