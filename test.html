@@ -2,55 +2,50 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>WEB IDE</title>
+<title>WEB IDE v1.1</title>
+
 <style>
 body {
+  background: #555;
+  font-family: sans-serif;
   margin: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  font-family: monospace;
 }
 
-header {
+/* HEADER */
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   background: #222;
-  color: #fff;
-  padding: 8px 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 10px;
+  z-index: 10;
+}
+#header #title {
+  font-weight: bold;
+  color: white;
+  padding-left: 10px;
 }
 
-header button {
-  background: #444;
+/* PREVIEW */
+#previewArea {
+  position: absolute;
+  top: 42px;
+  left: 0;
+  width: 100%;
+  height: 60%;
+}
+#previewFrame {
+  width: 100%;
+  height: 100%;
   border: none;
-  padding: 5px 5px;
-  color: #fff;
-  cursor: pointer;
-  border-radius: 8px;
 }
 
-#container {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
-#editorArea {
-  width: 50%;
-  resize: horizontal;
-  overflow: auto;
-  border-right: 3px solid #777;
-  display: flex;
-  flex-direction: column;
-}
-
+/* TABS */
 #tabs {
   display: flex;
   background: #333;
 }
-
 #tabs button {
   flex: 1;
   border: none;
@@ -59,118 +54,91 @@ header button {
   color: #fff;
   cursor: pointer;
 }
-
 #tabs button.active {
-  background: #555;
+  background: #257;
+}
+
+/* Fullscreen button khusus */
+#btnFullscreen {
+  flex: 0 0 auto;
+  width: 100px;
+  background: #444;
+}
+
+/* EDITOR */
+#editor {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
 
 textarea {
-  flex: 1;
   width: 100%;
-  background: #1e1e1e;
-  color: #fff;
-  border: none;
-  padding: 10px;
+  height: 250px;
+  padding: 8px;
+  background: #222;
+  color: white;
   font-size: 14px;
+  border: none;
   outline: none;
-  resize: none;
-  touch-action: manipulation;
 }
 
-#previewArea {
-  flex: 1;
-  position: relative;
+/* FULLSCREEN MODE */
+.fullscreen-editor {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999 !important;
+  background: #000 !important;
 }
-
-#previewFrame {
-  width: 100%;
-  height: 100%;
-  border: none;
+.fullscreen-editor textarea {
+  height: calc(100vh - 50px) !important;
 }
-
-#fullscreenBtn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #0008;
-  color: #fff;
-  padding: 5px 10px;
-  border: none;
-  cursor: pointer;
-}
-
-/* Light mode */
-body.light {
-  background: #f0f0f0;
-}
-
-body.light textarea {
-  background: #fff;
-  color: #000;
-}
-
-body.light header {
-  background: #ddd;
-  color: #000;
-}
-
-body.light #tabs {
-  background: #ccc;
-}
-
-body.light #tabs button {
-  background: #ccc;
-  color: #000;
-}
-
-body.light #tabs button.active {
-  background: #eee;
+.fullscreen-header {
+  background: #111;
+  padding: 10px;
+  color: white;
+  text-align: center;
 }
 </style>
 </head>
 <body>
 
-<header>
-  <div>WEB IDE</div>
-  <div>
-    <button onclick="toggleMode()">Mode</button>
-    <button onclick="saveProject()">Save</button>
-    <button onclick="loadProject()">Load</button>
-    <button onclick="exportProject()">Export</button>
-    <button onclick="importProject()">Import</button>
-  </div>
-</header>
+<div id="header">
+  <span id="title">WEB IDE v1.1</span>
+</div>
 
-<div id="container">
+<div id="previewArea">
+  <iframe id="previewFrame"></iframe>
+</div>
 
-  <div id="editorArea">
+<!-- EDITOR AREA -->
+<div id="editor">
 
-    <div id="tabs">
-      <button class="active" onclick="switchTab('html')">HTML</button>
-      <button onclick="switchTab('css')">CSS</button>
-      <button onclick="switchTab('js')">JS</button>
-    </div>
+  <div id="tabs">
+    <button class="active" onclick="switchTab('html')">HTML</button>
+    <button onclick="switchTab('css')">CSS</button>
+    <button onclick="switchTab('js')">JS</button>
 
-    <textarea id="htmlEditor"></textarea>
-    <textarea id="cssEditor" style="display:none"></textarea>
-    <textarea id="jsEditor" style="display:none"></textarea>
-
+    <!-- tombol fullscreen -->
+    <button id="btnFullscreen" onclick="toggleFullscreen()">Fullscreen</button>
   </div>
 
-  <div id="previewArea">
-    <iframe id="previewFrame"></iframe>
-    <button id="fullscreenBtn" onclick="toggleFullscreen()">Fullscreen</button>
-  </div>
+  <textarea id="htmlEditor"></textarea>
+  <textarea id="cssEditor" style="display:none"></textarea>
+  <textarea id="jsEditor" style="display:none"></textarea>
 
 </div>
 
 <script>
-
-// ================= TAB =====================
+// ---------------- TAB ----------------
 function switchTab(tab) {
-  document.getElementById("htmlEditor").style.display = "none";
-  document.getElementById("cssEditor").style.display = "none";
-  document.getElementById("jsEditor").style.display = "none";
+  htmlEditor.style.display = "none";
+  cssEditor.style.display = "none";
+  jsEditor.style.display = "none";
 
   document.getElementById(tab + "Editor").style.display = "block";
 
@@ -178,105 +146,56 @@ function switchTab(tab) {
   event.target.classList.add("active");
 }
 
-// ================= LIVE PREVIEW =====================
+// ---------------- PREVIEW ----------------
 function updatePreview() {
-  const html = document.getElementById("htmlEditor").value;
-  const css = "<style>" + document.getElementById("cssEditor").value + "</style>";
-  const js = "<script>" + document.getElementById("jsEditor").value + "<\/script>";
+  const html = htmlEditor.value;
+  const css = "<style>" + cssEditor.value + "</style>";
+  const js = "<script>" + jsEditor.value + "<\\/script>";
 
   const iframe = document.getElementById("previewFrame");
-  const content = html + css + js;
   iframe.contentDocument.open();
-  iframe.contentDocument.write(content);
+  iframe.contentDocument.write(html + css + js);
   iframe.contentDocument.close();
+}
+
+// ---------------- AUTOSAVE ----------------
+function autoSave() {
+  localStorage.setItem("IDE_HTML", htmlEditor.value);
+  localStorage.setItem("IDE_CSS", cssEditor.value);
+  localStorage.setItem("IDE_JS", jsEditor.value);
 }
 
 document.querySelectorAll("textarea").forEach(t => {
   t.addEventListener("input", () => {
     clearTimeout(window.previewTimer);
     window.previewTimer = setTimeout(updatePreview, 300);
+
+    autoSave();
   });
 });
 
-// ================= DARK / LIGHT MODE =====================
-function toggleMode() {
-  document.body.classList.toggle("light");
-}
+// ---------------- FULLSCREEN ----------------
+let isFull = false;
 
-// ================= FULLSCREEN PREVIEW =====================
 function toggleFullscreen() {
-  const preview = document.getElementById("previewArea");
-  if (!document.fullscreenElement) {
-    preview.requestFullscreen();
-    event.target.textContent = "Exit Fullscreen";
+  const editor = document.getElementById("editor");
+
+  if (!isFull) {
+    editor.classList.add("fullscreen-editor");
+    document.body.style.overflow = "hidden";
   } else {
-    document.exitFullscreen();
-    event.target.textContent = "Fullscreen";
+    editor.classList.remove("fullscreen-editor");
+    document.body.style.overflow = "auto";
   }
+
+  isFull = !isFull;
 }
 
-// ================= PROJECT SAVE/LOAD =====================
-function saveProject() {
-  const project = {
-    html: htmlEditor.value,
-    css: cssEditor.value,
-    js: jsEditor.value
-  };
-  localStorage.setItem("workspace_project", JSON.stringify(project));
-  alert("Project saved!");
-}
+// ---------------- LOAD SAVED DATA ----------------
+htmlEditor.value = localStorage.getItem("IDE_HTML") || "<h1>Hello world!</h1>";
+cssEditor.value = localStorage.getItem("IDE_CSS") || "body { background: white; font-family: sans-serif; }";
+jsEditor.value = localStorage.getItem("IDE_JS") || "console.log('JS berjalan!');";
 
-function loadProject() {
-  const data = localStorage.getItem("workspace_project");
-  if (!data) return alert("Tidak ada project tersimpan.");
-  const p = JSON.parse(data);
-  htmlEditor.value = p.html;
-  cssEditor.value = p.css;
-  jsEditor.value = p.js;
-  updatePreview();
-  alert("Project loaded!");
-}
-
-// ================= EXPORT =====================
-function exportProject() {
-  const project = {
-    html: htmlEditor.value,
-    css: cssEditor.value,
-    js: jsEditor.value
-  };
-  const blob = new Blob([JSON.stringify(project)], {type:"application/json"});
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "project.json";
-  a.click();
-}
-
-// ================= IMPORT =====================
-function importProject() {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".json";
-  input.onchange = e => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      const p = JSON.parse(reader.result);
-      htmlEditor.value = p.html;
-      cssEditor.value = p.css;
-      jsEditor.value = p.js;
-      updatePreview();
-    };
-    reader.readAsText(file);
-  };
-  input.click();
-}
-
-// Initial empty code
-htmlEditor.value = "<h1>Hello world!</h1>";
-cssEditor.value = "body { background: white; font-family: sans-serif; }";
-jsEditor.value = "console.log('JS berjalan!');";
 updatePreview();
 </script>
 
