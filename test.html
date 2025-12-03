@@ -150,6 +150,55 @@ textarea {
 }
 
 
+/* FIND BOX */
+.find-panel {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e1e1e;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  z-index: 9999;
+  width: 90%;
+  max-width: 400px;
+  display: none;
+  box-shadow: 0 0 15px #0007;
+  font-family: sans-serif;
+}
+
+.find-panel h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  text-align: center;
+}
+
+.find-panel input {
+  width: 100%;
+  padding: 7px;
+  background: #333;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.find-panel button {
+  margin-top: 10px;
+  padding: 7px 12px;
+  background: #257;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.find-panel button:active {
+  opacity: 0.7;
+}
+
+
 </style>
 </head>
 <body>
@@ -176,8 +225,7 @@ textarea {
     <button id="btnReset">❌</button>
     <button id="btnCopy">📄</button>
     <button id="btnPaste">📑</button>
-    <button id="btnFind" class="btn">🔍</button>
-    <button id="btnReplace" class="btn">↺</button>
+    <button id="btnFindPanel" class="btn">🔍</button>
     
     <!-- tombol fullscreen -->
     <button id="btnFullscreen" onclick="toggleFullscreen()">↗</button>
@@ -191,18 +239,20 @@ textarea {
   <textarea id="jsEditor" style="display:none"></textarea>
 
 
-<div id="replaceBox" style="
-  position:fixed; top:50%; left:50%;
-  transform:translate(-50%, -50%);
-  background:#222; padding:15px; border-radius:8px;
-  display:none; z-index:9999; color:white;
-">
-  <h3>Replace Text</h3>
-  <input id="replaceFrom" placeholder="Find" style="width:100%; padding:5px;">
-  <input id="replaceTo" placeholder="Replace" style="width:100%; padding:5px; margin-top:5px;">
-  <button onclick="doReplace()" class="btn" style="margin-top:10px;">Ganti Semua</button>
-  <button onclick="closeReplace()" class="btn">Tutup</button>
+<div id="findReplaceBox" class="find-panel">
+  <h3>Cari & Ganti</h3>
+
+  <input id="findText" placeholder="Cari teks...">
+  <input id="replaceText" placeholder="Ganti dengan...">
+
+  <div style="margin-top:10px; display:flex; gap:5px; justify-content:center;">
+    <button onclick="findNext()">Next</button>
+    <button onclick="replaceOne()">Replace</button>
+    <button onclick="replaceAll()">Replace All</button>
+    <button onclick="closeFindBox()" style="background:#922;">Tutup</button>
+  </div>
 </div>
+
 
 
 </div>
@@ -340,29 +390,97 @@ btnReset.onclick = () => {
 };
 
 
-// === REPLACE ===
-btnReplace.onclick = () => {
-  document.getElementById("replaceBox").style.display = "block";
+// ====================== FIND & REPLACE ========================= //
+const findBox = document.getElementById("findReplaceBox");
+const btnFindPanel = document.getElementById("btnFindPanel");
+
+let findIndex = 0;
+let findMatches = [];
+let activeTA;
+
+// buka panel
+btnFindPanel.onclick = () => {
+  activeTA = document.querySelector("textarea:not([style*='display:none'])");
+  findBox.style.display = "block";
+  document.getElementById("findText").focus();
 };
 
-function closeReplace() {
-  document.getElementById("replaceBox").style.display = "none";
+// tutup panel
+function closeFindBox() {
+  findBox.style.display = "none";
+  findMatches = [];
+  findIndex = 0;
 }
 
-function doReplace() {
-  const active = document.querySelector("textarea:not([style*='display:none'])");
+// cari semua hasil
+function findAll() {
+  const word = document.getElementById("findText").value;
+  if (!word) return [];
 
-  const from = document.getElementById("replaceFrom").value;
-  const to = document.getElementById("replaceTo").value;
+  const text = activeTA.value;
+  let pos = text.indexOf(word);
+  let list = [];
+
+  while (pos !== -1) {
+    list.push(pos);
+    pos = text.indexOf(word, pos + word.length);
+  }
+  return list;
+}
+
+// pilih next
+function findNext() {
+  activeTA = document.querySelector("textarea:not([style*='display:none'])");
+
+  findMatches = findAll();
+  if (findMatches.length === 0) {
+    alert("Teks tidak ditemukan.");
+    return;
+  }
+
+  findIndex = (findIndex + 1) % findMatches.length;
+
+  const pos = findMatches[findIndex];
+  const word = document.getElementById("findText").value;
+
+  activeTA.focus();
+  activeTA.setSelectionRange(pos, pos + word.length);
+}
+
+// replace satu
+function replaceOne() {
+  if (!findMatches.length) findMatches = findAll();
+  if (!findMatches.length) return;
+
+  const from = document.getElementById("findText").value;
+  const to = document.getElementById("replaceText").value;
+
+  const pos = activeTA.selectionStart;
+  const end = activeTA.selectionEnd;
+
+  // hanya jika user sedang memilih kata yang dicari
+  if (activeTA.value.substring(pos, end) === from) {
+    activeTA.setRangeText(to, pos, end, "end");
+    autoSave();
+    updatePreview();
+  }
+
+  findNext();
+}
+
+// replace all
+function replaceAll() {
+  const from = document.getElementById("findText").value;
+  const to = document.getElementById("replaceText").value;
 
   if (!from) return;
 
-  active.value = active.value.split(from).join(to);
+  activeTA.value = activeTA.value.split(from).join(to);
 
-  saveData();
+  autoSave();
   updatePreview();
-
-  closeReplace();
+  
+  alert("Selesai mengganti semua.");
 }
 
 
