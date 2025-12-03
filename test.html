@@ -172,7 +172,8 @@ textarea {
     <button class="active" onclick="switchTab('html')">HTML</button>
     <button onclick="switchTab('css')">CSS</button>
     <button onclick="switchTab('js')">JS</button>
-    
+
+    <button id="btnReset">RESET</button>
     <button id="btnCopy">COPY</button>
     <button id="btnPaste">PASTE</button>
 
@@ -290,7 +291,7 @@ btnCopy.onclick = async ()=>{
   let active = document.querySelector("textarea:not([style*='display: none'])");
   await navigator.clipboard.writeText(active.value);
   btnCopy.textContent = "✔";
-  setTimeout(()=>btnCopy.textContent="📋",700);
+  setTimeout(()=>btnCopy.textContent="COPY",700);
 };
 
 btnPaste.onclick = async ()=>{
@@ -300,8 +301,24 @@ btnPaste.onclick = async ()=>{
   saveData();
   updatePreview();
   btnPaste.textContent = "✔";
-  setTimeout(()=>btnPaste.textContent="📥",700);
+  setTimeout(()=>btnPaste.textContent="PASTE",700);
 };
+
+
+// ---------------- RESET ------------------ //
+const btnReset = document.getElementById("btnClear");
+
+btnReset.onclick = () => {
+  let active = document.querySelector("textarea:not([style*='display: none'])");
+
+  active.value = "";       // kosongkan
+  saveData();              // simpan kosong
+  updatePreview();         // update live preview
+
+  btnReset.textContent = "✔";
+  setTimeout(() => btnReset.textContent = "CLEAR", 700);
+};
+
 
   
 // ---------------- LOAD SAVED DATA ----------------
