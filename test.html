@@ -211,20 +211,21 @@ function toggleFullscreen() {
   const btn = document.getElementById("btnFullscreen");
 
   if (!isFull) {
-    // MASUK FULLSCREEN
+    // Masuk fullscreen (halus)
     editor.classList.add("fullscreen-editor");
     document.body.style.overflow = "hidden";
-    btn.textContent = "↙"; // ikon keluar fullscreen
+    btn.textContent = "↙"; // keluar fullscreen
   } else {
-    // KELUAR FULLSCREEN
+    // Keluar fullscreen (halus)
     editor.classList.remove("fullscreen-editor");
     document.body.style.overflow = "auto";
-    btn.textContent = "↗"; // ikon masuk fullscreen
+    btn.textContent = "↗"; // masuk fullscreen
   }
 
   isFull = !isFull;
 }
 
+  
 // ---------------- LOAD SAVED DATA ----------------
 htmlEditor.value = localStorage.getItem("IDE_HTML") || "<h1>Hello world!</h1>";
 cssEditor.value = localStorage.getItem("IDE_CSS") || "body { background: white; font-family: sans-serif; }";
