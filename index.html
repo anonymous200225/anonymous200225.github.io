@@ -194,12 +194,12 @@ display: none;
   (function(){
     const GAJI_POKOK = 3039805
     const DAILY_RATE = GAJI_POKOK / 25;
-    const OVERTIME_RATE = 17571.127;
-    const MEAL_RATE = 11791;
+    const OVERTIME_RATE = GAJI_POKOK / 173;
+    const MEAL_RATE = 11600;
     const JHT = GAJI_POKOK * 0.02;
     const JP = GAJI_POKOK * 0.01;
     const POTONGAN = JHT + JP;
-    const POTONGAN_THRESHOLD = 10;
+    const POTONGAN_THRESHOLD = 15;
 
     let parsedData = [];
     let user = { nama:'-', id:'-', jabatan:'-' };
@@ -274,7 +274,8 @@ display: none;
       }
       return 0;
     }
-
+    
+    
     function calculateStats(data){
       let hariKerja=0, cuti=0, absen=0, off=0, totalJam=0, totalIndeks=0, meal=0;
       data.forEach(r=>{
@@ -290,8 +291,14 @@ display: none;
         totalIndeks += parseFloat((r["Indeks Lembur"]||"0").toString().replace(",", ".")) || 0;
       });
       
-      let gaji = ((hariKerja+cuti)*DAILY_RATE) + (totalIndeks*OVERTIME_RATE) + (meal*MEAL_RATE) - (((hariKerja+cuti)>POTONGAN_THRESHOLD)?POTONGAN:0);
-      gaji = GAJI_POKOK + (totalIndeks*OVERTIME_RATE) + (meal*MEAL_RATE) - POTONGAN;
+       let BPJS = Number(hariKerja) > 0 ? POTONGAN : 0;
+       let gajiPokokFinal = ((hariKerja * DAILY_RATE) + (totalIndeks * OVERTIME_RATE)) > GAJI_POKOK ? GAJI_POKOK : (hariKerja * DAILY_RATE);
+      
+       let gaji = gajiPokokFinal
+         + (totalIndeks * OVERTIME_RATE)
+         + (meal * MEAL_RATE)
+         - BPJS;
+
       return { hariKerja, cuti, absen, off, totalJam, totalIndeks, gaji };
     }
 
