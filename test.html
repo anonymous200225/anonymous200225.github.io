@@ -172,11 +172,13 @@ textarea {
     <button class="active" onclick="switchTab('html')">HTML</button>
     <button onclick="switchTab('css')">CSS</button>
     <button onclick="switchTab('js')">JS</button>
-
-    <button id="btnReset">RESET</button>
-    <button id="btnCopy">COPY</button>
-    <button id="btnPaste">PASTE</button>
-
+    
+    <button id="btnReset">❌</button>
+    <button id="btnCopy">📄</button>
+    <button id="btnPaste">📑</button>
+    <button id="btnFind" class="btn">🔍</button>
+    <button id="btnReplace" class="btn">↺</button>
+    
     <!-- tombol fullscreen -->
     <button id="btnFullscreen" onclick="toggleFullscreen()">↗</button>
 
@@ -188,7 +190,37 @@ textarea {
   <textarea id="cssEditor" style="display:none"></textarea>
   <textarea id="jsEditor" style="display:none"></textarea>
 
+
+  <div id="findBox" style="
+  position:fixed; top:50%; left:50%;
+  transform:translate(-50%, -50%);
+  background:#222; padding:15px; border-radius:8px;
+  display:none; z-index:9999; color:white;
+">
+  <h3>Cari Teks</h3>
+  <input id="findInput" placeholder="masukkan teks" style="width:100%; padding:5px;">
+  <button onclick="doFind()" class="btn" style="margin-top:10px;">Cari</button>
+  <button onclick="closeFind()" class="btn">Tutup</button>
 </div>
+
+<div id="replaceBox" style="
+  position:fixed; top:50%; left:50%;
+  transform:translate(-50%, -50%);
+  background:#222; padding:15px; border-radius:8px;
+  display:none; z-index:9999; color:white;
+">
+  <h3>Ganti Teks</h3>
+  <input id="replaceFrom" placeholder="Cari" style="width:100%; padding:5px;">
+  <input id="replaceTo" placeholder="Ganti dengan" style="width:100%; padding:5px; margin-top:5px;">
+  <button onclick="doReplace()" class="btn" style="margin-top:10px;">Ganti Semua</button>
+  <button onclick="closeReplace()" class="btn">Tutup</button>
+</div>
+
+
+</div>
+
+
+  
 
 <script>
 // ---------------- TAB ----------------
@@ -306,7 +338,7 @@ btnPaste.onclick = async ()=>{
 
 
 // ---------------- RESET ------------------ //
-const btnReset = document.getElementById("btnClear");
+const btnReset = document.getElementById("btnReset");
 
 btnReset.onclick = () => {
   let active = document.querySelector("textarea:not([style*='display: none'])");
@@ -318,6 +350,62 @@ btnReset.onclick = () => {
   btnReset.textContent = "✔";
   setTimeout(() => btnReset.textContent = "CLEAR", 700);
 };
+
+
+
+// === FIND ===
+btnFind.onclick = () => {
+  document.getElementById("findBox").style.display = "block";
+};
+
+function closeFind() {
+  document.getElementById("findBox").style.display = "none";
+}
+
+function doFind() {
+  const active = document.querySelector("textarea:not([style*='display:none'])");
+  const keyword = document.getElementById("findInput").value;
+
+  if (!keyword) return;
+
+  let pos = active.value.indexOf(keyword);
+
+  if (pos === -1) {
+    alert("Teks tidak ditemukan!");
+    return;
+  }
+
+  // Select text
+  active.focus();
+  active.setSelectionRange(pos, pos + keyword.length);
+}
+
+
+// === REPLACE ===
+btnReplace.onclick = () => {
+  document.getElementById("replaceBox").style.display = "block";
+};
+
+function closeReplace() {
+  document.getElementById("replaceBox").style.display = "none";
+}
+
+function doReplace() {
+  const active = document.querySelector("textarea:not([style*='display:none'])");
+
+  const from = document.getElementById("replaceFrom").value;
+  const to = document.getElementById("replaceTo").value;
+
+  if (!from) return;
+
+  active.value = active.value.split(from).join(to);
+
+  saveData();
+  updatePreview();
+
+  closeReplace();
+}
+
 
 
   
