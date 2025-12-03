@@ -104,6 +104,34 @@ textarea {
   color: white;
   text-align: center;
 }
+
+
+
+  /* Animasi halus fullscreen */
+#editor {
+  transition: all 0.35s ease;
+}
+
+.fullscreen-editor {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100vh !important;
+  background: #222;
+  z-index: 999;
+  padding-top: 45px; /* agar tab tidak ketiban */
+}
+
+/* Transisi textarea */
+textarea {
+  transition: height 0.35s ease;
+}
+
+.fullscreen-editor textarea {
+  height: calc(100vh - 90px) !important;
+}
+
 </style>
 </head>
 <body>
