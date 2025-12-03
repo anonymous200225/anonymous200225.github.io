@@ -172,6 +172,9 @@ textarea {
     <button class="active" onclick="switchTab('html')">HTML</button>
     <button onclick="switchTab('css')">CSS</button>
     <button onclick="switchTab('js')">JS</button>
+    
+    <button id="btnCopy">COPY</button>
+    <button id="btnPaste">PASTE</button>
 
     <!-- tombol fullscreen -->
     <button id="btnFullscreen" onclick="toggleFullscreen()">↗</button>
@@ -279,6 +282,26 @@ previewFullBtn.onclick = () => applyPreviewFullscreen(!previewFullscreen);
 exitPreviewBtn.onclick = () => applyPreviewFullscreen(false);
 
 
+// ---------------- CLIPBOARD ----------------
+const btnCopy = document.getElementById("btnCopy");
+const btnPaste = document.getElementById("btnPaste");
+
+btnCopy.onclick = async ()=>{
+  let active = document.querySelector("textarea:not([style*='display: none'])");
+  await navigator.clipboard.writeText(active.value);
+  btnCopy.textContent = "✔";
+  setTimeout(()=>btnCopy.textContent="📋",700);
+};
+
+btnPaste.onclick = async ()=>{
+  let active = document.querySelector("textarea:not([style*='display: none'])");
+  const text = await navigator.clipboard.readText();
+  active.value += text;
+  saveData();
+  updatePreview();
+  btnPaste.textContent = "✔";
+  setTimeout(()=>btnPaste.textContent="📥",700);
+};
 
   
 // ---------------- LOAD SAVED DATA ----------------
