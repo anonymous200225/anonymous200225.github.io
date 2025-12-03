@@ -135,6 +135,21 @@ textarea {
   display: none !important;
 }
 
+  #exitPreviewBtn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 10000;
+  background: #000a;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 22px;
+  border-radius: 8px;
+  display: none;
+}
+
+
 </style>
 </head>
 <body>
@@ -146,6 +161,9 @@ textarea {
 <div id="previewArea">
   <iframe id="previewFrame"></iframe>
 </div>
+
+  <button id="exitPreviewBtn">⨯</button>
+
 
 <!-- EDITOR AREA -->
 <div id="editor">
@@ -235,26 +253,31 @@ function toggleFullscreen() {
 const previewFullBtn = document.getElementById("previewFullBtn");
 const previewArea = document.getElementById("previewArea");
 const editor = document.getElementById("editor");
-
+const exitPreviewBtn = document.getElementById("exitPreviewBtn");
 
 let previewFullscreen = false;
 
-previewFullBtn.onclick = () => {
-  previewFullscreen = !previewFullscreen;
+function applyPreviewFullscreen(state) {
+  previewFullscreen = state;
 
-if (previewFullscreen) {
-  previewArea.classList.add("preview-fullscreen");
-  editor.classList.add("hide-editor");
-  previewFullBtn.textContent = "↙";
-  document.body.style.overflow = "hidden";
-} else {
-  previewArea.classList.remove("preview-fullscreen");
-  editor.classList.remove("hide-editor");
-  previewFullBtn.textContent = "⛶";
-  document.body.style.overflow = "auto";
+  if (state) {
+    previewArea.classList.add("preview-fullscreen");
+    editor.classList.add("hide-editor");
+    previewFullBtn.textContent = "↙";
+    exitPreviewBtn.style.display = "block";
+    document.body.style.overflow = "hidden";
+  } else {
+    previewArea.classList.remove("preview-fullscreen");
+    editor.classList.remove("hide-editor");
+    previewFullBtn.textContent = "⛶";
+    exitPreviewBtn.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
 }
 
-};
+previewFullBtn.onclick = () => applyPreviewFullscreen(!previewFullscreen);
+exitPreviewBtn.onclick = () => applyPreviewFullscreen(false);
+
 
 
   
