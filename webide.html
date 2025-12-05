@@ -120,16 +120,19 @@ body {
 
 /* TAB NAVIGATION */
 .tab-nav {
+  width: 100%;
   background: var(--secondary-bg);
   padding: 0 20px;
   display: flex;
   gap: 2px;
   border-bottom: 1px solid var(--border);
   overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-width: thin;
 }
 
 .tab {
+  width: 100%;
   padding: 10px 24px;
   background: transparent;
   border: none;
@@ -482,7 +485,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 101%;
   height: 100vh;
   background: var(--preview-bg);
   z-index: 2000;
@@ -659,7 +662,7 @@ body {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: calc(100% - 15px);
+  width: calc(100% - 0px);
   height: 200px;
   border: 1px solid #bbb;
   border-radius: 10px;
@@ -671,7 +674,7 @@ body {
 #btnInjectRun {
   position: absolute;
   bottom: 205px;
-  right: 15px;
+  right: 10px;
   background: var(--tertiary-bg);
   border: 1px solid #bbb;
   color: var(--text-primary);
@@ -688,9 +691,9 @@ body {
 
 
 .preview-close {
-  position: absolute;
-  bottom: 305px;
-  right: 15px;
+  position: fixed;
+  bottom: 250px;
+  right: 10px;
   background: var(--tertiary-bg);
   border: 1px solid #bbb;
   color: var(--text-primary);
