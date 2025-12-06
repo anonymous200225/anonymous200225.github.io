@@ -711,7 +711,7 @@ body {
 .preview-close:hover {
   background: rgba(50,0,0);
   color: red;
-}
+                  }
 </style>
   
 </head>
@@ -887,11 +887,18 @@ const codeData = {
   html: localStorage.getItem('IDE_HTML') || ``,
   css: localStorage.getItem('IDE_CSS') || ``,
   js: localStorage.getItem('IDE_JS') || ``,
-  inject: localStorage.getItem('IDE_INJECT') || ``,
+  inject: localStorage.getItem('IDE_INJECT') || ``
 };
 
 let currentTab = 'html';
 let unsavedChanges = { html: false, css: false, js: false, inject: false };
+
+let cursorPos = {
+  html: parseInt(localStorage.getItem("IDE_CURSOR_HTML") || 0),
+  css: parseInt(localStorage.getItem("IDE_CURSOR_CSS") || 0),
+  js: parseInt(localStorage.getItem("IDE_CURSOR_JS") || 0),
+  inject: parseInt(localStorage.getItem("IDE_CURSOR_INJECT") || 0)
+};
 
 // ===================== ELEMENTS =====================
 const codeEditor = document.getElementById('codeEditor');
@@ -901,6 +908,42 @@ const currentTabTitle = document.getElementById('currentTabTitle');
 const previewOverlay = document.getElementById('previewOverlay');
 const previewContent = document.getElementById('previewContent');
 const previewClose = document.getElementById('previewClose');
+
+// ===================== CURSOR MEMORY =====================
+function saveCursorPosition() {
+  const pos = codeEditor.selectionStart || 0;
+  cursorPos[currentTab] = pos;
+  const key = "IDE_CURSOR_" + currentTab.toUpperCase();
+  localStorage.setItem(key, pos);
+}
+
+function getLineHeight() {
+  const cs = window.getComputedStyle(codeEditor);
+  let lh = parseFloat(cs.lineHeight);
+  if (!lh || isNaN(lh)) {
+    const fontSize = parseFloat(cs.fontSize) || 14;
+    lh = Math.round(fontSize * 1.4);
+  }
+  return lh;
+}
+
+function scrollToCursor() {
+  const pos = codeEditor.selectionStart || 0;
+  const textUptoCursor = codeEditor.value.substring(0, pos);
+  const line = textUptoCursor.split("\n").length;
+  const lineHeight = getLineHeight();
+  const targetScroll = (line - 1) * lineHeight - codeEditor.clientHeight / 2;
+  codeEditor.scrollTop = targetScroll < 0 ? 0 : targetScroll;
+}
+
+function restoreCursorPosition() {
+  const key = "IDE_CURSOR_" + currentTab.toUpperCase();
+  const stored = localStorage.getItem(key);
+  const pos = parseInt(stored || cursorPos[currentTab] || 0) || 0;
+  codeEditor.focus();
+  codeEditor.setSelectionRange(pos, pos);
+  setTimeout(scrollToCursor, 30);
+}
 
 // ===================== FUNCTIONS =====================
 function generatePreviewHTML() {
@@ -935,31 +978,18 @@ function generatePreviewHTML() {
   `;
 }
 
-// Jalankan script inject dari textarea ke preview iframe
 function runInjectScript(code) {
   const iframe = previewContent.querySelector('iframe');
   if (!iframe) return showStatus("Preview belum dibuka", "error");
-
-  try {
-    iframe.contentWindow.postMessage(code, "*");
-    showStatus("Inject script dijalankan di preview", "success");
-  } catch (err) {
-    showStatus("Error menjalankan inject script: " + err.message, "error");
+  try { 
+    iframe.contentWindow.postMessage(code, "*"); 
+    showStatus("Inject script dijalankan di preview", "success"); 
+  }
+  catch (err) { 
+    showStatus("Error menjalankan inject script: " + err.message, "error"); 
   }
 }
 
-// Pasang listener sekali per iframe
-function addIframeListener(iframe) {
-  if (!iframe._listenerAdded) {
-    iframe.contentWindow.addEventListener("message", (event) => {
-      try { eval(event.data); }
-      catch (err) { console.error("Error injected script:", err); }
-    });
-    iframe._listenerAdded = true;
-  }
-}
-
-// Tampilkan preview fullscreen
 function showPreview() {
   const fullHTML = generatePreviewHTML();
   previewContent.innerHTML = '';
@@ -972,7 +1002,6 @@ function showPreview() {
     iframe.style.border = 'none';
     previewContent.appendChild(iframe);
 
-    // Pasang listener sekali saja saat iframe dibuat
     iframe.contentWindow.addEventListener('message', (event) => {
       try { eval(event.data); }
       catch (err) { console.error("Error injected script:", err); }
@@ -986,14 +1015,11 @@ function showPreview() {
 
   previewOverlay.style.display = 'flex';
   document.body.classList.add('preview-fullscreen');
-  //showStatus('Preview dibuka dalam mode fullscreen', 'info');
 }
-
 
 function hidePreview() {
   previewOverlay.style.display = 'none';
   document.body.classList.remove('preview-fullscreen');
-  //showStatus('Preview ditutup', 'info');
 }
 
 function updateLineNumbers() {
@@ -1009,26 +1035,38 @@ function saveCurrentTab() {
   localStorage.setItem(`IDE_${currentTab.toUpperCase()}`, codeEditor.value);
   unsavedChanges[currentTab] = false;
   document.querySelector(`[data-tab="${currentTab}"]`)?.classList.remove('unsaved');
-  //showStatus('Kode disimpan', 'success');
 }
 
 function switchTab(tabName) {
   saveCurrentTab();
-
   tabs.forEach(tab => tab.dataset.tab === tabName ? tab.classList.add('active') : tab.classList.remove('active'));
   currentTab = tabName;
-  codeEditor.value = codeData[tabName];
-  currentTabTitle.textContent = `${tabName.toUpperCase()} Editor`;
+  codeEditor.value = codeData[tabName] || '';
   updateLineNumbers();
-  codeEditor.focus();
-  //showStatus(`Beralih ke ${tabName.toUpperCase()}`, 'info');
+  setTimeout(restoreCursorPosition, 40);
+  currentTabTitle.textContent = `${tabName.toUpperCase()} Editor`;
 }
 
 function formatCode() {
   let code = codeEditor.value;
-  if (currentTab === 'html') code = code.replace(/(>)(<)(\/*)/g,'$1\n$2$3').replace(/(<\/\w+>)/g,'$1\n').replace(/^\s+/gm,'').replace(/\n\s*\n/g,'\n');
-  if (currentTab === 'css') code = code.replace(/;\s*/g,';\n  ').replace(/{\s*/g,' {\n  ').replace(/}/g,'\n}\n\n').replace(/\n\s*\n/g,'\n');
-  if (currentTab === 'js') code = code.replace(/;/g,';\n').replace(/{/g,' {\n  ').replace(/}/g,'\n}\n').replace(/\n\s*\n/g,'\n');
+  if (currentTab === 'html')
+    code = code.replace(/(>)(<)(\/*)/g,'$1\n$2$3')
+               .replace(/(<\/\w+>)/g,'$1\n')
+               .replace(/^\s+/gm,'')
+               .replace(/\n\s*\n/g,'\n');
+
+  if (currentTab === 'css')
+    code = code.replace(/;\s*/g,';\n  ')
+               .replace(/{\s*/g,' {\n  ')
+               .replace(/}/g,'\n}\n\n')
+               .replace(/\n\s*\n/g,'\n');
+
+  if (currentTab === 'js')
+    code = code.replace(/;/g,';\n')
+               .replace(/{/g,' {\n  ')
+               .replace(/}/g,'\n}\n')
+               .replace(/\n\s*\n/g,'\n');
+
   codeEditor.value = code.trim();
   updateLineNumbers();
   saveCurrentTab();
@@ -1056,70 +1094,91 @@ codeEditor.addEventListener('input', () => {
 
 codeEditor.addEventListener('scroll', () => { lineNumbers.scrollTop = codeEditor.scrollTop; });
 
+codeEditor.addEventListener("keyup", saveCursorPosition);
+codeEditor.addEventListener("click", saveCursorPosition);
+codeEditor.addEventListener("select", saveCursorPosition);
+codeEditor.addEventListener("input", saveCursorPosition);
+
 document.getElementById('themeToggle').addEventListener('click', () => {
   document.body.classList.toggle('light-mode');
   const icon = document.querySelector('#themeToggle i');
   icon.className = document.body.classList.contains('light-mode') ? 'fas fa-sun' : 'fas fa-moon';
   localStorage.setItem('IDE_THEME', document.body.classList.contains('light-mode')?'light':'dark');
-  //showStatus(`Tema ${document.body.classList.contains('light-mode')?'terang':'gelap'} diaktifkan`, 'success');
 });
 
 document.getElementById('btnClear').addEventListener('click', () => {
   if(confirm('Apakah Anda yakin ingin menghapus kode di tab ini?')){
-    codeEditor.value=''; updateLineNumbers(); showStatus('Kode dihapus','warning');
+    codeEditor.value='';
+    updateLineNumbers();
+    showStatus('Kode dihapus','warning');
   }
 });
 
 document.getElementById('btnCopy').addEventListener('click', async () => {
-  try { await navigator.clipboard.writeText(codeEditor.value); showStatus('Kode disalin ke clipboard','success'); }
-  catch { showStatus('Gagal menyalin kode','error'); }
+  try { 
+    await navigator.clipboard.writeText(codeEditor.value); 
+    showStatus('Kode disalin ke clipboard','success'); 
+  }
+  catch { 
+    showStatus('Gagal menyalin kode','error'); 
+  }
 });
 
 document.getElementById('btnPaste').addEventListener('click', () => showStatus("Tombol belum berfungsi!", "error"));
-
 document.getElementById('btnFormat').addEventListener('click', formatCode);
-
-/*
-document.getElementById('btnSave').addEventListener('click', saveCurrentTab);
-*/
 
 document.getElementById('btnFullscreenPreview').addEventListener('click', showPreview);
 previewClose.addEventListener('click', hidePreview);
 
-// Inject script dari textarea injectArea
 document.getElementById("btnInjectRun").addEventListener("click", () => {
   const code = document.getElementById("injectArea").value;
   if (!code.trim()) return showStatus("Inject script kosong","warning");
   runInjectScript(code);
 });
 
-
-// Inject script dari tab inject
+// ===================== MODIFIKASI TOMBOL RUN SCRIPT =====================
 const btnRun = document.getElementById("btnInjectScript");
+
 btnRun.onclick = () => {
   try {
-    if(currentTab === "inject"){
-      new Function(codeEditor.value)();
-    } else {
+    // Pastikan tab inject aktif
+    if (currentTab !== "inject") {
       document.querySelectorAll(".tab")[3].click();
-      new Function(codeEditor.value)();
     }
-  } catch(e) {
+
+    // Ambil kode dari editor
+    const code = codeEditor.value;
+    if (!code.trim()) {
+      showStatus("Tidak ada kode untuk dijalankan", "warning");
+      return;
+    }
+
+    // Gunakan Function() agar berjalan di global scope
+    const runInGlobalScope = new Function(code);
+    runInGlobalScope();
+    
+    showStatus("Script berhasil dijalankan", "success");
+
+  } catch (e) {
     showStatus(e.message, "error");
   }
 };
 
-
 // ===================== FIND & REPLACE =====================
 let findMatches = [], findIndex = -1;
+
 function performFind() {
-  const word = document.getElementById('findInput').value; if(!word) return [];
+  const word = document.getElementById('findInput').value;
+  if(!word) return [];
   let pos=codeEditor.value.indexOf(word), out=[];
   while(pos!==-1){ out.push(pos); pos=codeEditor.value.indexOf(word,pos+word.length);}
   return out;
 }
 
-document.getElementById('btnFind').addEventListener('click', () => { document.getElementById('findPanel').style.display='block'; document.getElementById('findInput').focus(); });
+document.getElementById('btnFind').addEventListener('click', () => {
+  document.getElementById('findPanel').style.display='block';
+  document.getElementById('findInput').focus();
+});
 document.getElementById('findClose').addEventListener('click', () => { document.getElementById('findPanel').style.display='none'; });
 
 document.getElementById('btnFindNext').addEventListener('click', () => {
@@ -1129,8 +1188,12 @@ document.getElementById('btnFindNext').addEventListener('click', () => {
   if(!findMatches.length){ showStatus('Teks tidak ditemukan','warning'); return; }
   findIndex=(findIndex+1)%findMatches.length;
   const pos=findMatches[findIndex];
-  codeEditor.focus(); codeEditor.setSelectionRange(pos,pos+word.length);
+  codeEditor.focus();
+  codeEditor.setSelectionRange(pos,pos+word.length);
+  saveCursorPosition();
+  setTimeout(scrollToCursor, 20);
   showStatus(`Ditemukan ${findMatches.length} hasil`,'info');
+  document.getElementById("findClose").click();
 });
 
 document.getElementById('btnReplace').addEventListener('click', () => {
@@ -1139,8 +1202,14 @@ document.getElementById('btnReplace').addEventListener('click', () => {
   if(!from){ showStatus('Masukkan teks untuk diganti','warning'); return; }
   const pos=codeEditor.selectionStart, end=codeEditor.selectionEnd;
   if(codeEditor.value.substring(pos,end)===from){
-    codeEditor.setRangeText(to,pos,end,'end'); updateLineNumbers(); saveCurrentTab(); showStatus('Teks diganti','success');
-  } else { document.getElementById('btnFindNext').click(); }
+    codeEditor.setRangeText(to,pos,end,'end');
+    updateLineNumbers();
+    saveCurrentTab();
+    saveCursorPosition();
+    showStatus('Teks diganti','success');
+  } else {
+    document.getElementById('btnFindNext').click();
+  }
 });
 
 document.getElementById('btnReplaceAll').addEventListener('click', () => {
@@ -1148,14 +1217,19 @@ document.getElementById('btnReplaceAll').addEventListener('click', () => {
   const to = document.getElementById('replaceInput').value;
   if(!from){ showStatus('Masukkan teks untuk diganti','warning'); return; }
   const count = (codeEditor.value.match(new RegExp(from,'g'))||[]).length;
-  codeEditor.value=codeEditor.value.split(from).join(to); updateLineNumbers(); saveCurrentTab(); showStatus(`${count} teks diganti`,'success');
+  codeEditor.value=codeEditor.value.split(from).join(to);
+  updateLineNumbers();
+  saveCurrentTab();
+  saveCursorPosition();
+  showStatus(`${count} teks diganti`,'success');
 });
 
-// ===================== KEYBOARD SHORTCUTS =====================
+// ===================== SHORTCUTS =====================
 document.addEventListener('keydown', (e) => {
   if((e.ctrlKey||e.metaKey)&&e.key==='s'){ e.preventDefault(); saveCurrentTab(); }
   if((e.ctrlKey||e.metaKey)&&e.key==='f'){ e.preventDefault(); document.getElementById('btnFind').click(); }
   if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key==='F'){ e.preventDefault(); formatCode(); }
+
   if(e.key==='Tab'&&document.activeElement===codeEditor){
     e.preventDefault();
     const start=codeEditor.selectionStart, end=codeEditor.selectionEnd;
@@ -1163,20 +1237,38 @@ document.addEventListener('keydown', (e) => {
     codeEditor.selectionStart=codeEditor.selectionEnd=start+2;
     updateLineNumbers();
   }
+
   if(e.key==='Escape'){
-    if(document.getElementById('findPanel').style.display==='block'){ document.getElementById('findPanel').style.display='none'; }
-    else if(previewOverlay.style.display==='flex'){ hidePreview(); }
+    if(document.getElementById('findPanel').style.display==='block'){
+      document.getElementById('findPanel').style.display='none';
+    } else if(previewOverlay.style.display==='flex'){
+      hidePreview();
+    }
   }
+});
+
+// Fokus input & naik otomatis
+document.querySelectorAll("input, textarea, select").forEach(el => {
+  const scrollNow = () => {
+    setTimeout(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 300);
+  };
+  el.addEventListener("focus", scrollNow);
+  el.addEventListener("click", scrollNow);
 });
 
 // ===================== INITIALIZATION =====================
 document.addEventListener('DOMContentLoaded', () => {
   const savedTheme=localStorage.getItem('IDE_THEME');
-  if(savedTheme==='light'){ document.body.classList.add('light-mode'); document.querySelector('#themeToggle i').className='fas fa-sun'; }
+  if(savedTheme==='light'){
+    document.body.classList.add('light-mode');
+    document.querySelector('#themeToggle i').className='fas fa-sun';
+  }
+
   codeEditor.value=codeData.html;
   updateLineNumbers();
-  codeEditor.focus();
-  //showStatus('WEB IDE Pro v2.0 siap digunakan!', 'success');
+  setTimeout(restoreCursorPosition, 100);
 });
 </script>
 
