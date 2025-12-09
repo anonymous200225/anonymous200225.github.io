@@ -1,7 +1,7 @@
 {
   "name": "WEB IDE Pro",
   "short_name": "WEB IDE Pro",
-  "start_url": "/web-ide/",
+  "start_url": "/",
   "scope": "/web-ide/",
   "display": "standalone",
   "background_color": "#ffffff",
