@@ -34,3 +34,20 @@ self.addEventListener("fetch", e => {
 
 
 
+
+if ("serviceWorker" in navigator) {
+  
+  // Hapus semua Service Worker
+  navigator.serviceWorker.getRegistrations().then(regs => {
+    regs.forEach(reg => reg.unregister());
+    console.log("Semua service worker dihapus");
+  });
+
+  // Hapus semua cache
+  caches.keys().then(keys => {
+    keys.forEach(key => {
+      caches.delete(key);
+      console.log("Cache dihapus:", key);
+    });
+  });
+}
