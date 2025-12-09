@@ -1,6 +1,5 @@
-
-const CACHE_NAME = "web-ide-v15";
-const BASE = "";
+const CACHE_NAME = "web-ide-v16";
+const BASE = "web-ide";
 
 const FILES = [
   `${BASE}/`,
@@ -22,32 +21,38 @@ const FILES = [
 ];
 
 self.addEventListener("install", e => {
+  e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(FILES)));
+  self.skipWaiting();
+});
+
+self.addEventListener("activate", e => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then(c => c.addAll(FILES))
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+    )
   );
+  self.clients.claim();
 });
 
 self.addEventListener("fetch", e => {
+  const req = e.request;
+  if (req.method !== "GET") return;
+
   e.respondWith(
-    caches.match(e.request).then(res => res || fetch(e.request))
+    caches.match(req).then(cached => {
+      if (cached) {
+
+        // Kirim pesan ke halaman bahwa file diambil dari cache
+        self.clients.matchAll().then(clients => {
+          clients.forEach(client => {
+            client.postMessage("CACHE: " + req.url);
+          });
+        });
+
+        return cached;
+      }
+
+      return fetch(req).catch(() => cached);
+    })
   );
 });
-
-
-if ("serviceWorker" in navigator) {
-  
-  // Hapus semua Service Worker
-  navigator.serviceWorker.getRegistrations().then(regs => {
-    regs.forEach(reg => reg.unregister());
-    console.log("Semua service worker dihapus");
-  });
-
-  // Hapus semua cache
-  caches.keys().then(keys => {
-    keys.forEach(key => {
-      caches.delete(key);
-      console.log("Cache dihapus:", key);
-    });
-  });
-}
-
