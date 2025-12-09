@@ -1,50 +1,61 @@
-const CACHE_NAME = "web-ide-v4";
+const CACHE_NAME = "web-ide-v10";
+const BASE = "/web-ide";
 
 const FILES = [
-  "/",
-  "/index.html",
-  "/manifest.json",
-  "/icon-192.png",
-  "/icon-512.png",
-  "/css/app.css",
-  "/js/app.js",
-  "/css/modal.css",
-  "/css/all.min.css",
-  "/js/beautify.min.js",
-  "/js/beautify-css.min.js",
-  "/js/beautify-html.min.js",
-  "/webfonts/fa-brands-400.woff2",
-  "/webfonts/fa-regular-400.woff2",
-  "/webfonts/fa-solid-900.woff2",
-  "/webfonts/fa-v4compatibility.woff2"
+  `${BASE}/`,
+  `${BASE}/index.html`,
+  `${BASE}/manifest.json`,
+  `${BASE}/icon-192.png`,
+  `${BASE}/icon-512.png`,
+  `${BASE}/css/app.css`,
+  `${BASE}/js/app.js`,
+  `${BASE}/css/modal.css`,
+  `${BASE}/css/all.min.css`,
+  `${BASE}/js/beautify.min.js`,
+  `${BASE}/js/beautify-css.min.js`,
+  `${BASE}/js/beautify-html.min.js`,
+  `${BASE}/webfonts/fa-brands-400.woff2`,
+  `${BASE}/webfonts/fa-regular-400.woff2`,
+  `${BASE}/webfonts/fa-solid-900.woff2`,
+  `${BASE}/webfonts/fa-v4compatibility.woff2`
 ];
 
-// INSTALL
+// INSTALL: cache semua file
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(FILES)));
-  self.skipWaiting();
+  e.waitUntil(
+    caches.open(CACHE_NAME).then(c => c.addAll(FILES))
+  );
+  self.skipWaiting();
 });
 
-// ACTIVATE
+// ACTIVATE: hapus cache lama
 self.addEventListener("activate", e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
-      )
-    )
-  );
-  self.clients.claim();
+  e.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(
+        keys
+          .filter(k => k !== CACHE_NAME)
+          .map(k => caches.delete(k))
+      )
+    )
+  );
+  self.clients.claim();
 });
 
-// FETCH
+// FETCH: cache-first fallback-to-network
 self.addEventListener("fetch", e => {
-  if (e.request.method !== "GET") return;
+  const req = e.request;
 
-  e.respondWith(
-    caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).catch(() => cached);
-    })
-  );
+  // Abaikan permintaan selain GET
+  if (req.method !== "GET") return;
+
+  e.respondWith(
+    caches.match(req).then(cached => {
+      // Jika ada di cache → pakai cache
+      if (cached) return cached;
+
+      // Jika tidak ada → fetch jaringan
+      return fetch(req).catch(() => cached);
+    })
+  );
 });
