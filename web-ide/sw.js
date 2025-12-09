@@ -1,5 +1,5 @@
-const CACHE_NAME = "web-ide-v10";
-const BASE = "/web-ide";
+const CACHE_NAME = "web-ide-v11";
+const BASE = "";
 
 const FILES = [
   `${BASE}/`,
