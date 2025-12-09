@@ -12,12 +12,6 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
    navigator.serviceWorker.register("/sw.js");
   });
-
-  if (navigator.serviceWorker) {
-  navigator.serviceWorker.addEventListener("message", e => {
-    alert(e.data);
-  });
-}
   
   // Hapus semua Service Worker
   navigator.serviceWorker.getRegistrations().then(regs => {
@@ -29,6 +23,13 @@ if ("serviceWorker" in navigator) {
     keys.forEach(key => caches.delete(key));
   });
 }
+
+
+    if (navigator.serviceWorker) {
+  navigator.serviceWorker.addEventListener("message", e => {
+    alert(e.data);
+  });
+    }
 
 </script>
 
