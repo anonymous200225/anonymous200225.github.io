@@ -12,7 +12,7 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
    navigator.serviceWorker.register("/sw.js");
   });
-  
+  /*
   // Hapus semua Service Worker
   navigator.serviceWorker.getRegistrations().then(regs => {
     regs.forEach(reg => reg.unregister());
@@ -22,6 +22,7 @@ if ("serviceWorker" in navigator) {
   caches.keys().then(keys => {
     keys.forEach(key => caches.delete(key));
   });
+  */
 }
 
 </script>
