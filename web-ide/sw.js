@@ -34,7 +34,6 @@ self.addEventListener("fetch", e => {
 });
 
 
-/*
 if ("serviceWorker" in navigator) {
   
   // Hapus semua Service Worker
@@ -51,4 +50,4 @@ if ("serviceWorker" in navigator) {
     });
   });
 }
-*/
+
