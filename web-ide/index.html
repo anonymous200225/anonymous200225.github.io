@@ -11,12 +11,9 @@
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
    navigator.serviceWorker.register("/sw.js");
-  });
-}
-
-  if (navigator.serviceWorker) {
-  navigator.serviceWorker.addEventListener("message", e => {
-    alert(e.data);
+    navigator.serviceWorker.addEventListener("message", e => {
+      alert(e.data);
+    });
   });
 }
 
