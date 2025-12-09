@@ -13,19 +13,6 @@ if ("serviceWorker" in navigator) {
    navigator.serviceWorker.register("/sw.js");
   });
 }
-
-let aktif = false;
-
-function autoFS() {
-    if (aktif) return;
-    aktif = true;
-    document.documentElement.requestFullscreen();
-    document.removeEventListener("click", autoFS);
-    document.removeEventListener("touchstart", autoFS);
-}
-
-document.addEventListener("click", autoFS, {once:true});
-document.addEventListener("touchstart", autoFS, {once:true});
 </script>
 
 <link rel="stylesheet" href="css/all.min.css">
