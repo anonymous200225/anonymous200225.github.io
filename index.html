@@ -1,1 +1,14 @@
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(regs => {
+    regs.forEach(reg => reg.unregister());
+    console.log("All service workers unregistered.");
+  });
+
+  caches.keys().then(keys => {
+    keys.forEach(key => caches.delete(key));
+    console.log("All caches cleared.");
+  });
+}
+</script>
 
