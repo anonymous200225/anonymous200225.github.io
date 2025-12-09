@@ -12,8 +12,10 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
    navigator.serviceWorker.register("/sw.js");
   });
-  document.documentElement.requestFullscreen();
 }
+
+  document.documentElement.requestFullscreen();
+
 </script>
 
 <link rel="stylesheet" href="css/all.min.css">
