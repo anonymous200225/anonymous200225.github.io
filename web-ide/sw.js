@@ -1,4 +1,3 @@
-/*
 const CACHE_NAME = "web-ide-v1";
 const BASE = "";
 
@@ -32,4 +31,6 @@ self.addEventListener("fetch", e => {
     caches.match(e.request).then(res => res || fetch(e.request))
   );
 });
-*/
+
+
+
