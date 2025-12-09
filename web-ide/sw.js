@@ -1,4 +1,4 @@
-const CACHE_NAME = "web-ide-v22";
+const CACHE_NAME = "web-ide-v1";
 const BASE = "/web-ide";
 
 const FILES = [
@@ -45,9 +45,9 @@ self.addEventListener("fetch", e => {
         // Kirim pesan ke halaman bahwa file diambil dari cache
         self.clients.matchAll().then(clients => {
           clients.forEach(client => {
-            alert("CACHE: " + req.url);
+            client.postMessage("CACHE: " + req.url);
           });
-        });
+       });
 
         return cached;
       }
