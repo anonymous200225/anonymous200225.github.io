@@ -1,1 +1,815 @@
-const _0x5195dc=_0x1528;function _0x1528(_0x3d0402,_0x491add){_0x3d0402=_0x3d0402-0x8d;const _0x21c5ac=_0x4463();let _0x42c035=_0x21c5ac[_0x3d0402];return _0x42c035;}(function(_0x56c3ec,_0x4811d0){const _0x53dc4a=_0x1528,_0x16c330=_0x56c3ec();while(!![]){try{const _0x2a7118=parseInt(_0x53dc4a(0xd9))/0x1+parseInt(_0x53dc4a(0x112))/0x2*(-parseInt(_0x53dc4a(0x127))/0x3)+-parseInt(_0x53dc4a(0x100))/0x4*(parseInt(_0x53dc4a(0xa9))/0x5)+parseInt(_0x53dc4a(0xb2))/0x6+-parseInt(_0x53dc4a(0x94))/0x7+parseInt(_0x53dc4a(0x91))/0x8*(parseInt(_0x53dc4a(0x140))/0x9)+-parseInt(_0x53dc4a(0xc4))/0xa*(-parseInt(_0x53dc4a(0xd4))/0xb);if(_0x2a7118===_0x4811d0)break;else _0x16c330['push'](_0x16c330['shift']());}catch(_0x4007be){_0x16c330['push'](_0x16c330['shift']());}}}(_0x4463,0x2290b),(function(){const _0x1559f2=_0x1528,_0x375393=(function(){let _0x3f67c8=!![];return function(_0x3e273e,_0x4d42a0){const _0x48cb47=_0x3f67c8?function(){const _0x384611=_0x1528;if(_0x4d42a0){const _0x466ee0=_0x4d42a0[_0x384611(0xc6)](_0x3e273e,arguments);return _0x4d42a0=null,_0x466ee0;}}:function(){};return _0x3f67c8=![],_0x48cb47;};}()),_0x425b5b=_0x375393(this,function(){const _0x541119=_0x1528;let _0x118ad7;try{const _0x141c24=Function(_0x541119(0xe7)+_0x541119(0xfa)+');');_0x118ad7=_0x141c24();}catch(_0x17e5ca){_0x118ad7=window;}const _0x556825=_0x118ad7[_0x541119(0x105)]=_0x118ad7[_0x541119(0x105)]||{},_0x5a5473=[_0x541119(0x144),_0x541119(0x145),_0x541119(0x11b),_0x541119(0x14c),_0x541119(0x126),'table',_0x541119(0x137)];for(let _0x415b90=0x0;_0x415b90<_0x5a5473[_0x541119(0xdf)];_0x415b90++){const _0x51ab23=_0x375393[_0x541119(0x122)][_0x541119(0xe6)]['bind'](_0x375393),_0x4f58f4=_0x5a5473[_0x415b90],_0x451bea=_0x556825[_0x4f58f4]||_0x51ab23;_0x51ab23[_0x541119(0x131)]=_0x375393['bind'](_0x375393),_0x51ab23[_0x541119(0x9e)]=_0x451bea[_0x541119(0x9e)][_0x541119(0xf9)](_0x451bea),_0x556825[_0x4f58f4]=_0x51ab23;}});_0x425b5b();const _0x35065f=0x2e623d,_0x3c96cc=_0x35065f/0x19,_0x247947=_0x35065f/0xad,_0x55f611=0x2e18,_0x1bafad=_0x35065f*0.02,_0xfba817=_0x35065f*0.01,_0x4e3378=_0x1bafad+_0xfba817;let _0x1abb16=[],_0x2e07f3={'nama':'-','id':'-','jabatan':'-'},_0x4e0410,_0x1acd07,_0x7ea64,_0x601131,_0x18e61c,_0x860978,_0x2dc6d9,_0x134bea,_0x2448cc,_0x311738,_0x3612df,_0xd022eb=null,_0x938c64=null;function _0xd977aa(_0x2a0ff6){const _0x33dcb0=_0x1528;return document[_0x33dcb0(0x99)](_0x2a0ff6);}function _0x167fea(){const _0x4665e0=_0x1528;localStorage[_0x4665e0(0x9b)](_0x4665e0(0xbd),JSON[_0x4665e0(0x8e)](_0x1abb16));}function _0xa9ea76(){const _0x5bc640=_0x1528,_0x4ca2a1=localStorage[_0x5bc640(0x141)](_0x5bc640(0xbd));if(_0x4ca2a1)_0x1abb16=JSON[_0x5bc640(0xbf)](_0x4ca2a1);}function _0x2633a0(){const _0x4a138f=_0x1528;localStorage['setItem'](_0x4a138f(0xe1),JSON[_0x4a138f(0x8e)](_0x2e07f3));}function _0xa553f(){const _0x2ba4f2=_0x1528,_0x1101bb=localStorage[_0x2ba4f2(0x141)]('userInfo');if(_0x1101bb)_0x2e07f3=JSON[_0x2ba4f2(0xbf)](_0x1101bb);}function _0x770222(_0x14eb2f){const _0x2f8fbf=_0x1528;if(!_0x14eb2f)return null;const _0x207e52=_0x14eb2f[_0x2f8fbf(0xf3)]('/');if(_0x207e52[_0x2f8fbf(0xdf)]!==0x3)return null;return new Date(parseInt(_0x207e52[0x2],0xa),parseInt(_0x207e52[0x1],0xa)-0x1,parseInt(_0x207e52[0x0],0xa));}function _0x31d628(_0x32cd69){const _0x346ca6=_0x1528;return String(_0x32cd69[_0x346ca6(0x128)]())[_0x346ca6(0xde)](0x2,'0')+'/'+String(_0x32cd69[_0x346ca6(0x14d)]()+0x1)[_0x346ca6(0xde)](0x2,'0')+'/'+_0x32cd69['getFullYear']();}function _0x250116(_0x52ef0e){const _0x531ced=_0x1528;return _0x531ced(0x12b)+Number(Math[_0x531ced(0x10a)](_0x52ef0e||0x0))[_0x531ced(0x136)](_0x531ced(0xce));}function _0x3d2be0(_0x3d0678,_0x4dd9aa){const _0x28eef2=_0x1528,_0x1b2829=document['getElementById'](_0x28eef2(0x120)),_0x29cf60=document[_0x28eef2(0x99)](_0x28eef2(0x8f)),_0x556759=document[_0x28eef2(0x99)](_0x28eef2(0xb8)),_0x59a5e4=document[_0x28eef2(0x99)](_0x28eef2(0x104)),_0x1f9bf2=document[_0x28eef2(0x99)]('statusPRS');if(!_0x1b2829||!_0x29cf60)return;if(!_0x3d0678||Number(_0x3d0678)<=0x0){_0x1b2829['checked']=![],_0x29cf60[_0x28eef2(0xa7)]=![];if(_0x4dd9aa===_0x28eef2(0xef)||_0x4dd9aa===_0x28eef2(0xf0))_0x59a5e4[_0x28eef2(0xa7)]=![];}else{if(_0x4dd9aa===_0x28eef2(0xf0))_0x1b2829[_0x28eef2(0xa7)]=!![],_0x29cf60['checked']=![],_0x556759[_0x28eef2(0xa7)]=![],_0x59a5e4[_0x28eef2(0xa7)]=!![],_0x1f9bf2[_0x28eef2(0xa7)]=!![];else _0x4dd9aa==='WD'||_0x4dd9aa==='OFF'?(_0x1b2829[_0x28eef2(0xa7)]=![],_0x29cf60[_0x28eef2(0xa7)]=!![],_0x59a5e4[_0x28eef2(0xa7)]=!![],_0x556759[_0x28eef2(0xa7)]=![],_0x1f9bf2[_0x28eef2(0xa7)]=!![]):(_0x1b2829[_0x28eef2(0xa7)]=![],_0x29cf60[_0x28eef2(0xa7)]=![],_0x556759[_0x28eef2(0xa7)]=!![],_0x59a5e4[_0x28eef2(0xa7)]=![]);}}function _0x174362(_0x509b53,_0x3588ee){const _0x430321=_0x1528;_0x509b53=Number(_0x509b53)||0x0,_0x3d2be0(_0x509b53,_0x3588ee);if(_0x509b53<=0x0)return 0x0;if(_0x3588ee===_0x430321(0xef)||_0x3588ee==='PHOFF'){if(_0x509b53<=0x7)return _0x509b53*0x2;return 0x7*0x2+(_0x509b53-0x7)*0x3+0x2;}else{if(_0x3588ee==='WD'){if(_0x509b53<=0x1)return 1.5;if(_0x509b53<=0x7)return 1.5+(_0x509b53-0x1)*0x2;return 1.5+0x6*0x2+(_0x509b53-0x7)*0x3+0x2;}}return 0x0;}function _0x22fec8(_0x521c32){const _0x20581c=_0x1528;let _0x16e030=0x0,_0x344af6=0x0,_0x44e431=0x0,_0x13768c=0x0,_0x5955fc=0x0,_0x27cc66=0x0,_0x518ffd=0x0;_0x521c32[_0x20581c(0x132)](_0x530b90=>{const _0x41834d=_0x20581c,_0x4c8a26=(_0x530b90[_0x41834d(0xbe)]||'')['toUpperCase'](),_0x1fc4dd=(_0x530b90['Status']||'')[_0x41834d(0x93)](),_0x2a6b1f=(_0x530b90['Other\x20Status']||'')[_0x41834d(0x93)]();if(_0x4c8a26==='WD'&&_0x1fc4dd===_0x41834d(0x13c)||_0x4c8a26===_0x41834d(0xf0)&&_0x1fc4dd===_0x41834d(0x13c))_0x16e030++;if(_0x4c8a26==='OFF'&&_0x1fc4dd===_0x41834d(0x13c))_0x13768c++;if(_0x1fc4dd==='ABS')_0x44e431++;if(_0x1fc4dd==='CT'||_0x1fc4dd==='CS')_0x344af6++;if(_0x2a6b1f['includes'](_0x41834d(0xa5))||_0x2a6b1f[_0x41834d(0xb5)](_0x41834d(0xab)))_0x518ffd++;_0x5955fc+=parseFloat((_0x530b90[_0x41834d(0x135)]||'0')['toString']()['replace'](',','.'))||0x0,_0x27cc66+=parseFloat((_0x530b90['Indeks\x20Lembur']||'0')[_0x41834d(0x9e)]()[_0x41834d(0xa2)](',','.'))||0x0;});let _0x79b307=Number(_0x16e030)>0x0?_0x4e3378:0x0,_0x218e7a=_0x16e030*_0x3c96cc+_0x27cc66*_0x247947>_0x35065f?_0x35065f:_0x16e030*_0x3c96cc,_0x3d84db=_0x218e7a+_0x27cc66*_0x247947+_0x518ffd*_0x55f611-_0x79b307;return{'hariKerja':_0x16e030,'cuti':_0x344af6,'absen':_0x44e431,'off':_0x13768c,'totalJam':_0x5955fc,'totalIndeks':_0x27cc66,'gaji':_0x3d84db};}function _0x4b9973(_0x296946,_0x4fd2c4,_0x4e78fd){const _0x25b8f8=_0x1528,_0x11f941=_0x4fd2c4||'-',_0x54a32f=_0x4e78fd||'-',_0x5470c1=_0x25b8f8(0x12a),_0x11d20a=_0x25b8f8(0xa6);return _0x25b8f8(0xb4)+_0x5470c1+_0x25b8f8(0xdc)+_0x11f941+_0x25b8f8(0x117)+_0x54a32f+'</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x11d20a+_0x25b8f8(0x138)+_0x2e07f3[_0x25b8f8(0xeb)]+'</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>NIK\x20/\x20ID</td><td>'+_0x2e07f3['id']+_0x25b8f8(0xb1)+_0x2e07f3[_0x25b8f8(0xf8)]+_0x25b8f8(0x11c)+_0x296946[_0x25b8f8(0xe5)]+_0x25b8f8(0x8d)+_0x296946[_0x25b8f8(0xcb)]+'</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Absen</td><td>'+_0x296946['absen']+_0x25b8f8(0xf4)+_0x296946[_0x25b8f8(0xba)][_0x25b8f8(0x121)](0x2)+_0x25b8f8(0x12f)+_0x296946[_0x25b8f8(0x90)][_0x25b8f8(0x121)](0x2)+_0x25b8f8(0x13e)+_0x250116(_0x296946[_0x25b8f8(0x13d)])+_0x25b8f8(0xd7);}function _0x50abe0(_0x130a71){const _0x2fc077=_0x1528,_0x398221=(_0x130a71[_0x2fc077(0xbe)]||'')[_0x2fc077(0x93)](),_0x1eadd8=(_0x130a71['Status']||'')[_0x2fc077(0x93)]();if(_0x1eadd8===_0x2fc077(0xf1))return'abs';if(_0x1eadd8==='CT'||_0x1eadd8==='CS')return'ct';if(_0x398221===_0x2fc077(0xf0))return _0x2fc077(0xdb);if(_0x398221==='OFF')return _0x2fc077(0xb8);if(_0x398221==='WD')return'wd';return'';}function _0x20c78f(_0x1faade){const _0x5c9d5e=_0x1528;if(!_0x1faade[_0x5c9d5e(0xdf)])return'';const _0x3afdc1=Object[_0x5c9d5e(0x143)](_0x1faade[0x0])[_0x5c9d5e(0x107)](_0x51f173=>_0x51f173!==_0x5c9d5e(0xfe));let _0x3dcab9=_0x5c9d5e(0x114);return _0x3afdc1[_0x5c9d5e(0x132)](_0x39ca78=>_0x3dcab9+=_0x5c9d5e(0xac)+_0x39ca78+_0x5c9d5e(0xc0)),_0x3dcab9+=_0x5c9d5e(0xda),_0x1faade['forEach']((_0x439587,_0x48d0a0)=>{const _0x3ddcdd=_0x5c9d5e,_0x580296=_0x1abb16[_0x3ddcdd(0x142)](_0x335639=>_0x335639[_0x3ddcdd(0x11e)]===_0x439587[_0x3ddcdd(0x11e)]),_0x1d5000=_0x580296!==-0x1?_0x580296:_0x48d0a0;_0x3dcab9+=_0x3ddcdd(0xaf)+_0x50abe0(_0x439587)+_0x3ddcdd(0xea)+_0x1d5000+'\x22\x20data-tanggal=\x22'+_0x439587[_0x3ddcdd(0x11e)]+'\x22>',_0x3afdc1[_0x3ddcdd(0x132)](_0xbc45cc=>{const _0x301073=_0x3ddcdd,_0x4a0600=_0x439587[_0xbc45cc]==null?'':_0x439587[_0xbc45cc];_0x3dcab9+=_0x301073(0xbc)+_0x4a0600+_0x301073(0xa4);}),_0x3dcab9+=_0x3ddcdd(0xb0)+_0x1d5000+_0x3ddcdd(0xae);}),_0x3dcab9+=_0x5c9d5e(0x11d),_0x3dcab9;}function _0x8bab31(){const _0x540705=_0x1528;_0x7ea64[_0x540705(0xfb)]('click',function(_0x31cf41){const _0x58bc97=_0x540705,_0x1406a1=_0x31cf41[_0x58bc97(0xbb)][_0x58bc97(0x14a)]('.delBtn');if(_0x1406a1){_0x31cf41['stopPropagation']();return;}const _0x4a36cb=_0x31cf41['target'][_0x58bc97(0x14a)]('tr');if(!_0x4a36cb||!_0x4a36cb['parentElement']||_0x4a36cb[_0x58bc97(0xa3)][_0x58bc97(0x11a)]!==_0x58bc97(0x123))return;const _0x4bf208=_0x4a36cb['querySelectorAll']('td');if(_0x4bf208[_0x58bc97(0xdf)]<0x1)return;document['querySelector'](_0x58bc97(0xc3))['scrollIntoView']({'behavior':_0x58bc97(0x96),'block':'center'});const _0x44eccd=_0x4bf208[0x0][_0x58bc97(0xd3)][_0x58bc97(0x102)](),_0x3bc0a2=_0x4bf208[0x1][_0x58bc97(0xd3)][_0x58bc97(0x102)](),_0x5d0be8=_0x4bf208[0x2][_0x58bc97(0xd3)][_0x58bc97(0x102)](),_0x3a35d9=_0x4bf208[0x3][_0x58bc97(0xd3)][_0x58bc97(0x102)](),_0x31aa10=_0x4bf208[0x4][_0x58bc97(0xd3)][_0x58bc97(0x102)](),_0x153af8=_0x4bf208[0x5][_0x58bc97(0xd3)][_0x58bc97(0x102)](),_0x4c39fd=_0x4bf208[0x6][_0x58bc97(0xd3)][_0x58bc97(0x102)]();function _0x359d9b(_0x55602f){const _0x4081b7=_0x58bc97,_0x259bb7=_0x770222(_0x55602f);if(!_0x259bb7)return'';const _0x431ce2=_0x259bb7[_0x4081b7(0xa0)](),_0x4e59f0=String(_0x259bb7[_0x4081b7(0x14d)]()+0x1)[_0x4081b7(0xde)](0x2,'0'),_0x788d3f=String(_0x259bb7[_0x4081b7(0x128)]())[_0x4081b7(0xde)](0x2,'0');return _0x431ce2+'-'+_0x4e59f0+'-'+_0x788d3f;}_0x601131['value']=_0x359d9b(_0x44eccd),_0x18e61c[_0x58bc97(0x103)]=_0x3a35d9,_0x860978[_0x58bc97(0x103)]=_0x5d0be8,_0x2dc6d9[_0x58bc97(0x103)]=_0x31aa10[_0x58bc97(0xa2)](',','.');const _0x1dea64=document[_0x58bc97(0xe0)](_0x58bc97(0xf6)+_0x3bc0a2+'\x22]');if(_0x1dea64)_0x1dea64[_0x58bc97(0xa7)]=!![];const _0x2abb1e=document[_0x58bc97(0xe0)](_0x58bc97(0x13f)+_0x153af8+'\x22]');if(_0x2abb1e)_0x2abb1e[_0x58bc97(0xa7)]=!![];document['querySelectorAll']('.other-status')[_0x58bc97(0x132)](_0x1e913e=>_0x1e913e[_0x58bc97(0xa7)]=![]),_0x4c39fd!==''&&_0x4c39fd[_0x58bc97(0xf3)](',')[_0x58bc97(0x132)](_0x3ae8bc=>{const _0x432f92=_0x58bc97,_0x23e739=document[_0x432f92(0xe0)](_0x432f92(0x12d)+_0x3ae8bc[_0x432f92(0x102)]()+'\x22]');if(_0x23e739)_0x23e739['checked']=!![];});});}function _0x299d42(){const _0x264c17=_0x1528,_0x439ef9=_0x7ea64['querySelectorAll'](_0x264c17(0xe2));_0x439ef9[_0x264c17(0x132)](_0x2c350e=>{const _0x5f2c32=_0x264c17,_0x504196=_0x2c350e[_0x5f2c32(0x115)](!![]);_0x2c350e[_0x5f2c32(0xe4)][_0x5f2c32(0x13a)](_0x504196,_0x2c350e);});const _0x427aa6=_0x7ea64[_0x264c17(0xfc)](_0x264c17(0xe2));_0x427aa6[_0x264c17(0x132)](_0x44ca16=>{const _0x4f6ddd=_0x264c17;_0x44ca16[_0x4f6ddd(0xfb)](_0x4f6ddd(0x97),_0x478744);});}function _0x478744(_0x172071){const _0x2b7584=_0x1528;_0x172071[_0x2b7584(0xa8)](),_0x172071[_0x2b7584(0xb3)]();const _0x2dffbf=Number(this['dataset'][_0x2b7584(0x10f)]);if(isNaN(_0x2dffbf)){const _0x3e9d07=this[_0x2b7584(0x14a)]('tr');if(_0x3e9d07&&_0x3e9d07[_0x2b7584(0x10d)][_0x2b7584(0x9a)]){const _0x1143d0=_0x3e9d07[_0x2b7584(0x10d)][_0x2b7584(0x9a)],_0x4cf33f=_0x1abb16[_0x2b7584(0x142)](_0x3dfe39=>_0x3dfe39[_0x2b7584(0x11e)]===_0x1143d0);if(_0x4cf33f!==-0x1){_0x26768a(_0x4cf33f);return;}}alert(_0x2b7584(0xee));return;}_0x26768a(_0x2dffbf);}function _0x26768a(_0x3999fe){const _0xcf53ce=_0x1528;if(!confirm(_0xcf53ce(0x9d)))return;_0x3999fe>=0x0&&_0x3999fe<_0x1abb16[_0xcf53ce(0xdf)]?(_0x1abb16[_0xcf53ce(0x9f)](_0x3999fe,0x1),_0x167fea(),_0x43a19e()):alert('Index\x20tidak\x20valid.\x20Refresh\x20halaman\x20dan\x20coba\x20lagi.');}function _0xc5adf2(){const _0x1171d6=_0x1528,_0x24457d=_0x601131[_0x1171d6(0x103)];if(!_0x24457d)return alert(_0x1171d6(0xd2));const [_0x1fe377,_0x2b57cc,_0x4122a8]=_0x24457d['split']('-'),_0x28c1f8=_0x4122a8+'/'+_0x2b57cc+'/'+_0x1fe377,_0x5f280d=parseFloat(_0x18e61c['value'])||0x0,_0x3edd0f=Math[_0x1171d6(0x10a)](_0x5f280d*0x3c),_0x23e853=document[_0x1171d6(0xe0)](_0x1171d6(0xc8))[_0x1171d6(0x103)],_0x56a33a=document[_0x1171d6(0xe0)]('input[name=\x27manualStatus\x27]:checked')[_0x1171d6(0x103)],_0x5814e2=Array[_0x1171d6(0xad)](document[_0x1171d6(0xfc)](_0x1171d6(0x110)))[_0x1171d6(0xe3)](_0x527d4d=>_0x527d4d[_0x1171d6(0x103)])[_0x1171d6(0xc2)](',');if(!_0x23e853||!_0x56a33a){alert(_0x1171d6(0xc7));return;}const _0x2d7b4d=_0x1abb16['findIndex'](_0x29361c=>_0x29361c[_0x1171d6(0x11e)]===_0x28c1f8),_0x5b8dd1={'Tanggal':_0x28c1f8,'Tipe\x20Hari':_0x23e853,'Menit\x20Lembur':_0x3edd0f,'Jam\x20Lembur':Number(_0x5f280d)[_0x1171d6(0x121)](0x2),'Indeks\x20Lembur':_0x174362(_0x5f280d,_0x23e853)['toFixed'](0x2),'Status':_0x56a33a,'Other\x20Status':_0x5814e2};_0x2d7b4d!==-0x1?_0x1abb16[_0x2d7b4d]=_0x5b8dd1:_0x1abb16[_0x1171d6(0x108)](_0x5b8dd1),_0x167fea(),_0x43a19e();}function _0x416aeb(){const _0x56a0b7=_0x1528;if(!confirm(_0x56a0b7(0xd0)))return;_0x1abb16=[],localStorage[_0x56a0b7(0x119)]('sunfishData'),_0x43a19e();}function _0x4cfb38(_0x113a9e){const _0x201187=_0x1528,_0x5be9e8=_0x113a9e[_0x201187(0xbb)]['files'][0x0];if(!_0x5be9e8)return;if(!_0x5be9e8[_0x201187(0xb6)][_0x201187(0xd8)]()['endsWith']('.xls'))return alert(_0x201187(0x101));const _0x5263ae=new FileReader();_0x5263ae[_0x201187(0xca)]=function(_0x12b78b){const _0x577e0b=_0x201187;try{const _0x3105ea=new DOMParser()[_0x577e0b(0xc5)](_0x12b78b[_0x577e0b(0xbb)][_0x577e0b(0xd5)],'text/html'),_0x31d767=_0x3105ea[_0x577e0b(0xe0)](_0x577e0b(0xaa));if(!_0x31d767)return alert(_0x577e0b(0x92));const _0x35748f=_0x31d767['querySelectorAll'](_0x577e0b(0x95)),_0x4e7d92=[];_0x35748f[_0x577e0b(0x132)](_0x2dc0ad=>{const _0xd60a06=_0x577e0b,_0x4a90d2=_0x2dc0ad[_0xd60a06(0xfc)]('td');if(!_0x4a90d2||_0x4a90d2[_0xd60a06(0xdf)]<0x17)return;const _0x1769ef=parseFloat(_0x4a90d2[0x0]['textContent']['trim']());let _0xddb1da;if(!isNaN(_0x1769ef)){const _0x16a260=new Date((_0x1769ef-0x63e1)*0x15180*0x3e8);_0xddb1da=_0x16a260['toLocaleDateString'](_0xd60a06(0xce));}else _0xddb1da=_0x4a90d2[0x0][_0xd60a06(0xd3)][_0xd60a06(0x102)]();_0x2e07f3={'nama':_0x4a90d2[0x1][_0xd60a06(0xd3)][_0xd60a06(0x102)]()||'-','id':_0x4a90d2[0x2]['textContent']['trim']()||'-','jabatan':_0x4a90d2[0x3][_0xd60a06(0xd3)]['trim']()||'-'},_0x2633a0();const _0x476e92=(_0x4a90d2[0x11][_0xd60a06(0xd3)]||'')[_0xd60a06(0x102)](),_0x303fdc=parseFloat(_0x476e92)/0x3c;_0x4e7d92[_0xd60a06(0x108)]({'Tanggal':_0xddb1da,'Tipe\x20Hari':(_0x4a90d2[0xf][_0xd60a06(0xd3)]||'')['trim']()[_0xd60a06(0x93)](),'Menit\x20Lembur':_0x476e92,'Jam\x20Lembur':isNaN(_0x303fdc)?'0.00':_0x303fdc[_0xd60a06(0x121)](0x2),'Indeks\x20Lembur':(_0x4a90d2[0x12][_0xd60a06(0xd3)]||'')['trim'](),'Status':(_0x4a90d2[0x15][_0xd60a06(0xd3)]||'')[_0xd60a06(0x102)]()[_0xd60a06(0x93)](),'Other\x20Status':(_0x4a90d2[0x16][_0xd60a06(0xd3)]||'')[_0xd60a06(0x102)]()['toUpperCase']()});}),_0x4e7d92['forEach'](_0x62fcc4=>{const _0x282667=_0x577e0b,_0x1b7dd1=_0x62fcc4['Tanggal'];if(!_0x1b7dd1)return;const _0x31a061=_0x1abb16[_0x282667(0x142)](_0x5bcd00=>_0x5bcd00['Tanggal']===_0x1b7dd1);_0x31a061>=0x0?_0x1abb16[_0x31a061]=_0x62fcc4:_0x1abb16[_0x282667(0x108)](_0x62fcc4);}),_0x167fea(),_0x43a19e(),alert('Data\x20berhasil\x20diimpor!\x20'+_0x4e7d92[_0x577e0b(0xdf)]+'\x20baris\x20ditambahkan.');}catch(_0x2282fa){alert(_0x577e0b(0x10e)+_0x2282fa['message']);}},_0x5263ae['readAsText'](_0x5be9e8);}function _0x373c9d(){setTimeout(()=>{const _0xef910d=_0x1528,_0x101260=document[_0xef910d(0xe0)](_0xef910d(0xf2));if(_0x101260){if(!_0x101260[_0xef910d(0xa3)][_0xef910d(0x116)]['contains'](_0xef910d(0xcd))){const _0x14337c=document[_0xef910d(0xc9)]('div');_0x14337c['className']=_0xef910d(0xcd),_0x101260[_0xef910d(0xa3)]['insertBefore'](_0x14337c,_0x101260),_0x14337c['appendChild'](_0x101260);}}const _0x11fe9a=document[_0xef910d(0xe0)]('.table-wrapper');_0x11fe9a&&(_0x11fe9a['style'][_0xef910d(0xcf)]=_0xef910d(0x12e));const _0x769569=document[_0xef910d(0xfc)](_0xef910d(0x125));_0x769569[_0xef910d(0x132)](_0x44776b=>{const _0x6ded64=_0xef910d;_0x44776b['style']['position']=_0x6ded64(0xed),_0x44776b[_0x6ded64(0x14b)][_0x6ded64(0x109)]='0',_0x44776b[_0x6ded64(0x14b)][_0x6ded64(0xd1)]='10';});},0x64);}function _0x43a19e(){const _0x5224c4=_0x1528;_0x1abb16[_0x5224c4(0x132)](_0x30f5ff=>{const _0x58569d=_0x5224c4;_0x30f5ff[_0x58569d(0xfe)]=_0x770222(_0x30f5ff[_0x58569d(0x11e)]);}),_0x1abb16[_0x5224c4(0x118)]((_0x485516,_0x44d513)=>{const _0x5942bf=_0x5224c4;if(!_0x485516[_0x5942bf(0xfe)]||!_0x44d513[_0x5942bf(0xfe)])return 0x0;return _0x485516[_0x5942bf(0xfe)]-_0x44d513[_0x5942bf(0xfe)];});let _0x5ddc1b=_0x1abb16['slice']();(_0xd022eb||_0x938c64)&&(_0x5ddc1b=_0x1abb16[_0x5224c4(0x107)](_0x4a2969=>{const _0x5b910c=_0x5224c4;if(!_0x4a2969[_0x5b910c(0xfe)])return![];if(_0xd022eb&&_0x4a2969[_0x5b910c(0xfe)]<_0xd022eb)return![];if(_0x938c64&&_0x4a2969[_0x5b910c(0xfe)]>_0x938c64)return![];return!![];}));_0x7ea64[_0x5224c4(0x13b)]=_0x20c78f(_0x5ddc1b),_0x8bab31(),_0x299d42();if(_0x5ddc1b[_0x5224c4(0xdf)]){const _0x2b32f3=_0x22fec8(_0x5ddc1b),_0x1a6c98=_0x5ddc1b[0x0][_0x5224c4(0x11e)],_0x5ccb87=_0x5ddc1b[_0x5ddc1b['length']-0x1]['Tanggal'];_0x1acd07[_0x5224c4(0x13b)]=_0x4b9973(_0x2b32f3,_0x1a6c98,_0x5ccb87);}else{const _0xea4b6c=_0x22fec8([]),_0x2c72fb=_0xd022eb?_0x31d628(_0xd022eb):_0x1abb16[0x0]?_0x1abb16[0x0][_0x5224c4(0x11e)]:'-',_0x2e6f4f=_0x938c64?_0x31d628(_0x938c64):_0x1abb16[_0x1abb16['length']-0x1]?_0x1abb16[_0x1abb16[_0x5224c4(0xdf)]-0x1][_0x5224c4(0x11e)]:'-';_0x1acd07[_0x5224c4(0x13b)]=_0x4b9973(_0xea4b6c,_0x2c72fb,_0x2e6f4f);}_0x167fea(),_0x5ac322(),_0x373c9d();}function _0x3df122(_0x2ac91d){const _0x82f330=_0x1528,_0x12abfc=document['querySelectorAll'](_0x82f330(0x149));_0x12abfc[_0x82f330(0x132)](_0x5f36db=>_0x5f36db[_0x82f330(0xa7)]=![]),_0x2ac91d==='WD'&&(_0xd977aa('eai')[_0x82f330(0xa7)]=!![],_0xd977aa(_0x82f330(0x104))['checked']=!![],_0xd977aa(_0x82f330(0x11f))['checked']=!![],_0xd977aa(_0x82f330(0xe9))[_0x82f330(0xa7)]=!![]);}function _0x39ff2a(_0x4bc21a){const _0x5156f3=_0x1528,_0x2f9ead=document['querySelectorAll']('.other-status');_0x2f9ead[_0x5156f3(0x132)](_0x2b7c76=>_0x2b7c76[_0x5156f3(0xa7)]=![]);if(_0x4bc21a===_0x5156f3(0x13c)&&_0xd977aa('tipeHariWD')[_0x5156f3(0xa7)]===!![])_0xd977aa(_0x5156f3(0x111))['checked']=!![],_0xd977aa('prs')[_0x5156f3(0xa7)]=!![],_0xd977aa('prsmeal')['checked']=!![];else{if(_0x4bc21a==='ABS')_0xd977aa(_0x5156f3(0xc1))[_0x5156f3(0xa7)]=!![],_0xd977aa(_0x5156f3(0x12c))[_0x5156f3(0xa7)]=!![];else{if(_0x4bc21a===_0x5156f3(0xef))_0xd977aa(_0x5156f3(0xdd))['checked']=!![],_0xd977aa(_0x5156f3(0xb8))[_0x5156f3(0xa7)]=!![];else _0x4bc21a==='CT'&&(_0xd977aa(_0x5156f3(0xc1))[_0x5156f3(0xa7)]=!![],_0xd977aa('ct')[_0x5156f3(0xa7)]=!![]);}}}function _0x5ac322(){const _0x42c242=_0x1528,_0x1a2f9=document[_0x42c242(0x99)](_0x42c242(0xf7)),_0x1770f8=document[_0x42c242(0x99)](_0x42c242(0x130)),_0x20760c=document[_0x42c242(0x99)](_0x42c242(0x106)),_0x49be2b=document['getElementById'](_0x42c242(0x113));_0x20760c&&(_0x20760c[_0x42c242(0xb9)]=()=>_0x1b6a5d(-0x1)),_0x49be2b&&(_0x49be2b['onclick']=()=>_0x1b6a5d(+0x1)),_0x1a2f9&&(_0x1a2f9[_0x42c242(0xb9)]=_0x4601d3),_0x1770f8&&(_0x1770f8['onclick']=_0x14f48d);}function _0x1b6a5d(_0x219995){const _0x3ce278=_0x1528;if(!_0xd022eb||!_0x938c64){if(!_0x1abb16||!_0x1abb16['length'])return;_0x1abb16[_0x3ce278(0x132)](_0x27813f=>{const _0x4ea663=_0x3ce278;_0x27813f[_0x4ea663(0xfe)]=_0x770222(_0x27813f[_0x4ea663(0x11e)]);}),_0x1abb16['sort']((_0x39c567,_0x52319)=>_0x39c567['dateObj']&&_0x52319['dateObj']?_0x39c567[_0x3ce278(0xfe)]-_0x52319[_0x3ce278(0xfe)]:0x0);const _0x1e33aa=_0x1abb16[0x0],_0x34e473=_0x1abb16[_0x1abb16[_0x3ce278(0xdf)]-0x1];if(!_0x1e33aa||!_0x34e473)return;_0xd022eb=_0x1e33aa['dateObj']?new Date(_0x1e33aa[_0x3ce278(0xfe)]):_0x770222(_0x1e33aa[_0x3ce278(0x11e)]),_0x938c64=_0x34e473[_0x3ce278(0xfe)]?new Date(_0x34e473[_0x3ce278(0xfe)]):_0x770222(_0x34e473[_0x3ce278(0x11e)]);}const _0x4845e4=new Date(_0xd022eb),_0x22ce5d=new Date(_0x938c64);_0x4845e4['setMonth'](_0x4845e4[_0x3ce278(0x14d)]()+_0x219995),_0x22ce5d[_0x3ce278(0x10b)](_0x22ce5d['getMonth']()+_0x219995),_0xd022eb=_0x4845e4,_0x938c64=_0x22ce5d;try{localStorage['setItem']('filterStart',_0x28141a(_0x4845e4)),localStorage[_0x3ce278(0x9b)](_0x3ce278(0xcc),_0x28141a(_0x22ce5d));}catch(_0x211e83){}const _0x40d31f=_0xd977aa(_0x3ce278(0xa1)),_0x535ec7=_0xd977aa(_0x3ce278(0x129));if(_0x40d31f)_0x40d31f[_0x3ce278(0x103)]=_0x28141a(_0x4845e4);if(_0x535ec7)_0x535ec7[_0x3ce278(0x103)]=_0x28141a(_0x22ce5d);_0x43a19e();}function _0x28141a(_0x31ccb6){const _0x4f7c9f=_0x1528;return _0x31ccb6[_0x4f7c9f(0xa0)]()+'-'+String(_0x31ccb6[_0x4f7c9f(0x14d)]()+0x1)['padStart'](0x2,'0')+'-'+String(_0x31ccb6['getDate']())[_0x4f7c9f(0xde)](0x2,'0');}function _0x4601d3(){const _0x270070=_0x1528,_0x50191c=_0xd977aa('filterStartInput');if(!_0x50191c)return;const _0x34058e=document[_0x270070(0x99)](_0x270070(0xf7))[_0x270070(0x146)][_0x270070(0x102)](),_0x309552=_0x34058e[_0x270070(0xf3)]('/');_0x309552[_0x270070(0xdf)]===0x3&&(_0x50191c[_0x270070(0x103)]=_0x309552[0x2]+'-'+_0x309552[0x1]+'-'+_0x309552[0x0]),_0x50191c[_0x270070(0x97)]();}function _0x14f48d(){const _0x122a4b=_0x1528,_0x38ed7b=_0xd977aa(_0x122a4b(0x129));if(!_0x38ed7b)return;const _0x2b4030=document[_0x122a4b(0x99)](_0x122a4b(0x130))[_0x122a4b(0x146)][_0x122a4b(0x102)](),_0x2219e4=_0x2b4030[_0x122a4b(0xf3)]('/');_0x2219e4[_0x122a4b(0xdf)]===0x3&&(_0x38ed7b['value']=_0x2219e4[0x2]+'-'+_0x2219e4[0x1]+'-'+_0x2219e4[0x0]),_0x38ed7b[_0x122a4b(0x97)]();}document[_0x1559f2(0xfb)](_0x1559f2(0xf5),()=>{const _0x3cebf3=_0x1559f2;_0x4e0410=_0xd977aa(_0x3cebf3(0x147)),_0x1acd07=_0xd977aa(_0x3cebf3(0xfd)),_0x7ea64=_0xd977aa(_0x3cebf3(0x98)),_0x601131=_0xd977aa('manualTanggal'),_0x18e61c=_0xd977aa('manualJamLembur'),_0x860978=_0xd977aa('manualMenitLembur'),_0x2dc6d9=_0xd977aa(_0x3cebf3(0x9c)),_0x134bea=_0xd977aa('btnAdd'),_0x2448cc=_0xd977aa(_0x3cebf3(0xec)),_0x311738=document[_0x3cebf3(0xfc)](_0x3cebf3(0x124)),_0x3612df=document[_0x3cebf3(0xfc)]('input[name=\x22manualStatus\x22]'),_0xa9ea76(),_0xa553f();const _0x184a52=localStorage['getItem']('filterStart'),_0x96e01a=localStorage[_0x3cebf3(0x141)](_0x3cebf3(0xcc));if(_0x184a52){const _0x3fb7ab=_0x184a52[_0x3cebf3(0xf3)]('-');_0xd022eb=new Date(parseInt(_0x3fb7ab[0x0],0xa),parseInt(_0x3fb7ab[0x1],0xa)-0x1,parseInt(_0x3fb7ab[0x2],0xa)),_0xd977aa(_0x3cebf3(0xa1))[_0x3cebf3(0x103)]=_0x184a52;}if(_0x96e01a){const _0x2e64cf=_0x96e01a['split']('-');_0x938c64=new Date(parseInt(_0x2e64cf[0x0],0xa),parseInt(_0x2e64cf[0x1],0xa)-0x1,parseInt(_0x2e64cf[0x2],0xa)),_0xd977aa(_0x3cebf3(0x129))[_0x3cebf3(0x103)]=_0x96e01a;}const _0x426835=new Date();_0x601131[_0x3cebf3(0x103)]=_0x426835['getFullYear']()+'-'+String(_0x426835[_0x3cebf3(0x14d)]()+0x1)[_0x3cebf3(0xde)](0x2,'0')+'-'+String(_0x426835[_0x3cebf3(0x128)]())['padStart'](0x2,'0'),_0x4e0410['addEventListener']('change',_0x4cfb38),_0x18e61c[_0x3cebf3(0xfb)](_0x3cebf3(0xff),()=>{const _0x3cf167=_0x3cebf3,_0x371510=parseFloat(_0x18e61c['value'])||0x0;_0x860978['value']=Math['round'](_0x371510*0x3c);const _0x52e016=document[_0x3cf167(0xe0)]('input[name=\x27manualTipeHari\x27]:checked')['value'];_0x2dc6d9[_0x3cf167(0x103)]=_0x174362(_0x371510,_0x52e016)[_0x3cf167(0x121)](0x2);}),_0x860978[_0x3cebf3(0xfb)](_0x3cebf3(0xff),()=>{const _0x3932b3=_0x3cebf3,_0x3eada5=parseFloat(_0x860978[_0x3932b3(0x103)])||0x0,_0xec7f1e=_0x3eada5/0x3c;_0x18e61c[_0x3932b3(0x103)]=_0xec7f1e[_0x3932b3(0x121)](0x2);const _0x1b0116=document[_0x3932b3(0xe0)](_0x3932b3(0xc8))[_0x3932b3(0x103)];_0x2dc6d9['value']=_0x174362(_0xec7f1e,_0x1b0116)['toFixed'](0x2);}),_0x134bea['addEventListener']('click',_0x103ce0=>{_0x103ce0['preventDefault'](),_0xc5adf2();}),_0x2448cc[_0x3cebf3(0xfb)](_0x3cebf3(0x97),_0x371f1e=>{const _0x1ee717=_0x3cebf3;_0x371f1e[_0x1ee717(0xb3)](),_0x416aeb();}),_0x311738[_0x3cebf3(0x132)](_0x2ff935=>_0x2ff935[_0x3cebf3(0xfb)]('change',()=>{const _0x2f75b7=_0x3cebf3;if(_0x2ff935[_0x2f75b7(0xa7)])_0x3df122(_0x2ff935[_0x2f75b7(0x103)]);})),_0x3612df[_0x3cebf3(0x132)](_0x316eae=>_0x316eae[_0x3cebf3(0xfb)]('change',()=>{const _0x45a574=_0x3cebf3;if(_0x316eae[_0x45a574(0xa7)])_0x39ff2a(_0x316eae[_0x45a574(0x103)]);}));const _0x19ed08=_0xd977aa(_0x3cebf3(0xa1)),_0x12d688=_0xd977aa(_0x3cebf3(0x129));if(_0x19ed08)_0x19ed08[_0x3cebf3(0xfb)](_0x3cebf3(0xb7),_0x2cd9a8=>{const _0x22fb22=_0x3cebf3,_0x5d15c0=_0x2cd9a8[_0x22fb22(0xbb)][_0x22fb22(0x103)];if(!_0x5d15c0){_0xd022eb=null,localStorage[_0x22fb22(0x119)](_0x22fb22(0x133)),_0x43a19e();return;}const _0x41b783=_0x5d15c0[_0x22fb22(0xf3)]('-');_0xd022eb=new Date(parseInt(_0x41b783[0x0],0xa),parseInt(_0x41b783[0x1],0xa)-0x1,parseInt(_0x41b783[0x2],0xa)),localStorage[_0x22fb22(0x9b)](_0x22fb22(0x133),_0x5d15c0),_0x43a19e();});if(_0x12d688)_0x12d688[_0x3cebf3(0xfb)]('change',_0x52fb15=>{const _0x2c16e6=_0x3cebf3,_0x1171de=_0x52fb15[_0x2c16e6(0xbb)][_0x2c16e6(0x103)];if(!_0x1171de){_0x938c64=null,localStorage[_0x2c16e6(0x119)](_0x2c16e6(0xcc)),_0x43a19e();return;}const _0x1d1605=_0x1171de['split']('-');_0x938c64=new Date(parseInt(_0x1d1605[0x0],0xa),parseInt(_0x1d1605[0x1],0xa)-0x1,parseInt(_0x1d1605[0x2],0xa)),localStorage[_0x2c16e6(0x9b)](_0x2c16e6(0xcc),_0x1171de),_0x43a19e();});_0x601131['addEventListener'](_0x3cebf3(0xb7),function(){const _0x4913f6=_0x3cebf3,_0x40f07a=new Date(this[_0x4913f6(0x103)]),_0x53ac64=_0x40f07a[_0x4913f6(0x139)]();_0x53ac64===0x0?(_0x39ff2a(_0x4913f6(0xef)),document[_0x4913f6(0xe0)]('input[name=\x22manualStatus\x22][value=\x22OFF\x22]')[_0x4913f6(0xa7)]=!![],document[_0x4913f6(0xe0)]('input[name=\x22manualTipeHari\x22][value=\x22OFF\x22]')[_0x4913f6(0xa7)]=!![]):(_0x39ff2a('WD'),_0x3df122('WD'),document[_0x4913f6(0xe0)](_0x4913f6(0x134))[_0x4913f6(0xa7)]=!![],document['querySelector'](_0x4913f6(0x10c))[_0x4913f6(0xa7)]=!![]);const _0x2ee89f=parseFloat(_0x18e61c[_0x4913f6(0x103)])||0x0,_0xcb2a7=document[_0x4913f6(0xe0)](_0x4913f6(0xc8))[_0x4913f6(0x103)];_0x2dc6d9['value']=_0x174362(_0x2ee89f,_0xcb2a7)['toFixed'](0x2);}),_0x601131[_0x3cebf3(0x148)](new Event('change')),setTimeout(()=>{const _0x1e7b72=_0x3cebf3;document[_0x1e7b72(0x99)]('load-wrapper')[_0x1e7b72(0x14b)][_0x1e7b72(0xd6)]=_0x1e7b72(0xe8),_0x43a19e();},0x12c);}),window['_app']={'refreshUI':_0x43a19e,'saveLocal':_0x167fea,'loadLocal':_0xa9ea76,'parsedData':_0x1abb16};}()),document[_0x5195dc(0xfb)]('DOMContentLoaded',()=>{}));function _0x4463(){const _0x574c22=['Gagal\x20menghapus:\x20Data\x20tidak\x20ditemukan','OFF','PHOFF','ABS','.data-table','split','</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Jam\x20Lembur</td><td>','DOMContentLoaded','input[name=\x22manualTipeHari\x22][value=\x22','periodStart','jabatan','bind','{}.constructor(\x22return\x20this\x22)(\x20)','addEventListener','querySelectorAll','summaryOutput','dateObj','input','8jZmTTR','Gunakan\x20file\x20.xls\x20dari\x20ESS','trim','value','prs','console','prevMonthBtn','filter','push','top','round','setMonth','input[name=\x22manualTipeHari\x22][value=\x22WD\x22]','dataset','Terjadi\x20kesalahan\x20saat\x20membaca\x20file:\x20','idx','.other-status:checked','eai','10274RlApnf','nextMonthBtn','<div\x20class=\x27table-responsive\x27\x20id=\x27dataTable\x27><table\x20class=\x27data-table\x27><thead><tr>','cloneNode','classList','</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20—\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20id=\x22periodEnd\x22\x20class=\x22period-clickable\x22>','sort','removeItem','tagName','info','</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Hari\x20Kerja</td><td>','</tbody></table></div>','Tanggal','prsmeal','ovh','toFixed','constructor','TBODY','input[name=\x22manualTipeHari\x22]','.data-table\x20th','exception','27gMFyAq','getDate','filterEndInput','<button\x20id=\x22prevMonthBtn\x22\x20class=\x22month-shift-btn\x22>‹</button>','Rp\x20','abs','.other-status[value=\x22','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20width:\x20100%;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20max-height:\x2060vh;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20overflow-y:\x20auto;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20overflow-x:\x20auto;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20margin-top:\x200px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border-radius:\x205px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background:\x20white;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20position:\x20relative;\x0a\x20\x20\x20\x20\x20\x20\x20\x20','\x20jam</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Indeks\x20Lembur</td><td>','periodEnd','__proto__','forEach','filterStart','input[name=\x22manualStatus\x22][value=\x22PRS\x22]','Jam\x20Lembur','toLocaleString','trace','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</tr>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Nama\x20Karyawan</td><td>','getDay','replaceChild','innerHTML','PRS','gaji','</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Estimasi\x20Gaji</td><td>','input[name=\x22manualStatus\x22][value=\x22','23823EPONGq','getItem','findIndex','keys','log','warn','innerText','fileInput','dispatchEvent','.other-status','closest','style','error','getMonth','</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Cuti</td><td>','stringify','ovt','totalIndeks','616mbfldy','Tabel\x20tabGen\x20tidak\x20ditemukan.','toUpperCase','675990lJacHj','tbody\x20tr','smooth','click','tableOutput','getElementById','tanggal','setItem','manualIndeks','Hapus\x20baris\x20ini?','toString','splice','getFullYear','filterStartInput','replace','parentElement','</td>','MEAL','<button\x20id=\x22nextMonthBtn\x22\x20class=\x22month-shift-btn\x22>›</button>','checked','stopPropagation','159550JLnzGe','table.tabGen','PRS_MEAL','<th>','from','\x22>❌</button></td></tr>','<tr\x20class=\x22','<td><button\x20class=\x22delBtn\x22\x20data-idx=\x22','</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Posisi\x20/\x20Jabatan</td><td>','97266bhfCBf','preventDefault','\x0a\x20\x20\x20\x20\x20\x20\x20\x20<table\x20class=\x22summary-table\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th\x20colspan=\x222\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22period-wrapper\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22period-center\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','includes','name','change','off','onclick','totalJam','target','<td>','sunfishData','Tipe\x20Hari','parse','</th>','tipeHariWD','join','.input-form','130qSqHHi','parseFromString','apply','Harap\x20pilih\x20Tipe\x20Hari\x20dan\x20Status','input[name=\x27manualTipeHari\x27]:checked','createElement','onload','cuti','filterEnd','table-wrapper','id-ID','cssText','Hapus\x20semua\x20data?','zIndex','Tanggal\x20belum\x20diisi.','textContent','37620ZlYCfx','result','display','</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20</table>\x0a\x20\x20\x20\x20\x20\x20','toLowerCase','83712IZqYeH','<th>Aksi</th></tr></thead><tbody>','phoff','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20id=\x22periodStart\x22\x20class=\x22period-clickable\x22>','tipeHariOFF','padStart','length','querySelector','userInfo','.delBtn','map','parentNode','hariKerja','prototype','return\x20(function()\x20','none','statusPRS','\x22\x20data-idx=\x22','nama','btnReset','sticky'];_0x4463=function(){return _0x574c22;};return _0x4463();}
+(function() {
+  const GAJI_POKOK = 3039805
+  const DAILY_RATE = GAJI_POKOK / 25;
+  const OVERTIME_RATE = GAJI_POKOK / 173;
+  const MEAL_RATE = 11800;
+  const JHT = GAJI_POKOK * 0.02;
+  const JP = GAJI_POKOK * 0.01;
+  const POTONGAN = JHT + JP;
+
+  let parsedData = [];
+  let user = {
+    nama: '-',
+    id: '-',
+    jabatan: '-'
+  };
+
+  let fileInput, summaryOutput, tableOutput;
+  let manualTanggal, manualJamLembur, manualMenitLembur, manualIndeks;
+  let btnAdd, btnReset;
+  let tipeHariRadios, statusRadios;
+
+  let filterStart = null;
+  let filterEnd = null;
+
+  let displayData = null;
+
+  function $(id) {
+    return document.getElementById(id);
+  }
+
+  function saveLocal() {
+    localStorage.setItem("sunfishData", JSON.stringify(parsedData));
+  }
+
+  function loadLocal() {
+    const s = localStorage.getItem("sunfishData");
+    if (s) parsedData = JSON.parse(s);
+  }
+
+  function saveUser() {
+    localStorage.setItem("userInfo", JSON.stringify(user));
+  }
+
+  function loadUser() {
+    const u = localStorage.getItem("userInfo");
+    if (u) user = JSON.parse(u);
+  }
+
+  function parseIndoDate(str) {
+    if (!str) return null;
+    const p = str.split('/');
+    if (p.length !== 3) return null;
+    return new Date(parseInt(p[2], 10), parseInt(p[1], 10) - 1, parseInt(p[0], 10));
+  }
+
+  function ddmmyyyy(d) {
+    return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+  }
+
+  function formatRupiah(n) {
+    return "Rp " + Number(Math.round(n || 0)).toLocaleString("id-ID");
+  }
+
+  function checkOffDay(jam, tipeHari) {
+    const ovh = document.getElementById('ovh');
+    const ovt = document.getElementById('ovt');
+    const off = document.getElementById('off');
+    const prs = document.getElementById('prs');
+    const statusPRS = document.getElementById('statusPRS');
+
+    if (!ovh || !ovt) return;
+
+    if (!jam || Number(jam) <= 0) {
+      ovh.checked = false;
+      ovt.checked = false;
+      if (tipeHari === "OFF" || tipeHari === "PHOFF") prs.checked = false;
+    } else if (tipeHari === "PHOFF") {
+      ovh.checked = true;
+      ovt.checked = false;
+      off.checked = false;
+      prs.checked = true;
+      statusPRS.checked = true;
+    } else if (tipeHari === "WD" || tipeHari === "OFF") {
+      ovh.checked = false;
+      ovt.checked = true;
+      prs.checked = true;
+      off.checked = false;
+      statusPRS.checked = true;
+    } else {
+      ovh.checked = false;
+      ovt.checked = false;
+      off.checked = true;
+      prs.checked = false;
+    }
+  }
+
+  function hitungIndeksByJam(jam, tipeHari) {
+    jam = Number(jam) || 0;
+    checkOffDay(jam, tipeHari);
+    if (jam <= 0) return 0;
+    if (tipeHari === "OFF" || tipeHari === "PHOFF") {
+      if (jam <= 7) return jam * 2;
+      return (7 * 2) + (jam - 7) * 3 + 2;
+    } else if (tipeHari === "WD") {
+      if (jam <= 1) return 1.5;
+      if (jam <= 7) return 1.5 + (jam - 1) * 2;
+      return 1.5 + (6 * 2) + ((jam - 7) * 3) + 2;
+    }
+    return 0;
+  }
+
+
+  function calculateStats(data) {
+    let hariKerja = 0,
+      cuti = 0,
+      absen = 0,
+      off = 0,
+      totalJam = 0,
+      totalIndeks = 0,
+      meal = 0;
+    data.forEach(r => {
+      const tipe = (r["Tipe Hari"] || "").toUpperCase();
+      const status = (r["Status"] || "").toUpperCase();
+      const other = (r["Other Status"] || "").toUpperCase();
+      if ((tipe === "WD" && status === "PRS") || (tipe === "PHOFF" && status === "PRS")) hariKerja++;
+      if (tipe === "OFF" && status === "PRS") off++;
+      if (status === "ABS") absen++;
+      if (status === "CT" || status === "CS") cuti++;
+      if (other.includes("MEAL") || other.includes("PRS_MEAL")) meal++;
+      totalJam += parseFloat((r["Jam Lembur"] || "0").toString().replace(",", ".")) || 0;
+      totalIndeks += parseFloat((r["Indeks Lembur"] || "0").toString().replace(",", ".")) || 0;
+    });
+
+    let BPJS = Number(hariKerja) > 0 ? POTONGAN : 0;
+    let gajiPokokFinal = (hariKerja > 25) ? GAJI_POKOK : (hariKerja * DAILY_RATE);
+
+    let gaji = gajiPokokFinal +
+      (totalIndeks * OVERTIME_RATE) +
+      (meal * MEAL_RATE) -
+      BPJS;
+
+    return {
+      hariKerja,
+      cuti,
+      absen,
+      off,
+      totalJam,
+      totalIndeks,
+      gaji
+    };
+  }
+
+  function generateSummaryHtml(stats, startLabel, endLabel) {
+    const startDisplay = startLabel || '-';
+    const endDisplay = endLabel || '-';
+
+    const prevBtn = `<button id="prevMonthBtn" class="month-shift-btn">‹</button>`;
+    const nextBtn = `<button id="nextMonthBtn" class="month-shift-btn">›</button>`;
+
+    return `
+        <table class="summary-table">
+          <tr>
+            <th colspan="2">
+              <div class="period-wrapper">
+                <div class="period-center">
+                  ${prevBtn}
+                  <span id="periodStart" class="period-clickable">${startDisplay}</span>
+                  —
+                  <span id="periodEnd" class="period-clickable">${endDisplay}</span>
+                  ${nextBtn}
+                </div>
+              </div>
+            </th>
+          </tr>
+
+          <tr><td>Nama Karyawan</td><td>${user.nama}</td></tr>
+          <tr><td>NIK / ID</td><td>${user.id}</td></tr>
+          <tr><td>Posisi / Jabatan</td><td>${user.jabatan}</td></tr>
+          <tr><td>Hari Kerja</td><td>${stats.hariKerja}</td></tr>
+          <tr><td>Cuti</td><td>${stats.cuti}</td></tr>
+          <tr><td>Absen</td><td>${stats.absen}</td></tr>
+          <tr><td>Jam Lembur</td><td>${stats.totalJam.toFixed(2)} jam</td></tr>
+          <tr><td>Indeks Lembur</td><td>${stats.totalIndeks.toFixed(2)}</td></tr>
+          <tr><td>Estimasi Gaji</td><td>${formatRupiah(stats.gaji)}</td></tr>
+        </table>
+      `;
+  }
+
+  function getRowClass(row) {
+    const t = (row["Tipe Hari"] || "").toUpperCase();
+    const s = (row["Status"] || "").toUpperCase();
+    if (s === "ABS") return "abs";
+    if (s === "CT" || s === "CS") return "ct";
+    if (t === "PHOFF") return "phoff";
+    if (t === "OFF") return "off";
+    if (t === "WD") return "wd";
+    return "";
+  }
+
+  function generateTableHtml(data) {
+    if (!data.length) return "";
+
+    const headers = Object.keys(data[0]).filter(k => k !== "dateObj");
+    let html = "<div class='table-responsive' id='dataTable'><table class='data-table'><thead><tr>";
+    headers.forEach(h => html += `<th>${h}</th>`);
+    html += "<th>Aksi</th></tr></thead><tbody>";
+
+    data.forEach((row, idx) => {
+      // Cari index asli di parsedData berdasarkan tanggal
+      const originalIndex = parsedData.findIndex(r => r["Tanggal"] === row["Tanggal"]);
+      const dataIdx = originalIndex !== -1 ? originalIndex : idx;
+
+      html += `<tr class="${getRowClass(row)}" data-idx="${dataIdx}" data-tanggal="${row["Tanggal"]}">`;
+      headers.forEach(h => {
+        const cellValue = row[h] == null ? "" : row[h];
+        html += `<td>${cellValue}</td>`;
+      });
+      html += `<td><button class="delBtn" data-idx="${dataIdx}">❌</button></td></tr>`;
+    });
+
+    html += "</tbody></table></div>";
+    return html;
+  }
+
+  function setupRowClickHandlers() {
+    tableOutput.addEventListener("click", function(e) {
+      const delBtn = e.target.closest('.delBtn');
+      if (delBtn) {
+        // Jangan proses edit jika klik tombol hapus
+        e.stopPropagation();
+        return;
+      }
+
+      const tr = e.target.closest("tr");
+      if (!tr || !tr.parentElement || tr.parentElement.tagName !== 'TBODY') return;
+
+      const td = tr.querySelectorAll("td");
+      if (td.length < 1) return;
+
+      document.querySelector(".input-form").scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+      // DATA DARI TABEL
+      const tgl = td[0].textContent.trim();
+      const tipeHari = td[1].textContent.trim();
+      const menit = td[2].textContent.trim();
+      const jam = td[3].textContent.trim();
+      const indeks = td[4].textContent.trim();
+      const status = td[5].textContent.trim();
+      const otherText = td[6].textContent.trim();
+
+      // FORMAT TANGGAL UNTUK INPUT
+      function toInputDateFormat(t) {
+        const d = parseIndoDate(t);
+        if (!d) return "";
+        // Format ke YYYY-MM-DD
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+
+      // === SET KE FORM ===
+      manualTanggal.value = toInputDateFormat(tgl);
+      manualJamLembur.value = jam;
+      manualMenitLembur.value = menit;
+      manualIndeks.value = indeks.replace(",", ".");
+
+      // RADIO TIPE HARI
+      const r1 = document.querySelector(`input[name="manualTipeHari"][value="${tipeHari}"]`);
+      if (r1) r1.checked = true;
+
+      // RADIO STATUS
+      const r2 = document.querySelector(`input[name="manualStatus"][value="${status}"]`);
+      if (r2) r2.checked = true;
+
+      // CHECKBOX OTHER STATUS
+      document.querySelectorAll(".other-status").forEach(cb => cb.checked = false);
+
+      if (otherText !== "") {
+        otherText.split(",").forEach(o => {
+          const c = document.querySelector(`.other-status[value="${o.trim()}"]`);
+          if (c) c.checked = true;
+        });
+      }
+    });
+  }
+
+  function attachDeleteButtons() {
+    const delBtns = tableOutput.querySelectorAll('.delBtn');
+
+    // Hapus semua event listener lama
+    delBtns.forEach(btn => {
+      const newBtn = btn.cloneNode(true);
+      btn.parentNode.replaceChild(newBtn, btn);
+    });
+
+    // Tambahkan event listener baru ke semua tombol hapus
+    const newDelBtns = tableOutput.querySelectorAll('.delBtn');
+    newDelBtns.forEach(btn => {
+      btn.addEventListener('click', onDeleteRow);
+    });
+  }
+
+  function onDeleteRow(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const idx = Number(this.dataset.idx);
+    if (isNaN(idx)) {
+      // Coba cari berdasarkan tanggal jika index tidak valid
+      const row = this.closest('tr');
+      if (row && row.dataset.tanggal) {
+        const tanggal = row.dataset.tanggal;
+        const foundIndex = parsedData.findIndex(r => r["Tanggal"] === tanggal);
+        if (foundIndex !== -1) {
+          deleteRowByIndex(foundIndex);
+          return;
+        }
+      }
+      alert("Gagal menghapus: Data tidak ditemukan");
+      return;
+    }
+
+    deleteRowByIndex(idx);
+  }
+
+  function deleteRowByIndex(index) {
+    if (!confirm("Hapus baris ini?")) return;
+
+    if (index >= 0 && index < parsedData.length) {
+      parsedData.splice(index, 1);
+      saveLocal();
+      refreshUI();
+    } else {
+      alert("Index tidak valid. Refresh halaman dan coba lagi.");
+    }
+  }
+
+  function addManualEntry() {
+    const iso = manualTanggal.value;
+    if (!iso) return alert("Tanggal belum diisi.");
+    const [y, m, d] = iso.split("-");
+    const tgl = `${d}/${m}/${y}`;
+    const jam = parseFloat(manualJamLembur.value) || 0;
+    const menit = Math.round(jam * 60);
+    const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
+    const status = document.querySelector("input[name='manualStatus']:checked").value;
+    const other = Array.from(
+      document.querySelectorAll(".other-status:checked")
+    ).map(c => c.value).join(",");
+
+    // Pastikan ada data yang dipilih
+    if (!tipe || !status) {
+      alert("Harap pilih Tipe Hari dan Status");
+      return;
+    }
+
+    const existIndex = parsedData.findIndex(r => r["Tanggal"] === tgl);
+    const newRow = {
+      "Tanggal": tgl,
+      "Tipe Hari": tipe,
+      "Menit Lembur": menit,
+      "Jam Lembur": Number(jam).toFixed(2),
+      "Indeks Lembur": hitungIndeksByJam(jam, tipe).toFixed(2),
+      "Status": status,
+      "Other Status": other
+    };
+
+    if (existIndex !== -1) {
+      parsedData[existIndex] = newRow;
+    } else {
+      parsedData.push(newRow);
+    }
+    saveLocal();
+    refreshUI();
+  }
+
+  function resetData() {
+    if (!confirm("Hapus semua data?")) return;
+    parsedData = [];
+    localStorage.removeItem("sunfishData");
+    refreshUI();
+  }
+
+  function handleFileSelect(evt) {
+    const file = evt.target.files[0];
+    if (!file) return;
+    if (!file.name.toLowerCase().endsWith(".xls")) return alert("Gunakan file .xls dari ESS");
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const doc = new DOMParser().parseFromString(e.target.result, "text/html");
+        const table = doc.querySelector("table.tabGen");
+        if (!table) return alert("Tabel tabGen tidak ditemukan.");
+        const rows = table.querySelectorAll("tbody tr");
+        const res = [];
+        rows.forEach(r => {
+          const td = r.querySelectorAll("td");
+          if (!td || td.length < 23) return;
+          const serial = parseFloat(td[0].textContent.trim());
+          let date;
+          if (!isNaN(serial)) {
+            // Convert Excel serial date
+            const excelDate = new Date((serial - 25569) * 86400 * 1000);
+            date = excelDate.toLocaleDateString("id-ID");
+          } else {
+            date = td[0].textContent.trim();
+          }
+          user = {
+            nama: td[1].textContent.trim() || '-',
+            id: td[2].textContent.trim() || '-',
+            jabatan: td[3].textContent.trim() || '-'
+          };
+          saveUser();
+
+          // Parse jam lembur
+          const menitLembur = (td[17].textContent || '').trim();
+          const jamLembur = parseFloat(menitLembur) / 60;
+
+          res.push({
+            "Tanggal": date,
+            "Tipe Hari": (td[15].textContent || '').trim().toUpperCase(),
+            "Menit Lembur": menitLembur,
+            "Jam Lembur": isNaN(jamLembur) ? "0.00" : jamLembur.toFixed(2),
+            "Indeks Lembur": (td[18].textContent || '').trim(),
+            "Status": (td[21].textContent || '').trim().toUpperCase(),
+            "Other Status": (td[22].textContent || '').trim().toUpperCase()
+          });
+        });
+
+        res.forEach(row => {
+          const tgl = row["Tanggal"];
+          if (!tgl) return;
+
+          const existing = parsedData.findIndex(x => x["Tanggal"] === tgl);
+
+          if (existing >= 0) {
+            parsedData[existing] = row;
+          } else {
+            parsedData.push(row);
+          }
+        });
+
+        saveLocal();
+        refreshUI();
+        alert(`Data berhasil diimpor! ${res.length} baris ditambahkan.`);
+      } catch (error) {
+        alert("Terjadi kesalahan saat membaca file: " + error.message);
+      }
+    };
+    reader.readAsText(file);
+  }
+
+
+  function fixedTable() {
+    // Tunggu sebentar untuk memastikan tabel sudah dibuat
+    setTimeout(() => {
+      const tbl = document.querySelector(".data-table");
+
+      if (tbl) {
+        // Pastikan tabel memiliki wrapper
+        if (!tbl.parentElement.classList.contains("table-wrapper")) {
+          const wrap = document.createElement("div");
+          wrap.className = "table-wrapper";
+          tbl.parentElement.insertBefore(wrap, tbl);
+          wrap.appendChild(tbl);
+        }
+      }
+
+      // Style wrapper
+      const wrap = document.querySelector(".table-wrapper");
+      if (wrap) {
+        wrap.style.cssText = `
+          width: 100%;
+          max-height: 60vh;
+          overflow-y: auto;
+          overflow-x: auto;
+          margin-top: 0px;
+          border-radius: 5px;
+          background: white;
+          position: relative;
+        `;
+      }
+
+      // Sticky header
+      const ths = document.querySelectorAll(".data-table th");
+      ths.forEach(th => {
+        th.style.position = "sticky";
+        th.style.top = "0";
+        th.style.zIndex = "10";
+      });
+    }, 100);
+
+  }
+
+  function refreshUI() {
+    // Tambahkan dateObj untuk sorting
+    parsedData.forEach(r => {
+      r.dateObj = parseIndoDate(r["Tanggal"]);
+    });
+
+    // Sort by date
+    parsedData.sort((a, b) => {
+      if (!a.dateObj || !b.dateObj) return 0;
+      return a.dateObj - b.dateObj;
+    });
+
+    displayData = parsedData.slice();
+
+    if (filterStart || filterEnd) {
+      displayData = parsedData.filter(r => {
+        if (!r.dateObj) return false;
+        if (filterStart && r.dateObj < filterStart) return false;
+        if (filterEnd && r.dateObj > filterEnd) return false;
+        return true;
+      });
+    }
+
+    tableOutput.innerHTML = generateTableHtml(displayData);
+
+
+    // Setup event handlers
+    setupRowClickHandlers();
+    attachDeleteButtons();
+
+    if (displayData.length) {
+      const stats = calculateStats(displayData);
+      const startLabel = displayData[0]["Tanggal"];
+      const endLabel = displayData[displayData.length - 1]["Tanggal"];
+      summaryOutput.innerHTML = generateSummaryHtml(stats, startLabel, endLabel);
+    } else {
+      const stats = calculateStats([]);
+      const startLabel = (filterStart) ? ddmmyyyy(filterStart) : (parsedData[0] ? parsedData[0]["Tanggal"] : '-');
+      const endLabel = (filterEnd) ? ddmmyyyy(filterEnd) : (parsedData[parsedData.length - 1] ? parsedData[parsedData.length - 1]["Tanggal"] : '-');
+      summaryOutput.innerHTML = generateSummaryHtml(stats, startLabel, endLabel);
+    }
+
+    saveLocal();
+    attachPeriodHandlers();
+    fixedTable();
+  }
+
+  function updateOtherStatus(tipeHari) {
+    const checkboxes = document.querySelectorAll('.other-status');
+    checkboxes.forEach(cb => cb.checked = false);
+    if (tipeHari === 'WD') {
+      $('eai').checked = true;
+      $('prs').checked = true;
+      $('prsmeal').checked = true;
+      $('statusPRS').checked = true;
+    }
+  }
+
+  function updateStatus(status) {
+    const checkboxes = document.querySelectorAll('.other-status');
+    checkboxes.forEach(cb => cb.checked = false);
+    if (status === 'PRS' && $('tipeHariWD').checked === true) {
+      $('eai').checked = true;
+      $('prs').checked = true;
+      $('prsmeal').checked = true;
+    } else if (status === 'ABS') {
+      $('tipeHariWD').checked = true;
+      $('abs').checked = true;
+    } else if (status === 'OFF') {
+      $('tipeHariOFF').checked = true;
+      $('off').checked = true;
+    } else if (status === 'CT') {
+      $('tipeHariWD').checked = true;
+      $('ct').checked = true;
+    }
+  }
+
+  function attachPeriodHandlers() {
+    const startSpan = document.getElementById('periodStart');
+    const endSpan = document.getElementById('periodEnd');
+
+    const prev = document.getElementById("prevMonthBtn");
+    const next = document.getElementById("nextMonthBtn");
+
+    if (prev) {
+      prev.onclick = () => shiftMonth(-1);
+    }
+    if (next) {
+      next.onclick = () => shiftMonth(+1);
+    }
+
+    if (startSpan) {
+      startSpan.onclick = onStartClick;
+    }
+    if (endSpan) {
+      endSpan.onclick = onEndClick;
+    }
+  }
+
+  function shiftMonth(offset) {
+    if (!filterStart || !filterEnd) {
+      if (!parsedData || !parsedData.length) return;
+      parsedData.forEach(r => {
+        r.dateObj = parseIndoDate(r["Tanggal"]);
+      });
+      parsedData.sort((a, b) => (a.dateObj && b.dateObj) ? a.dateObj - b.dateObj : 0);
+      const first = parsedData[0];
+      const last = parsedData[parsedData.length - 1];
+      if (!first || !last) return;
+      filterStart = first.dateObj ? new Date(first.dateObj) : parseIndoDate(first["Tanggal"]);
+      filterEnd = last.dateObj ? new Date(last.dateObj) : parseIndoDate(last["Tanggal"]);
+    }
+
+    const s = new Date(filterStart);
+    const e = new Date(filterEnd);
+
+    s.setMonth(s.getMonth() + offset);
+    e.setMonth(e.getMonth() + offset);
+
+    filterStart = s;
+    filterEnd = e;
+
+    try {
+      localStorage.setItem("filterStart", formatInputDate(s));
+      localStorage.setItem("filterEnd", formatInputDate(e));
+    } catch (err) {}
+
+    const fsi = $('filterStartInput');
+    const fei = $('filterEndInput');
+    if (fsi) fsi.value = formatInputDate(s);
+    if (fei) fei.value = formatInputDate(e);
+
+    refreshUI();
+  }
+
+  function formatInputDate(d) {
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  function onStartClick() {
+    const input = $('filterStartInput');
+    if (!input) return;
+
+    const txt = document.getElementById('periodStart').innerText.trim();
+    const p = txt.split('/');
+
+    if (p.length === 3) {
+      input.value = `${p[2]}-${p[1]}-${p[0]}`;
+    }
+
+    input.click();
+  }
+
+  function onEndClick() {
+    const input = $('filterEndInput');
+    if (!input) return;
+
+    const txt = document.getElementById('periodEnd').innerText.trim();
+    const p = txt.split('/');
+
+    if (p.length === 3) {
+      input.value = `${p[2]}-${p[1]}-${p[0]}`;
+    }
+
+    input.click();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    fileInput = $('fileInput');
+    summaryOutput = $('summaryOutput');
+    tableOutput = $('tableOutput');
+    manualTanggal = $('manualTanggal');
+    manualJamLembur = $('manualJamLembur');
+    manualMenitLembur = $('manualMenitLembur');
+    manualIndeks = $('manualIndeks');
+    btnAdd = $('btnAdd');
+    btnReset = $('btnReset');
+    tipeHariRadios = document.querySelectorAll('input[name="manualTipeHari"]');
+    statusRadios = document.querySelectorAll('input[name="manualStatus"]');
+
+    loadLocal();
+    loadUser();
+
+    // Load filter dari localStorage
+    const fs = localStorage.getItem('filterStart');
+    const fe = localStorage.getItem('filterEnd');
+
+    if (fs) {
+      const p = fs.split("-");
+      filterStart = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+      $('filterStartInput').value = fs;
+    }
+
+    if (fe) {
+      const p = fe.split("-");
+      filterEnd = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+      $('filterEndInput').value = fe;
+    }
+
+    // Set tanggal default ke hari ini
+    const now = new Date();
+    manualTanggal.value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+
+    fileInput.addEventListener('change', handleFileSelect);
+
+    manualJamLembur.addEventListener('input', () => {
+      const jam = parseFloat(manualJamLembur.value) || 0;
+      manualMenitLembur.value = Math.round(jam * 60);
+      const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
+      manualIndeks.value = hitungIndeksByJam(jam, tipe).toFixed(2);
+    });
+
+    manualMenitLembur.addEventListener('input', () => {
+      const menit = parseFloat(manualMenitLembur.value) || 0;
+      const jam = menit / 60;
+      manualJamLembur.value = jam.toFixed(2);
+      const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
+      manualIndeks.value = hitungIndeksByJam(jam, tipe).toFixed(2);
+    });
+
+    btnAdd.addEventListener('click', (e) => {
+      e.preventDefault();
+      addManualEntry();
+    });
+
+    btnReset.addEventListener('click', (e) => {
+      e.preventDefault();
+      resetData();
+    });
+
+    tipeHariRadios.forEach(r => r.addEventListener('change', () => {
+      if (r.checked) updateOtherStatus(r.value);
+    }));
+
+    statusRadios.forEach(r => r.addEventListener('change', () => {
+      if (r.checked) updateStatus(r.value);
+    }));
+
+    const filterStartInput = $('filterStartInput');
+    const filterEndInput = $('filterEndInput');
+
+    if (filterStartInput) filterStartInput.addEventListener('change', (e) => {
+      const v = e.target.value;
+
+      if (!v) {
+        filterStart = null;
+        localStorage.removeItem('filterStart');
+        refreshUI();
+        return;
+      }
+
+      const parts = v.split('-');
+      filterStart = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+      localStorage.setItem('filterStart', v);
+      refreshUI();
+    });
+
+    if (filterEndInput) filterEndInput.addEventListener('change', (e) => {
+      const v = e.target.value;
+
+      if (!v) {
+        filterEnd = null;
+        localStorage.removeItem('filterEnd');
+        refreshUI();
+        return;
+      }
+
+      const parts = v.split('-');
+      filterEnd = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+      localStorage.setItem('filterEnd', v);
+      refreshUI();
+    });
+
+    // Auto-set hari berdasarkan tanggal
+    manualTanggal.addEventListener("change", function() {
+      const selectedDate = new Date(this.value);
+      const dayOfWeek = selectedDate.getDay(); // 0 = Minggu, 1 = Senin, etc.
+
+      if (dayOfWeek === 0) { // Minggu
+        updateStatus("OFF");
+        document.querySelector('input[name="manualStatus"][value="OFF"]').checked = true;
+        document.querySelector('input[name="manualTipeHari"][value="OFF"]').checked = true;
+      } else {
+        updateStatus("WD");
+        updateOtherStatus("WD");
+        document.querySelector('input[name="manualStatus"][value="PRS"]').checked = true;
+        document.querySelector('input[name="manualTipeHari"][value="WD"]').checked = true;
+      }
+
+      // Update indeks jika ada jam lembur
+      const jam = parseFloat(manualJamLembur.value) || 0;
+      const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
+      manualIndeks.value = hitungIndeksByJam(jam, tipe).toFixed(2);
+    });
+
+    // Jalankan event secara manual saat halaman pertama kali dibuka
+    manualTanggal.dispatchEvent(new Event("change"));
+
+    setTimeout(() => {
+      document.getElementById("load-wrapper").style.display = "none";
+      refreshUI();
+    }, 300);
+  });
+
+  window._app = {
+    refreshUI,
+    saveLocal,
+    loadLocal,
+    parsedData
+  };
+
+})();
+
+// === PATCH SCROLL + FIXED HEADER ===
+document.addEventListener("DOMContentLoaded", () => {
+
+});
