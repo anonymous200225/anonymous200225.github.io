@@ -1,5 +1,5 @@
 (function() {
-  const GAJI_POKOK = 3039805
+  const GAJI_POKOK = 3039805;
   const DAILY_RATE = GAJI_POKOK / 25;
   const OVERTIME_RATE = GAJI_POKOK / 173;
   const MEAL_RATE = 11800;
