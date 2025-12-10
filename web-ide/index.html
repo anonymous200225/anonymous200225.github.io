@@ -7,26 +7,6 @@
 <meta name="theme-color" content="#0b6b3a">
 <link rel="manifest" href="/manifest.json">
 
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-   navigator.serviceWorker.register("/sw.js");
-  });
-  /*
-  // Hapus semua Service Worker
-  navigator.serviceWorker.getRegistrations().then(regs => {
-    regs.forEach(reg => reg.unregister());
-  });
-
-  // Hapus semua cache
-  caches.keys().then(keys => {
-    keys.forEach(key => caches.delete(key));
-  });
-  */
-}
-
-</script>
-
 <link rel="stylesheet" href="css/all.min.css">
 <link rel="stylesheet" href="css/app.css">
 <link rel="stylesheet" href="css/modal.css">
