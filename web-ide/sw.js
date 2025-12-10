@@ -1,4 +1,4 @@
-const CACHE_NAME = "web-ide-v4";
+const CACHE_NAME = "web-ide-v5";
 const BASE = "";
 
 const FILES = [
