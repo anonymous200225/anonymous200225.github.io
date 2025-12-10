@@ -5,7 +5,7 @@
   "scope": "/web-ide/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#ffffff",
+  "theme_color": "#000",
   "icons": [
     {
       "src": "/icon-192.png",
