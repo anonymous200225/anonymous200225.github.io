@@ -132,7 +132,7 @@
     });
 
     let BPJS = Number(hariKerja) > 0 ? POTONGAN : 0;
-    let gajiPokokFinal = (hariKerja > 25) ? GAJI_POKOK : (hariKerja * DAILY_RATE);
+    let gajiPokokFinal = (displayData.length >= 30) ? GAJI_POKOK : (hariKerja * DAILY_RATE);
 
     let gaji = gajiPokokFinal +
       (totalIndeks * OVERTIME_RATE) +
@@ -808,8 +808,3 @@
   };
 
 })();
-
-// === PATCH SCROLL + FIXED HEADER ===
-document.addEventListener("DOMContentLoaded", () => {
-
-});
