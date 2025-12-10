@@ -5,7 +5,7 @@
   "scope": "/ess/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#000",
+  "theme_color": "#555",
   "icons": [
     {
       "src": "/icon-192.png",
