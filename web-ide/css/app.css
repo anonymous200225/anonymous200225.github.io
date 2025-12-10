@@ -47,8 +47,8 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: var(--primary-bg);
   color: var(--text-primary);
-  height: 100vh;
-  //overflow: hidden;
+  //height: 100vh;
+  overflow: hidden;
   transition: background-color 0.3s, color 0.3s;
 }
 
