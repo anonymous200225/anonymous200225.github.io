@@ -11,9 +11,7 @@
 
 
 const gajiPokokPerTahun = {
-  2025: 3039805,
-  2026: 3250000,
-  2027: 3500000
+  2025: 3039805
 };
 
 function getGajiPokokByYear(tahun) {
