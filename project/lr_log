@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log Pengisian VS</title>
+
+  <style>
+    :root {
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --success: #10b981;
+      --success-hover: #059669;
+      --warning: #f59e0b;
+      --warning-hover: #d97706;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+      --danger-dark: #b91c1c;
+      --text-main: #334155;
+      --border-color: #cbd5e1;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg-color);
+      color: var(--text-main);
+      padding: 30px 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    h2 {
+      font-size: 22px;
+      text-align: center;
+      margin-bottom: 25px;
+      color: #1e293b;
+      font-weight: 700;
+    }
+
+    .table-wrapper {
+      background: var(--card-bg);
+      border-radius: 10px;
+      box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      overflow-x: hidden;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    th {
+      background: #1e293b;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 15px 10px;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .input-no {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .time-container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .time-container input {
+      text-align: center;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .btn {
+      font-size: 13px;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      color: white;
+      transition: background-color 0.2s, transform 0.1s;
+      width: 100%;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .start-btn {
+      background: var(--success);
+    }
+
+    .start-btn:hover {
+      background: var(--success-hover);
+    }
+
+    .stop-btn {
+      background: var(--warning);
+      color: #fff;
+    }
+
+    .stop-btn:hover {
+      background: var(--warning-hover);
+    }
+
+    .delete-btn {
+      background: var(--danger);
+    }
+
+    .delete-btn:hover {
+      background: var(--danger-hover);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .add-btn {
+      background: var(--primary);
+      padding: 12px 20px;
+      font-size: 14px;
+      width: auto;
+    }
+
+    .add-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    .clear-btn {
+      background: var(--danger-dark);
+      padding: 12px 20px;
+      font-size: 14px;
+      width: auto;
+    }
+
+    .clear-btn:hover {
+      background: #991b1b;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h2>Log Pengisian VS</h2>
+
+    <div class="table-wrapper">
+
+      <table id="logTable">
+
+        <thead>
+          <tr>
+            <th width="15%">No</th>
+            <th width="35%">Mulai Pengisian</th>
+            <th width="35%">Selesai Pengisian</th>
+            <th width="15%">Aksi</th>
+          </tr>
+        </thead>
+
+        <tbody></tbody>
+
+      </table>
+
+    </div>
+
+    <div class="action-buttons">
+
+      <button
+        class="btn add-btn"
+        onclick="tambahBaris()">
+        + Tambah Baris
+      </button>
+
+      <button
+        class="btn clear-btn"
+        onclick="hapusSemuaData()">
+        🗑️ Hapus Semua Data
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    // ==========================================
+    // SIMPAN DATA
+    // ==========================================
+
+    function simpanData() {
+
+      const baris =
+        document.querySelectorAll(
+          '#logTable tbody tr'
+        );
+
+      const data = [];
+
+      baris.forEach(tr => {
+
+        const inputs =
+          tr.querySelectorAll('input');
+
+        const startButton =
+          tr.querySelector('.start-btn');
+
+        const stopButton =
+          tr.querySelector('.stop-btn');
+
+        data.push({
+
+          no: inputs[0].value,
+
+          start: inputs[1].value,
+
+          stop: inputs[2].value,
+
+          // Status kedua tombol
+          tombolSelesai:
+            startButton.style.display === 'none' &&
+            stopButton.style.display === 'none'
+
+        });
+
+      });
+
+      localStorage.setItem(
+        'dataLoadingRamp',
+        JSON.stringify(data)
+      );
+    }
+
+
+    // ==========================================
+    // MUAT DATA
+    // ==========================================
+
+    function muatData() {
+
+      const dataTersimpan =
+        localStorage.getItem(
+          'dataLoadingRamp'
+        );
+
+      const tbody =
+        document.querySelector(
+          '#logTable tbody'
+        );
+
+      tbody.innerHTML = '';
+
+      if (dataTersimpan) {
+
+        let data;
+
+        try {
+          data = JSON.parse(dataTersimpan);
+        } catch (error) {
+          data = [];
+        }
+
+        if (data.length === 0) {
+
+          tambahBaris();
+
+        } else {
+
+          data.forEach(item => {
+
+            buatBarisDOM(
+              item.no,
+              item.start,
+              item.stop,
+              item.tombolSelesai || false
+            );
+
+          });
+
+        }
+
+      } else {
+
+        tambahBaris();
+
+      }
+    }
+
+
+    // ==========================================
+    // BUAT BARIS
+    // ==========================================
+
+    function buatBarisDOM(
+      no,
+      start,
+      stop,
+      tombolSelesai = false
+    ) {
+
+      const tbody =
+        document.querySelector(
+          '#logTable tbody'
+        );
+
+      const tr =
+        document.createElement('tr');
+
+      tr.innerHTML = `
+
+        <td>
+
+          <input
+            type="number"
+            value="${no}"
+            min="1"
+            max="5"
+            class="input-no"
+            oninput="simpanData()"
+          >
+
+        </td>
+
+
+        <td>
+
+          <div class="time-container">
+
+            <input
+              type="text"
+              value="${start}"
+              placeholder="--.--"
+              class="input-start"
+              oninput="simpanData()"
+            >
+
+            <button
+              class="btn start-btn"
+              onclick="setWaktu(this, 'start')"
+            >
+              Mulai
+            </button>
+
+          </div>
+
+        </td>
+
+
+        <td>
+
+          <div class="time-container">
+
+            <input
+              type="text"
+              value="${stop}"
+              placeholder="--.--"
+              class="input-stop"
+              oninput="simpanData()"
+            >
+
+            <button
+              class="btn stop-btn"
+              onclick="setWaktu(this, 'stop')"
+            >
+              Selesai
+            </button>
+
+          </div>
+
+        </td>
+
+
+        <td>
+
+          <button
+            class="btn delete-btn"
+            onclick="hapusBaris(this)"
+          >
+            &times;
+          </button>
+
+        </td>
+
+      `;
+
+      tbody.appendChild(tr);
+
+
+      // Jika kedua tombol sudah pernah ditekan,
+      // keduanya tetap disembunyikan setelah refresh.
+
+      if (tombolSelesai) {
+
+        tr.querySelector('.start-btn')
+          .style.display = 'none';
+
+        tr.querySelector('.stop-btn')
+          .style.display = 'none';
+
+      }
+    }
+
+
+    // ==========================================
+    // TAMBAH BARIS
+    // ==========================================
+
+    function tambahBaris() {
+
+      const baris =
+        document.querySelectorAll(
+          '#logTable tbody tr'
+        );
+
+      let noSelanjutnya = 1;
+
+      if (baris.length > 0) {
+
+        const inputNoTerakhir =
+          baris[baris.length - 1]
+            .querySelector('.input-no')
+            .value;
+
+        const noTerakhir =
+          parseInt(inputNoTerakhir) || 0;
+
+        noSelanjutnya =
+          noTerakhir >= 5
+            ? 1
+            : noTerakhir + 1;
+      }
+
+      buatBarisDOM(
+        noSelanjutnya,
+        '',
+        '',
+        false
+      );
+
+      simpanData();
+    }
+
+
+    // ==========================================
+    // FORMAT WAKTU
+    // ==========================================
+
+    function formatWaktu(date) {
+
+      const jam =
+        String(date.getHours())
+          .padStart(2, '0');
+
+      const menit =
+        String(date.getMinutes())
+          .padStart(2, '0');
+
+      return `${jam}.${menit}`;
+    }
+
+
+    // ==========================================
+    // SET WAKTU
+    // ==========================================
+
+    function setWaktu(tombol, tipe) {
+
+      const tr =
+        tombol.closest('tr');
+
+      const inputStart =
+        tr.querySelector('.input-start');
+
+      const inputStop =
+        tr.querySelector('.input-stop');
+
+      const startButton =
+        tr.querySelector('.start-btn');
+
+      const stopButton =
+        tr.querySelector('.stop-btn');
+
+      const sekarang =
+        new Date();
+
+
+      // ========================================
+      // TOMBOL MULAI
+      // ========================================
+
+      if (tipe === 'start') {
+
+        // Mulai = waktu sekarang
+        const waktuMulai =
+          new Date(sekarang);
+
+        // Selesai = sekarang + 15 menit
+        const waktuSelesai =
+          new Date(sekarang);
+
+        waktuSelesai.setMinutes(
+          waktuSelesai.getMinutes() + 15
+        );
+
+        inputStart.value =
+          formatWaktu(waktuMulai);
+
+        inputStop.value =
+          formatWaktu(waktuSelesai);
+      }
+
+
+      // ========================================
+      // TOMBOL SELESAI
+      // ========================================
+
+      else if (tipe === 'stop') {
+
+        // Selesai = waktu sekarang
+        const waktuSelesai =
+          new Date(sekarang);
+
+        // Mulai = sekarang - 15 menit
+        const waktuMulai =
+          new Date(sekarang);
+
+        waktuMulai.setMinutes(
+          waktuMulai.getMinutes() - 15
+        );
+
+        inputStart.value =
+          formatWaktu(waktuMulai);
+
+        inputStop.value =
+          formatWaktu(waktuSelesai);
+      }
+
+
+      // ========================================
+      // HILANGKAN KEDUA TOMBOL
+      // ========================================
+
+      startButton.style.display = 'none';
+
+      stopButton.style.display = 'none';
+
+
+      // Simpan data dan status tombol
+      simpanData();
+    }
+
+
+    // ==========================================
+    // HAPUS SATU BARIS
+    // ==========================================
+
+    function hapusBaris(tombol) {
+
+      const tr =
+        tombol.closest('tr');
+
+      tr.remove();
+
+      const jumlahBaris =
+        document.querySelectorAll(
+          '#logTable tbody tr'
+        ).length;
+
+      if (jumlahBaris === 0) {
+
+        tambahBaris();
+
+      } else {
+
+        simpanData();
+
+      }
+    }
+
+
+    // ==========================================
+    // HAPUS SEMUA DATA
+    // ==========================================
+
+    function hapusSemuaData() {
+
+      if (
+        confirm(
+          'Apakah Anda yakin ingin menghapus semua data?'
+        )
+      ) {
+
+        localStorage.removeItem(
+          'dataLoadingRamp'
+        );
+
+        document.querySelector(
+          '#logTable tbody'
+        ).innerHTML = '';
+
+        tambahBaris();
+      }
+    }
+
+
+    // ==========================================
+    // JALANKAN SAAT HALAMAN DIBUKA
+    // ==========================================
+
+    window.onload = muatData;
+
+  </script>
+
+</body>
+</html>
