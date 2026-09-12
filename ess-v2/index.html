@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ringkasan Laporan Kehadiran & Lembur ESS</title>
+  <link rel="stylesheet" href="css/ess.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+  <div class="header">Ringkasan Laporan <br>Kehadiran &amp; Lembur ESS</div>
+  <div id="syncStatus" class="sync-status">Menyiapkan...</div>
+  <div id="load-wrapper"><div id="loader"></div></div>
+  <div id="syncStatus" class="sync-status">Menyiapkan...</div>
+
+  <main class="container">
+    <input id="fileInput" type="file" accept=".xls,.xlsx">
+
+    <div id="summaryOutput"></div>
+    <div id="tableOutput"></div>
+
+    <table class="input-form">
+      <tbody>
+        <tr><th colspan="2">Tambah/Edit Data</th></tr>
+        <tr><td>Tanggal</td><td><input id="manualTanggal" type="date"></td></tr>
+        <tr><td>Tipe Hari</td><td><div class="radio-group">
+          <label><input id="tipeHariWD" type="radio" name="manualTipeHari" value="WD" checked>WD</label>
+          <label><input id="tipeHariOFF" type="radio" name="manualTipeHari" value="OFF">OFF</label>
+          <label><input id="tipeHariPHOFF" type="radio" name="manualTipeHari" value="PHOFF">PHOFF</label>
+        </div></td></tr>
+        <tr><td>Jam Lembur</td><td><input id="manualJamLembur" type="number" step="0.01"></td></tr>
+        <tr><td>Menit Lembur</td><td><input id="manualMenitLembur" type="number"></td></tr>
+        <tr><td>Indeks Lembur</td><td><input id="manualIndeks" type="number" step="0.01"></td></tr>
+        <tr><td>Status</td><td><div class="radio-group">
+          <label><input id="statusPRS" type="radio" name="manualStatus" value="PRS" checked>PRS</label>
+          <label><input id="statusABS" type="radio" name="manualStatus" value="ABS">ABS</label>
+          <label><input id="statusOFF" type="radio" name="manualStatus" value="OFF">OFF</label>
+          <label><input id="statusCT" type="radio" name="manualStatus" value="CT">CT</label>
+        </div></td></tr>
+        <tr><td>Other Status</td><td><div class="checkbox-group">
+          <label><input id="eai" type="checkbox" class="other-status" value="EAI" checked>EAI</label>
+          <label><input id="ovt" type="checkbox" class="other-status" value="OVT">OVT</label>
+          <label><input id="ovh" type="checkbox" class="other-status" value="OVH">OVH</label>
+          <label><input id="nsi" type="checkbox" class="other-status" value="NSI">NSI</label>
+          <label><input id="nso" type="checkbox" class="other-status" value="NSO">NSO</label>
+          <label><input id="prs" type="checkbox" class="other-status" value="PRS" checked>PRS</label>
+          <label><input id="prsmeal" type="checkbox" class="other-status" value="PRS_MEAL">PRS_MEAL</label>
+          <label><input id="abs" type="checkbox" class="other-status" value="ABS">ABS</label>
+          <label><input id="off" type="checkbox" class="other-status" value="OFF">OFF</label>
+          <label><input id="ct" type="checkbox" class="other-status" value="CT">CT</label>
+        </div></td></tr>
+        <tr><td colspan="2"><button id="btnAdd">SIMPAN KE GOOGLE SHEET</button></td></tr>
+        <tr><td colspan="2"><button id="btnReset" class="danger">HAPUS SEMUA DATA</button></td></tr>
+      </tbody>
+    </table>
+    <footer>© Mardhi Project</footer>
+  </main>
+
+  <input id="filterStartInput" class="hidden-date-input" type="date">
+  <input id="filterEndInput" class="hidden-date-input" type="date">
+  <script src="js/ess.js"></script>
+</body>
+</html>
