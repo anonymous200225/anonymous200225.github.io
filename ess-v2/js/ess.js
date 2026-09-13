@@ -1,8 +1,7 @@
-(function () {
-  "use strict";
+(function() {
 
   // ============================================================
-  // KONFIGURASI GAJI
+  // KONFIGURASI PERHITUNGAN
   // ============================================================
 
   const GAJI_POKOK = 3187965;
@@ -14,17 +13,23 @@
   const JP = GAJI_POKOK * 0.01;
   const POTONGAN = JHT + JP;
 
+
   // ============================================================
-  // STATE
+  // DATA UTAMA
   // ============================================================
 
   let parsedData = [];
 
   let user = {
-    nama: "-",
-    id: "-",
-    jabatan: "-"
+    nama: '-',
+    id: '-',
+    jabatan: '-'
   };
+
+
+  // ============================================================
+  // ELEMENT UI
+  // ============================================================
 
   let fileInput;
   let summaryOutput;
@@ -38,9 +43,14 @@
   let btnAdd;
   let btnReset;
 
+  let tipeHariRadios;
+  let statusRadios;
+
   let filterStart = null;
   let filterEnd = null;
-  let displayData = [];
+
+  let displayData = null;
+
 
   // ============================================================
   // HELPER
@@ -50,72 +60,61 @@
     return document.getElementById(id);
   }
 
-  function makeId() {
-    try {
-      if (
-        typeof crypto !== "undefined" &&
-        typeof crypto.randomUUID === "function"
-      ) {
-        return crypto.randomUUID();
-      }
-    } catch (e) {}
 
-    return "ess-" + Date.now() + "-" +
-      Math.random().toString(36).slice(2);
-  }
+  // ============================================================
+  // LOCAL STORAGE
+  // ============================================================
 
   function saveLocal() {
-    try {
-      localStorage.setItem(
-        "sunfishData",
-        JSON.stringify(parsedData)
-      );
-    } catch (e) {
-      console.error("Gagal menyimpan LocalStorage:", e);
-    }
+    localStorage.setItem(
+      "sunfishData",
+      JSON.stringify(parsedData)
+    );
   }
+
 
   function loadLocal() {
     try {
       const s = localStorage.getItem("sunfishData");
 
       if (s) {
-        const data = JSON.parse(s);
+        parsedData = JSON.parse(s);
 
-        if (Array.isArray(data)) {
-          parsedData = data;
+        if (!Array.isArray(parsedData)) {
+          parsedData = [];
         }
       }
     } catch (e) {
-      console.error("Gagal membaca LocalStorage:", e);
+      console.error("Gagal membaca data lokal:", e);
       parsedData = [];
     }
   }
 
+
   function saveUser() {
-    try {
-      localStorage.setItem(
-        "userInfo",
-        JSON.stringify(user)
-      );
-    } catch (e) {
-      console.error("Gagal menyimpan user:", e);
-    }
+    localStorage.setItem(
+      "userInfo",
+      JSON.stringify(user)
+    );
   }
+
 
   function loadUser() {
     try {
-      const s = localStorage.getItem("userInfo");
+      const u = localStorage.getItem("userInfo");
 
-      if (s) {
-        const u = JSON.parse(s);
+      if (u) {
+        const parsedUser = JSON.parse(u);
 
-        if (u && typeof u === "object") {
-          user = {
-            nama: u.nama || "-",
-            id: u.id || "-",
-            jabatan: u.jabatan || "-"
-          };
+        if (parsedUser && typeof parsedUser === "object") {
+          user = Object.assign(
+            {
+              nama: '-',
+              id: '-',
+              jabatan: '-'
+            },
+            parsedUser
+          );
         }
       }
     } catch (e) {
@@ -123,218 +122,203 @@
     }
   }
 
+
   // ============================================================
-  // FORMAT TANGGAL
+  // TANGGAL
   // ============================================================
 
   function parseIndoDate(str) {
+
     if (!str) return null;
 
-    if (str instanceof Date) {
-      return isNaN(str.getTime()) ? null : str;
+    const p = String(str).split('/');
+
+    if (p.length !== 3) return null;
+
+    const d = parseInt(p[0], 10);
+    const m = parseInt(p[1], 10);
+    const y = parseInt(p[2], 10);
+
+    if (
+      isNaN(d) ||
+      isNaN(m) ||
+      isNaN(y)
+    ) {
+      return null;
     }
 
-    str = String(str).trim();
-
-    // DD/MM/YYYY
-    let p = str.split("/");
-
-    if (p.length === 3) {
-      const d = parseInt(p[0], 10);
-      const m = parseInt(p[1], 10);
-      const y = parseInt(p[2], 10);
-
-      if (
-        !isNaN(d) &&
-        !isNaN(m) &&
-        !isNaN(y)
-      ) {
-        const date = new Date(y, m - 1, d);
-
-        if (
-          date.getFullYear() === y &&
-          date.getMonth() === m - 1 &&
-          date.getDate() === d
-        ) {
-          return date;
-        }
-      }
-    }
-
-    // YYYY-MM-DD
-    if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
-      const [y, m, d] = str.split("-").map(Number);
-      return new Date(y, m - 1, d);
-    }
-
-    const fallback = new Date(str);
-
-    return isNaN(fallback.getTime())
-      ? null
-      : fallback;
+    return new Date(
+      y,
+      m - 1,
+      d
+    );
   }
+
 
   function ddmmyyyy(d) {
-    if (!(d instanceof Date) || isNaN(d.getTime())) {
-      return "-";
+
+    if (!d || isNaN(d.getTime())) {
+      return '-';
     }
 
-    return (
-      String(d.getDate()).padStart(2, "0") +
-      "/" +
-      String(d.getMonth() + 1).padStart(2, "0") +
-      "/" +
-      d.getFullYear()
-    );
+    return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
   }
+
+
+  function formatInputDate(d) {
+
+    if (!d || isNaN(d.getTime())) {
+      return '';
+    }
+
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
+
 
   function formatRupiah(n) {
-    return (
-      "Rp " +
-      Number(Math.round(Number(n) || 0))
-        .toLocaleString("id-ID")
-    );
+
+    return "Rp " +
+      Number(
+        Math.round(n || 0)
+      ).toLocaleString("id-ID");
   }
 
-  function parseNumber(value) {
-    if (value === null || value === undefined) {
-      return 0;
-    }
-
-    if (typeof value === "number") {
-      return isFinite(value) ? value : 0;
-    }
-
-    let s = String(value).trim();
-
-    if (!s) return 0;
-
-    s = s.replace(/\s/g, "");
-
-    // Format Indonesia: 1.234,56
-    if (
-      s.includes(".") &&
-      s.includes(",")
-    ) {
-      s = s.replace(/\./g, "");
-      s = s.replace(",", ".");
-    } else if (s.includes(",")) {
-      s = s.replace(",", ".");
-    }
-
-    const n = parseFloat(s);
-
-    return isFinite(n) ? n : 0;
-  }
 
   // ============================================================
-  // PERHITUNGAN LEMBUR
+  // LOGIKA OFF DAY / OVERTIME
   // ============================================================
 
   function checkOffDay(jam, tipeHari) {
-    const ovh = $("ovh");
-    const ovt = $("ovt");
-    const off = $("off");
-    const prs = $("prs");
-    const statusPRS = $("statusPRS");
+
+    const ovh = document.getElementById('ovh');
+    const ovt = document.getElementById('ovt');
+    const off = document.getElementById('off');
+    const prs = document.getElementById('prs');
+    const statusPRS = document.getElementById('statusPRS');
 
     if (!ovh || !ovt) return;
 
-    jam = Number(jam) || 0;
-    tipeHari = String(tipeHari || "").toUpperCase();
 
-    if (jam <= 0) {
+    if (!jam || Number(jam) <= 0) {
+
       ovh.checked = false;
       ovt.checked = false;
 
       if (
-        tipeHari === "OFF" ||
-        tipeHari === "PHOFF"
+        (tipeHari === "OFF" ||
+         tipeHari === "PHOFF") &&
+        prs
       ) {
-        if (prs) prs.checked = false;
+        prs.checked = false;
       }
 
-      return;
-    }
+    } else if (tipeHari === "PHOFF") {
 
-    if (tipeHari === "PHOFF") {
       ovh.checked = true;
       ovt.checked = false;
 
-      if (off) off.checked = false;
-      if (prs) prs.checked = true;
-      if (statusPRS) statusPRS.checked = true;
+      if (off) {
+        off.checked = false;
+      }
 
-      return;
-    }
+      if (prs) {
+        prs.checked = true;
+      }
 
-    if (
+      if (statusPRS) {
+        statusPRS.checked = true;
+      }
+
+    } else if (
       tipeHari === "WD" ||
       tipeHari === "OFF"
     ) {
+
       ovh.checked = false;
       ovt.checked = true;
 
-      if (prs) prs.checked = true;
-      if (off) off.checked = false;
-      if (statusPRS) statusPRS.checked = true;
+      if (prs) {
+        prs.checked = true;
+      }
 
-      return;
+      if (off) {
+        off.checked = false;
+      }
+
+      if (statusPRS) {
+        statusPRS.checked = true;
+      }
+
+    } else {
+
+      ovh.checked = false;
+      ovt.checked = false;
+
+      if (off) {
+        off.checked = true;
+      }
+
+      if (prs) {
+        prs.checked = false;
+      }
     }
-
-    ovh.checked = false;
-    ovt.checked = false;
-
-    if (off) off.checked = true;
-    if (prs) prs.checked = false;
   }
 
-  function hitungIndeksByJam(jam, tipeHari) {
-    jam = Number(jam) || 0;
-    tipeHari = String(tipeHari || "").toUpperCase();
 
-    checkOffDay(jam, tipeHari);
+  function hitungIndeksByJam(jam, tipeHari) {
+
+    jam = Number(jam) || 0;
+
+    checkOffDay(
+      jam,
+      tipeHari
+    );
 
     if (jam <= 0) {
       return 0;
     }
 
-    // OFF / PHOFF
+
     if (
       tipeHari === "OFF" ||
       tipeHari === "PHOFF"
     ) {
+
       if (jam <= 7) {
         return jam * 2;
       }
 
       return (
         (7 * 2) +
-        ((jam - 7) * 3) +
+        (jam - 7) * 3 +
         2
       );
     }
 
-    // WORKING DAY
+
     if (tipeHari === "WD") {
+
       if (jam <= 1) {
         return 1.5;
       }
 
       return (
         1.5 +
-        ((jam - 1) * 2)
+        (jam - 1) * 2
       );
     }
+
 
     return 0;
   }
 
+
   // ============================================================
-  // STATISTIK
+  // PERHITUNGAN SUMMARY
   // ============================================================
 
   function calculateStats(data) {
+
     let hariKerja = 0;
     let cuti = 0;
     let absen = 0;
@@ -344,18 +328,21 @@
     let totalIndeks = 0;
     let meal = 0;
 
-    data.forEach(function (r) {
-      const tipe = String(
-        r["Tipe Hari"] || ""
-      ).toUpperCase();
 
-      const status = String(
-        r["Status"] || ""
-      ).toUpperCase();
+    data.forEach(r => {
 
-      const other = String(
-        r["Other Status"] || ""
-      ).toUpperCase();
+      const tipe =
+        (r["Tipe Hari"] || "")
+          .toUpperCase();
+
+      const status =
+        (r["Status"] || "")
+          .toUpperCase();
+
+      const other =
+        (r["Other Status"] || "")
+          .toUpperCase();
+
 
       if (
         (tipe === "WD" && status === "PRS") ||
@@ -364,6 +351,7 @@
         hariKerja++;
       }
 
+
       if (
         tipe === "OFF" &&
         status === "PRS"
@@ -371,9 +359,11 @@
         off++;
       }
 
+
       if (status === "ABS") {
         absen++;
       }
+
 
       if (
         status === "CT" ||
@@ -382,6 +372,7 @@
         cuti++;
       }
 
+
       if (
         other.includes("MEAL") ||
         other.includes("PRS_MEAL")
@@ -389,30 +380,49 @@
         meal++;
       }
 
-      totalJam += parseNumber(
-        r["Jam Lembur"]
-      );
 
-      totalIndeks += parseNumber(
-        r["Indeks Lembur"]
-      );
+      totalJam +=
+        parseFloat(
+          String(
+            r["Jam Lembur"] || "0"
+          ).replace(",", ".")
+        ) || 0;
+
+
+      totalIndeks +=
+        parseFloat(
+          String(
+            r["Indeks Lembur"] || "0"
+          ).replace(",", ".")
+        ) || 0;
+
     });
 
+
     const BPJS =
-      hariKerja > 0
+      Number(hariKerja) > 0
         ? POTONGAN
         : 0;
 
+
     const gajiPokokFinal =
-      displayData.length >= 30
+      (
+        displayData &&
+        displayData.length >= 30
+      )
         ? GAJI_POKOK
-        : hariKerja * DAILY_RATE;
+        : (
+          hariKerja *
+          DAILY_RATE
+        );
+
 
     const gaji =
       gajiPokokFinal +
       (totalIndeks * OVERTIME_RATE) +
       (meal * MEAL_RATE) -
       BPJS;
+
 
     return {
       hariKerja,
@@ -421,33 +431,13 @@
       off,
       totalJam,
       totalIndeks,
-      meal,
       gaji
     };
   }
 
-  // ============================================================
-  // ESCAPE HTML
-  // ============================================================
-
-  function escapeHtml(value) {
-    if (
-      value === null ||
-      value === undefined
-    ) {
-      return "";
-    }
-
-    return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
 
   // ============================================================
-  // SUMMARY
+  // SUMMARY HTML
   // ============================================================
 
   function generateSummaryHtml(
@@ -455,26 +445,29 @@
     startLabel,
     endLabel
   ) {
+
     const startDisplay =
-      startLabel || "-";
+      startLabel || '-';
 
     const endDisplay =
-      endLabel || "-";
+      endLabel || '-';
+
 
     const prevBtn =
-      `<button id="prevMonthBtn" ` +
-      `class="month-shift-btn">‹</button>`;
+      `<button id="prevMonthBtn" class="month-shift-btn">‹</button>`;
 
     const nextBtn =
-      `<button id="nextMonthBtn" ` +
-      `class="month-shift-btn">›</button>`;
+      `<button id="nextMonthBtn" class="month-shift-btn">›</button>`;
+
 
     return `
       <table class="summary-table">
 
         <tr>
           <th colspan="2">
+
             <div class="period-wrapper">
+
               <div class="period-center">
 
                 ${prevBtn}
@@ -482,39 +475,38 @@
                 <span
                   id="periodStart"
                   class="period-clickable"
-                >
-                  ${escapeHtml(startDisplay)}
-                </span>
+                >${startDisplay}</span>
 
                 —
 
                 <span
                   id="periodEnd"
                   class="period-clickable"
-                >
-                  ${escapeHtml(endDisplay)}
-                </span>
+                >${endDisplay}</span>
 
                 ${nextBtn}
 
               </div>
+
             </div>
+
           </th>
         </tr>
 
+
         <tr>
           <td>Nama Karyawan</td>
-          <td>${escapeHtml(user.nama)}</td>
+          <td>${user.nama}</td>
         </tr>
 
         <tr>
           <td>NIK / ID</td>
-          <td>${escapeHtml(user.id)}</td>
+          <td>${user.id}</td>
         </tr>
 
         <tr>
           <td>Posisi / Jabatan</td>
-          <td>${escapeHtml(user.jabatan)}</td>
+          <td>${user.jabatan}</td>
         </tr>
 
         <tr>
@@ -534,299 +526,304 @@
 
         <tr>
           <td>Jam Lembur</td>
-          <td>
-            ${stats.totalJam.toFixed(2)} jam
-          </td>
+          <td>${stats.totalJam.toFixed(2)} jam</td>
         </tr>
 
         <tr>
           <td>Indeks Lembur</td>
-          <td>
-            ${stats.totalIndeks.toFixed(2)}
-          </td>
+          <td>${stats.totalIndeks.toFixed(2)}</td>
         </tr>
 
         <tr>
           <td>Estimasi Gaji</td>
-          <td>
-            ${formatRupiah(stats.gaji)}
-          </td>
+          <td>${formatRupiah(stats.gaji)}</td>
         </tr>
 
       </table>
     `;
   }
 
+
   // ============================================================
-  // CLASS BARIS
+  // WARNA / CLASS TABEL
   // ============================================================
 
   function getRowClass(row) {
-    const t = String(
-      row["Tipe Hari"] || ""
-    ).toUpperCase();
 
-    const s = String(
-      row["Status"] || ""
-    ).toUpperCase();
+    const t =
+      (row["Tipe Hari"] || "")
+        .toUpperCase();
 
-    if (s === "ABS") return "abs";
-    if (s === "CT" || s === "CS") return "ct";
-    if (t === "PHOFF") return "phoff";
-    if (t === "OFF") return "off";
-    if (t === "WD") return "wd";
+    const s =
+      (row["Status"] || "")
+        .toUpperCase();
+
+
+    if (s === "ABS") {
+      return "abs";
+    }
+
+    if (
+      s === "CT" ||
+      s === "CS"
+    ) {
+      return "ct";
+    }
+
+    if (t === "PHOFF") {
+      return "phoff";
+    }
+
+    if (t === "OFF") {
+      return "off";
+    }
+
+    if (t === "WD") {
+      return "wd";
+    }
 
     return "";
   }
 
+
   // ============================================================
-  // TABLE
+  // TABEL DATA
   // ============================================================
 
   function generateTableHtml(data) {
+
     if (!data || !data.length) {
       return "";
     }
 
-    const headers = Object.keys(
-      data[0]
-    ).filter(function (k) {
-      return k !== "dateObj";
-    });
+
+    const headers =
+      Object.keys(data[0])
+        .filter(k => k !== "dateObj");
+
 
     let html =
-      "<div class='table-responsive' " +
-      "id='dataTable'>" +
+      "<div class='table-responsive' id='dataTable'>" +
       "<table class='data-table'>" +
       "<thead><tr>";
 
-    headers.forEach(function (h) {
-      html +=
-        "<th>" +
-        escapeHtml(h) +
-        "</th>";
+
+    headers.forEach(h => {
+      html += `<th>${h}</th>`;
     });
+
 
     html +=
       "<th>Aksi</th>" +
       "</tr></thead><tbody>";
 
-    data.forEach(function (row, idx) {
-      let dataIdx = Number(
-        row.__originalIndex
-      );
 
-      if (
-        !isFinite(dataIdx) ||
-        dataIdx < 0
-      ) {
-        dataIdx = parsedData.findIndex(
-          function (r) {
-            return (
-              r.ID &&
-              row.ID &&
-              r.ID === row.ID
-            );
-          }
+    data.forEach((row, idx) => {
+
+      const originalIndex =
+        parsedData.findIndex(
+          r =>
+            r["Tanggal"] ===
+            row["Tanggal"]
         );
-      }
 
-      if (dataIdx < 0) {
-        dataIdx = idx;
-      }
 
-      html +=
-        `<tr class="${escapeHtml(
-          getRowClass(row)
-        )}" ` +
-        `data-idx="${dataIdx}" ` +
-        `data-tanggal="${escapeHtml(
-          row["Tanggal"] || ""
-        )}">`;
+      const dataIdx =
+        originalIndex !== -1
+          ? originalIndex
+          : idx;
 
-      headers.forEach(function (h) {
+
+      html += `
+        <tr
+          class="${getRowClass(row)}"
+          data-idx="${dataIdx}"
+          data-tanggal="${row["Tanggal"]}"
+        >
+      `;
+
+
+      headers.forEach(h => {
+
         const cellValue =
           row[h] == null
             ? ""
             : row[h];
 
         html +=
-          "<td>" +
-          escapeHtml(cellValue) +
-          "</td>";
+          `<td>${cellValue}</td>`;
       });
 
-      html +=
-        `<td>
-          <button
-            class="delBtn"
-            data-idx="${dataIdx}"
-            type="button"
-          >
-            ❌
-          </button>
-        </td>`;
 
-      html += "</tr>";
+      html += `
+          <td>
+            <button
+              class="delBtn"
+              data-idx="${dataIdx}"
+            >❌</button>
+          </td>
+        </tr>
+      `;
     });
+
 
     html +=
       "</tbody></table></div>";
 
+
     return html;
   }
 
+
   // ============================================================
-  // CLICK BARIS
+  // KLIK BARIS TABEL
   // ============================================================
 
   function setupRowClickHandlers() {
+
     if (!tableOutput) return;
 
+
     tableOutput.onclick =
-      function (e) {
+      function(e) {
+
         const delBtn =
-          e.target.closest(".delBtn");
+          e.target.closest('.delBtn');
+
 
         if (delBtn) {
+
+          e.stopPropagation();
+
           return;
         }
+
 
         const tr =
           e.target.closest("tr");
 
+
         if (
           !tr ||
           !tr.parentElement ||
-          tr.parentElement.tagName !== "TBODY"
+          tr.parentElement.tagName !== 'TBODY'
         ) {
           return;
         }
 
-        const rowIndex =
-          Number(tr.dataset.idx);
 
-        const row =
-          parsedData[rowIndex];
+        const td =
+          tr.querySelectorAll("td");
 
-        if (!row) {
+
+        if (td.length < 1) {
           return;
         }
 
-        const form =
+
+        const inputForm =
           document.querySelector(
             ".input-form"
           );
 
-        if (form) {
-          form.scrollIntoView({
+
+        if (inputForm) {
+
+          inputForm.scrollIntoView({
             behavior: "smooth",
             block: "center"
           });
         }
 
+
         const tgl =
-          row["Tanggal"] || "";
+          td[0].textContent.trim();
 
         const tipeHari =
-          row["Tipe Hari"] || "WD";
+          td[1].textContent.trim();
 
         const menit =
-          row["Menit Lembur"] || "0";
+          td[2].textContent.trim();
 
         const jam =
-          row["Jam Lembur"] || "0";
+          td[3].textContent.trim();
 
         const indeks =
-          row["Indeks Lembur"] || "0";
+          td[4].textContent.trim();
 
         const status =
-          row["Status"] || "PRS";
+          td[5].textContent.trim();
 
         const otherText =
-          row["Other Status"] || "";
+          td[6].textContent.trim();
+
 
         function toInputDateFormat(t) {
-          const d = parseIndoDate(t);
 
-          if (!d) return "";
+          const d =
+            parseIndoDate(t);
 
-          return (
-            d.getFullYear() +
-            "-" +
-            String(
-              d.getMonth() + 1
-            ).padStart(2, "0") +
-            "-" +
-            String(
-              d.getDate()
-            ).padStart(2, "0")
-          );
+          if (!d) {
+            return "";
+          }
+
+
+          return formatInputDate(d);
         }
 
-        if (manualTanggal) {
-          manualTanggal.value =
-            toInputDateFormat(tgl);
-        }
 
-        if (manualJamLembur) {
-          manualJamLembur.value =
-            parseNumber(jam);
-        }
+        manualTanggal.value =
+          toInputDateFormat(tgl);
 
-        if (manualMenitLembur) {
-          manualMenitLembur.value =
-            parseNumber(menit);
-        }
+        manualJamLembur.value =
+          jam;
 
-        if (manualIndeks) {
-          manualIndeks.value =
-            parseNumber(indeks)
-              .toFixed(2);
-        }
+        manualMenitLembur.value =
+          menit;
+
+        manualIndeks.value =
+          indeks.replace(",", ".");
+
 
         const r1 =
           document.querySelector(
-            `input[name="manualTipeHari"][value="${CSS.escape(
-              tipeHari
-            )}"]`
+            `input[name="manualTipeHari"][value="${tipeHari}"]`
           );
 
         if (r1) {
           r1.checked = true;
         }
 
+
         const r2 =
           document.querySelector(
-            `input[name="manualStatus"][value="${CSS.escape(
-              status
-            )}"]`
+            `input[name="manualStatus"][value="${status}"]`
           );
 
         if (r2) {
           r2.checked = true;
         }
 
+
         document
-          .querySelectorAll(
-            ".other-status"
-          )
-          .forEach(function (cb) {
+          .querySelectorAll(".other-status")
+          .forEach(cb => {
             cb.checked = false;
           });
 
-        if (otherText) {
+
+        if (otherText !== "") {
+
           otherText
             .split(",")
-            .forEach(function (o) {
+            .forEach(o => {
+
               const value =
                 o.trim();
 
               const c =
                 document.querySelector(
-                  `.other-status[value="${CSS.escape(
-                    value
-                  )}"]`
+                  `.other-status[value="${value}"]`
                 );
 
               if (c) {
@@ -837,42 +834,108 @@
       };
   }
 
+
   // ============================================================
-  // DELETE
+  // TOMBOL DELETE
   // ============================================================
 
   function attachDeleteButtons() {
+
     if (!tableOutput) return;
 
-    tableOutput
-      .querySelectorAll(".delBtn")
-      .forEach(function (btn) {
-        btn.onclick = onDeleteRow;
-      });
+
+    const delBtns =
+      tableOutput.querySelectorAll(
+        '.delBtn'
+      );
+
+
+    delBtns.forEach(btn => {
+
+      const newBtn =
+        btn.cloneNode(true);
+
+      btn.parentNode.replaceChild(
+        newBtn,
+        btn
+      );
+    });
+
+
+    const newDelBtns =
+      tableOutput.querySelectorAll(
+        '.delBtn'
+      );
+
+
+    newDelBtns.forEach(btn => {
+
+      btn.addEventListener(
+        'click',
+        onDeleteRow
+      );
+    });
   }
 
+
   function onDeleteRow(e) {
+
     e.stopPropagation();
     e.preventDefault();
+
 
     const idx =
       Number(this.dataset.idx);
 
-    if (
-      !isFinite(idx) ||
-      idx < 0 ||
-      idx >= parsedData.length
-    ) {
+
+    if (isNaN(idx)) {
+
+      const row =
+        this.closest('tr');
+
+
+      if (
+        row &&
+        row.dataset.tanggal
+      ) {
+
+        const tanggal =
+          row.dataset.tanggal;
+
+
+        const foundIndex =
+          parsedData.findIndex(
+            r =>
+              r["Tanggal"] ===
+              tanggal
+          );
+
+
+        if (foundIndex !== -1) {
+
+          deleteRowByIndex(
+            foundIndex
+          );
+
+          return;
+        }
+      }
+
+
       alert(
-        "Gagal menghapus: data tidak ditemukan."
+        "Gagal menghapus: Data tidak ditemukan"
       );
+
       return;
     }
+
 
     deleteRowByIndex(idx);
   }
 
+
   function deleteRowByIndex(index) {
+
     if (
       !confirm(
         "Hapus baris ini?"
@@ -881,107 +944,112 @@
       return;
     }
 
+
     if (
-      index < 0 ||
-      index >= parsedData.length
+      index >= 0 &&
+      index < parsedData.length
     ) {
-      alert(
-        "Index tidak valid."
+
+      // Simpan row sebelum dihapus.
+      // ID tetap INTERNAL dan dipakai
+      // untuk delete Google Sheets.
+      const deletedRow =
+        parsedData[index];
+
+
+      parsedData.splice(
+        index,
+        1
       );
-      return;
-    }
 
-    const deletedRow =
-      parsedData[index];
 
-    parsedData.splice(
-      index,
-      1
-    );
+      saveLocal();
 
-    saveLocal();
-    refreshUI();
+      refreshUI();
 
-    if (
-      window.ESSGoogleSync &&
-      typeof window.ESSGoogleSync.deleteRow ===
-        "function"
-    ) {
-      window.ESSGoogleSync.deleteRow(
-        deletedRow
+
+      if (
+        window.ESSGoogleSync
+      ) {
+
+        window.ESSGoogleSync
+          .deleteRow(
+            deletedRow
+          );
+      }
+
+    } else {
+
+      alert(
+        "Index tidak valid. Refresh halaman dan coba lagi."
       );
     }
   }
 
+
   // ============================================================
-  // INPUT MANUAL
+  // TAMBAH / UPDATE DATA MANUAL
   // ============================================================
 
   function addManualEntry() {
-    if (!manualTanggal) {
-      return;
-    }
 
     const iso =
       manualTanggal.value;
 
+
     if (!iso) {
+
       alert(
         "Tanggal belum diisi."
       );
+
       return;
     }
 
-    const parts =
+
+    const [y, m, d] =
       iso.split("-");
 
-    if (parts.length !== 3) {
-      alert(
-        "Format tanggal tidak valid."
-      );
-      return;
-    }
-
-    const y = parts[0];
-    const m = parts[1];
-    const d = parts[2];
 
     const tgl =
       `${d}/${m}/${y}`;
 
+
     const jam =
-      parseNumber(
-        manualJamLembur &&
+      parseFloat(
         manualJamLembur.value
-      );
+      ) || 0;
+
 
     const menit =
       Math.round(
         jam * 60
       );
 
-    const tipeEl =
+
+    const tipeElement =
       document.querySelector(
         "input[name='manualTipeHari']:checked"
       );
 
-    const statusEl =
+
+    const statusElement =
       document.querySelector(
         "input[name='manualStatus']:checked"
       );
 
-    if (!tipeEl || !statusEl) {
-      alert(
-        "Harap pilih Tipe Hari dan Status."
-      );
-      return;
-    }
 
     const tipe =
-      tipeEl.value;
+      tipeElement
+        ? tipeElement.value
+        : "";
+
 
     const status =
-      statusEl.value;
+      statusElement
+        ? statusElement.value
+        : "";
+
 
     const other =
       Array.from(
@@ -989,41 +1057,63 @@
           ".other-status:checked"
         )
       )
-        .map(function (c) {
-          return c.value;
-        })
-        .join(",");
+      .map(c => c.value)
+      .join(",");
+
+
+    if (!tipe || !status) {
+
+      alert(
+        "Harap pilih Tipe Hari dan Status"
+      );
+
+      return;
+    }
+
 
     const existIndex =
       parsedData.findIndex(
-        function (r) {
-          return (
-            r["Tanggal"] === tgl
-          );
-        }
+        r =>
+          r["Tanggal"] === tgl
       );
 
-    const existing =
-      existIndex !== -1
-        ? parsedData[existIndex]
-        : null;
+
+    // ========================================================
+    // ID HANYA INTERNAL.
+    // TIDAK ADA FIELD ID DI FORM.
+    // ========================================================
+
+    let rowID = "";
+
+
+    if (
+      existIndex !== -1 &&
+      parsedData[existIndex] &&
+      parsedData[existIndex]["ID"]
+    ) {
+
+      rowID =
+        parsedData[existIndex]["ID"];
+
+    } else {
+
+      rowID =
+        makeInternalID();
+    }
+
 
     const newRow = {
-      ID:
-        existing &&
-        existing.ID
-          ? existing.ID
-          : makeId(),
 
-      Tanggal: tgl,
+      "ID": rowID,
+
+      "Tanggal": tgl,
 
       "Tipe Hari": tipe,
 
-      "Menit Lembur":
-        menit,
+      "Menit Lembur": menit,
 
       "Jam Lembur":
-        jam.toFixed(2),
+        Number(jam).toFixed(2),
 
       "Indeks Lembur":
         hitungIndeksByJam(
@@ -1031,40 +1121,46 @@
           tipe
         ).toFixed(2),
 
-      Status: status,
+      "Status": status,
 
-      "Other Status":
-        other
+      "Other Status": other
     };
 
+
     if (existIndex !== -1) {
+
       parsedData[existIndex] =
         newRow;
+
     } else {
+
       parsedData.push(
         newRow
       );
     }
 
+
     saveLocal();
+
     refreshUI();
 
+
     if (
-      window.ESSGoogleSync &&
-      typeof window.ESSGoogleSync.saveRow ===
-        "function"
+      window.ESSGoogleSync
     ) {
-      window.ESSGoogleSync.saveRow(
-        newRow
-      );
+
+      window.ESSGoogleSync
+        .saveRow(newRow);
     }
   }
 
+
   // ============================================================
-  // RESET
+  // RESET SEMUA DATA
   // ============================================================
 
   function resetData() {
+
     if (
       !confirm(
         "Hapus semua data?"
@@ -1073,375 +1169,371 @@
       return;
     }
 
+
     parsedData = [];
+
 
     localStorage.removeItem(
       "sunfishData"
     );
 
+
     refreshUI();
 
+
     if (
-      window.ESSGoogleSync &&
-      typeof window.ESSGoogleSync.replace ===
-        "function"
+      window.ESSGoogleSync
     ) {
-      window.ESSGoogleSync.replace(
-        []
-      );
+
+      window.ESSGoogleSync
+        .replace([]);
     }
   }
 
+
   // ============================================================
-  // XLSX PARSER
+  // ID INTERNAL
   // ============================================================
 
-  function parseXLSXFile(arrayBuffer) {
+  function makeInternalID() {
+
+    if (
+      typeof crypto !== "undefined" &&
+      crypto.randomUUID
+    ) {
+
+      return crypto.randomUUID();
+    }
+
+
+    return (
+      "ess-" +
+      Date.now() +
+      "-" +
+      Math.random()
+        .toString(36)
+        .slice(2)
+    );
+  }
+
+
+  // ============================================================
+  // PARSING XLSX DENGAN SHEETJS
+  // ============================================================
+
+  function parseXLSXFile(
+    arrayBuffer
+  ) {
+
     try {
-      if (
-        typeof XLSX ===
-        "undefined"
-      ) {
-        throw new Error(
-          "Library SheetJS (XLSX) belum tersedia."
-        );
-      }
 
       const workbook =
         XLSX.read(
           arrayBuffer,
           {
-            type: "array",
-            cellDates: false
+            type: 'array'
           }
         );
 
-      if (
-        !workbook.SheetNames ||
-        !workbook.SheetNames.length
-      ) {
-        throw new Error(
-          "Sheet tidak ditemukan."
-        );
-      }
 
       const firstSheet =
         workbook.Sheets[
           workbook.SheetNames[0]
         ];
 
+
       const rows =
         XLSX.utils.sheet_to_json(
           firstSheet,
           {
-            header: 1,
-            defval: ""
+            header: 1
           }
         );
 
+
       let currentDate = null;
 
-      const result = [];
+      let result = [];
 
       let userData = {
-        nama: "-",
-        id: "-",
-        jabatan: "-"
+        nama: '-',
+        id: '-',
+        jabatan: '-'
       };
 
-      const monthNames = {
-        jan: 1,
-        january: 1,
 
-        feb: 2,
-        february: 2,
+      const monthNames = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec'
+      ];
 
-        mar: 3,
-        march: 3,
-
-        apr: 4,
-        april: 4,
-
-        may: 5,
-
-        jun: 6,
-        june: 6,
-
-        jul: 7,
-        july: 7,
-
-        aug: 8,
-        august: 8,
-
-        sep: 9,
-        sept: 9,
-        september: 9,
-
-        oct: 10,
-        october: 10,
-
-        nov: 11,
-        november: 11,
-
-        dec: 12,
-        december: 12
-      };
-
-      function parseESSDate(value) {
-        if (
-          value === null ||
-          value === undefined ||
-          value === ""
-        ) {
-          return null;
-        }
-
-        const s =
-          String(value)
-            .trim();
-
-        // Date : 01 Jan 2026
-        const cleaned =
-          s
-            .replace(/^Date\s*:\s*/i, "")
-            .trim();
-
-        const p =
-          cleaned.split(
-            /\s+/
-          );
-
-        if (p.length >= 3) {
-          const day =
-            parseInt(
-              p[0],
-              10
-            );
-
-          const month =
-            monthNames[
-              String(
-                p[1]
-              ).toLowerCase()
-            ];
-
-          const year =
-            parseInt(
-              p[2],
-              10
-            );
-
-          if (
-            !isNaN(day) &&
-            month &&
-            !isNaN(year)
-          ) {
-            return (
-              String(day).padStart(
-                2,
-                "0"
-              ) +
-              "/" +
-              String(month).padStart(
-                2,
-                "0"
-              ) +
-              "/" +
-              year
-            );
-          }
-        }
-
-        // DD/MM/YYYY
-        const d =
-          parseIndoDate(
-            cleaned
-          );
-
-        if (d) {
-          return ddmmyyyy(d);
-        }
-
-        return null;
-      }
 
       for (
         let i = 0;
         i < rows.length;
         i++
       ) {
+
         const row =
           rows[i];
 
+
         if (
-          !Array.isArray(row) ||
+          !row ||
           row.length === 0
         ) {
           continue;
         }
 
-        const colA =
-          String(
-            row[0] ?? ""
-          ).trim();
 
-        // --------------------------------------------------------
-        // DATE HEADER
-        // --------------------------------------------------------
+        const colA =
+          (
+            row[0] || ''
+          )
+          .toString()
+          .trim();
+
+
+        // ------------------------------------------------------
+        // Date : 01 Jan 2026
+        // ------------------------------------------------------
 
         if (
-          /^Date\s*:/i.test(
-            colA
+          colA.startsWith(
+            'Date : '
           )
         ) {
-          const date =
-            parseESSDate(
-              colA
-            );
 
-          if (date) {
-            currentDate =
-              date;
+          const dateStr =
+            colA
+              .replace(
+                'Date : ',
+                ''
+              )
+              .trim();
+
+
+          const parts =
+            dateStr.split(' ');
+
+
+          if (
+            parts.length === 3
+          ) {
+
+            const day =
+              parts[0]
+                .padStart(
+                  2,
+                  '0'
+                );
+
+
+            const monthIndex =
+              monthNames.indexOf(
+                parts[1]
+              );
+
+
+            if (
+              monthIndex !== -1
+            ) {
+
+              const month =
+                String(
+                  monthIndex + 1
+                ).padStart(
+                  2,
+                  '0'
+                );
+
+
+              const year =
+                parts[2];
+
+
+              currentDate =
+                `${day}/${month}/${year}`;
+
+            } else {
+
+              const d =
+                new Date(
+                  dateStr
+                );
+
+
+              if (
+                !isNaN(
+                  d.getTime()
+                )
+              ) {
+
+                currentDate =
+                  ddmmyyyy(d);
+              }
+            }
           }
+
 
           continue;
         }
 
-        // --------------------------------------------------------
-        // DATA BARIS ESS
-        // --------------------------------------------------------
+
+        // ------------------------------------------------------
+        // DATA KARYAWAN
+        // ------------------------------------------------------
 
         if (
           row.length >= 4 &&
+          !isNaN(
+            parseInt(
+              colA
+            )
+          ) &&
+          parseInt(
+            colA
+          ) > 0 &&
           currentDate
         ) {
-          const serial =
-            parseNumber(
-              row[0]
+
+          const empName =
+            (
+              row[1] || ''
+            )
+            .toString()
+            .trim();
+
+
+          const empNo =
+            (
+              row[2] || ''
+            )
+            .toString()
+            .trim();
+
+
+          const pos =
+            (
+              row[3] || ''
+            )
+            .toString()
+            .trim();
+
+
+          if (empName) {
+            userData.nama =
+              empName;
+          }
+
+
+          if (empNo) {
+            userData.id =
+              empNo;
+          }
+
+
+          if (pos) {
+            userData.jabatan =
+              pos;
+          }
+
+
+          const dayType =
+            (
+              row[15] || ''
+            )
+            .toString()
+            .trim()
+            .toUpperCase();
+
+
+          const overtimeMinute =
+            parseFloat(
+              row[17] || 0
             );
 
-          /*
-           * Format ESS:
-           *
-           * 0  = Employee / Serial
-           * 1  = Employee Name
-           * 2  = Employee No
-           * 3  = Position
-           * ...
-           * 15 = Day Type
-           * 17 = Overtime Minute
-           * 18 = Overtime Index
-           * 21 = Status
-           * 22 = Other Status
-           */
 
-          if (
-            serial > 0
-          ) {
-            const empName =
-              String(
-                row[1] ?? ""
-              ).trim();
+          const overtimeIndex =
+            parseFloat(
+              row[18] || 0
+            );
 
-            const empNo =
-              String(
-                row[2] ?? ""
-              ).trim();
 
-            const pos =
-              String(
-                row[3] ?? ""
-              ).trim();
+          const status =
+            (
+              row[21] || ''
+            )
+            .toString()
+            .trim()
+            .toUpperCase();
 
-            if (empName) {
-              userData.nama =
-                empName;
-            }
 
-            if (empNo) {
-              userData.id =
-                empNo;
-            }
+          const otherStatus =
+            (
+              row[22] || ''
+            )
+            .toString()
+            .trim()
+            .toUpperCase();
 
-            if (pos) {
-              userData.jabatan =
-                pos;
-            }
 
-            const dayType =
-              String(
-                row[15] ?? ""
-              )
-                .trim()
-                .toUpperCase();
+          const jamLembur =
+            overtimeMinute / 60;
 
-            const overtimeMinute =
-              parseNumber(
-                row[17]
-              );
 
-            const overtimeIndex =
-              parseNumber(
-                row[18]
-              );
+          result.push({
 
-            const status =
-              String(
-                row[21] ?? ""
-              )
-                .trim()
-                .toUpperCase();
+            "Tanggal":
+              currentDate,
 
-            const otherStatus =
-              String(
-                row[22] ?? ""
-              )
-                .trim()
-                .toUpperCase();
+            "Tipe Hari":
+              dayType || "WD",
 
-            const jamLembur =
-              overtimeMinute / 60;
+            "Menit Lembur":
+              overtimeMinute.toString(),
 
-            result.push({
-              ID: makeId(),
+            "Jam Lembur":
+              jamLembur.toFixed(2),
 
-              Tanggal:
-                currentDate,
+            "Indeks Lembur":
+              overtimeIndex.toString(),
 
-              "Tipe Hari":
-                dayType || "WD",
+            "Status":
+              status || "PRS",
 
-              "Menit Lembur":
-                overtimeMinute,
-
-              "Jam Lembur":
-                jamLembur.toFixed(2),
-
-              "Indeks Lembur":
-                overtimeIndex.toFixed(2),
-
-              Status:
-                status || "PRS",
-
-              "Other Status":
-                otherStatus || ""
-            });
-          }
+            "Other Status":
+              otherStatus || ""
+          });
         }
       }
 
+
       if (
-        userData.nama !== "-"
+        userData.nama !== '-'
       ) {
+
         user =
           userData;
 
         saveUser();
       }
 
+
       return result;
 
     } catch (e) {
+
       console.error(
         "Gagal parsing XLSX:",
         e
@@ -1451,14 +1543,17 @@
     }
   }
 
+
   // ============================================================
-  // XLS HTML PARSER
+  // PARSING XLS HTML
   // ============================================================
 
   function parseXLS_HTML(
     fileContent
   ) {
+
     try {
+
       const doc =
         new DOMParser()
           .parseFromString(
@@ -1466,198 +1561,211 @@
             "text/html"
           );
 
-      let table =
+
+      const table =
         doc.querySelector(
           "table.tabGen"
         );
 
-      if (!table) {
-        table =
-          doc.querySelector(
-            "table"
-          );
-      }
 
       if (!table) {
+
         throw new Error(
-          "Tabel ESS tidak ditemukan."
+          "Tabel tabGen tidak ditemukan."
         );
       }
+
 
       const rows =
         table.querySelectorAll(
-          "tbody tr, tr"
+          "tbody tr"
         );
+
 
       const res = [];
 
+
       let userData = {
-        nama: "-",
-        id: "-",
-        jabatan: "-"
+        nama: '-',
+        id: '-',
+        jabatan: '-'
       };
 
-      rows.forEach(
-        function (r) {
-          const td =
-            r.querySelectorAll(
-              "td"
-            );
 
-          if (
-            !td ||
-            td.length < 23
-          ) {
-            return;
-          }
+      rows.forEach(r => {
 
-          const serial =
-            parseNumber(
-              td[0].textContent
-            );
+        const td =
+          r.querySelectorAll(
+            "td"
+          );
 
-          let date;
 
-          if (
-            !isNaN(serial) &&
-            serial > 0
-          ) {
-            const excelDate =
-              new Date(
-                Date.UTC(
-                  1899,
-                  11,
-                  30
-                ) +
-                serial *
-                  86400000
-              );
-
-            date =
-              ddmmyyyy(
-                new Date(
-                  excelDate.getUTCFullYear(),
-                  excelDate.getUTCMonth(),
-                  excelDate.getUTCDate()
-                )
-              );
-          } else {
-            date =
-              td[0]
-                .textContent
-                .trim();
-          }
-
-          const empName =
-            td[1]
-              .textContent
-              .trim() || "-";
-
-          const empNo =
-            td[2]
-              .textContent
-              .trim() || "-";
-
-          const pos =
-            td[3]
-              .textContent
-              .trim() || "-";
-
-          if (
-            empName !== "-"
-          ) {
-            userData.nama =
-              empName;
-          }
-
-          if (
-            empNo !== "-"
-          ) {
-            userData.id =
-              empNo;
-          }
-
-          if (
-            pos !== "-"
-          ) {
-            userData.jabatan =
-              pos;
-          }
-
-          const menitLembur =
-            parseNumber(
-              td[17]
-                .textContent
-            );
-
-          const jamLembur =
-            menitLembur / 60;
-
-          const tipe =
-            td[15]
-              .textContent
-              .trim()
-              .toUpperCase();
-
-          const indeks =
-            parseNumber(
-              td[18]
-                .textContent
-            );
-
-          const status =
-            td[21]
-              .textContent
-              .trim()
-              .toUpperCase();
-
-          const other =
-            td[22]
-              .textContent
-              .trim()
-              .toUpperCase();
-
-          res.push({
-            ID: makeId(),
-
-            Tanggal:
-              date,
-
-            "Tipe Hari":
-              tipe || "WD",
-
-            "Menit Lembur":
-              menitLembur,
-
-            "Jam Lembur":
-              isNaN(jamLembur)
-                ? "0.00"
-                : jamLembur.toFixed(2),
-
-            "Indeks Lembur":
-              indeks.toFixed(2),
-
-            Status:
-              status || "PRS",
-
-            "Other Status":
-              other || ""
-          });
+        if (
+          !td ||
+          td.length < 23
+        ) {
+          return;
         }
-      );
+
+
+        const serial =
+          parseFloat(
+            td[0]
+              .textContent
+              .trim()
+          );
+
+
+        let date;
+
+
+        if (
+          !isNaN(serial)
+        ) {
+
+          const excelDate =
+            new Date(
+              (
+                serial -
+                25569
+              ) *
+              86400 *
+              1000
+            );
+
+
+          date =
+            excelDate.toLocaleDateString(
+              "id-ID"
+            );
+
+        } else {
+
+          date =
+            td[0]
+              .textContent
+              .trim();
+        }
+
+
+        const empName =
+          td[1]
+            .textContent
+            .trim() || '-';
+
+
+        const empNo =
+          td[2]
+            .textContent
+            .trim() || '-';
+
+
+        const pos =
+          td[3]
+            .textContent
+            .trim() || '-';
+
+
+        if (
+          empName !== '-'
+        ) {
+          userData.nama =
+            empName;
+        }
+
+
+        if (
+          empNo !== '-'
+        ) {
+          userData.id =
+            empNo;
+        }
+
+
+        if (
+          pos !== '-'
+        ) {
+          userData.jabatan =
+            pos;
+        }
+
+
+        const menitLembur =
+          (
+            td[17]
+              .textContent || ''
+          )
+          .trim();
+
+
+        const jamLembur =
+          parseFloat(
+            menitLembur
+          ) / 60;
+
+
+        res.push({
+
+          "Tanggal":
+            date,
+
+          "Tipe Hari":
+            (
+              td[15]
+                .textContent || ''
+            )
+            .trim()
+            .toUpperCase(),
+
+          "Menit Lembur":
+            menitLembur,
+
+          "Jam Lembur":
+            isNaN(jamLembur)
+              ? "0.00"
+              : jamLembur.toFixed(2),
+
+          "Indeks Lembur":
+            (
+              td[18]
+                .textContent || ''
+            )
+            .trim(),
+
+          "Status":
+            (
+              td[21]
+                .textContent || ''
+            )
+            .trim()
+            .toUpperCase(),
+
+          "Other Status":
+            (
+              td[22]
+                .textContent || ''
+            )
+            .trim()
+            .toUpperCase()
+        });
+      });
+
 
       if (
-        userData.nama !== "-"
+        userData.nama !== '-'
       ) {
+
         user =
           userData;
 
         saveUser();
       }
 
+
       return res;
 
     } catch (e) {
+
       console.error(
         "Gagal parsing HTML:",
         e
@@ -1667,148 +1775,153 @@
     }
   }
 
+
   // ============================================================
-  // FILE SELECT
+  // HANDLE FILE SELECT
   // ============================================================
 
   function handleFileSelect(evt) {
+
     const file =
-      evt.target.files &&
       evt.target.files[0];
+
 
     if (!file) {
       return;
     }
 
-    const filename =
+
+    const ext =
       file.name.toLowerCase();
 
+
     if (
-      !filename.endsWith(".xls") &&
-      !filename.endsWith(".xlsx")
+      !ext.endsWith(".xls") &&
+      !ext.endsWith(".xlsx")
     ) {
+
       alert(
-        "Gunakan file .xls atau .xlsx dari ESS."
+        "Gunakan file .xls atau .xlsx dari ESS"
       );
 
-      evt.target.value = "";
       return;
     }
+
 
     const reader =
       new FileReader();
 
+
+    // ========================================================
+    // XLSX
+    // ========================================================
+
     if (
-      filename.endsWith(".xlsx")
+      ext.endsWith(".xlsx")
     ) {
+
       reader.onload =
-        function (e) {
+        function(e) {
+
           try {
+
             const arrayBuffer =
               e.target.result;
+
 
             const parsed =
               parseXLSXFile(
                 arrayBuffer
               );
 
+
             if (
               parsed &&
               parsed.length > 0
             ) {
+
               mergeParsedData(
                 parsed
               );
 
+
               alert(
-                "Data berhasil diimpor! " +
-                parsed.length +
-                " baris diproses."
+                `Data berhasil diimpor! ${parsed.length} baris ditambahkan.`
               );
+
             } else {
+
               alert(
-                "Tidak ada data yang ditemukan. Periksa format file ESS."
+                "Tidak ada data yang ditemukan. Periksa format file."
               );
             }
+
           } catch (error) {
-            console.error(
-              error
-            );
 
             alert(
               "Terjadi kesalahan saat membaca file: " +
               error.message
             );
-          } finally {
-            evt.target.value = "";
           }
         };
 
-      reader.onerror =
-        function () {
-          alert(
-            "Gagal membaca file."
-          );
-
-          evt.target.value = "";
-        };
 
       reader.readAsArrayBuffer(
         file
       );
 
+
+    // ========================================================
+    // XLS
+    // ========================================================
+
     } else {
+
       reader.onload =
-        function (e) {
+        function(e) {
+
           try {
+
             const content =
               e.target.result;
+
 
             const parsed =
               parseXLS_HTML(
                 content
               );
 
+
             if (
               parsed &&
               parsed.length > 0
             ) {
+
               mergeParsedData(
                 parsed
               );
 
+
               alert(
-                "Data berhasil diimpor! " +
-                parsed.length +
-                " baris diproses."
+                `Data berhasil diimpor! ${parsed.length} baris ditambahkan.`
               );
+
             } else {
+
               alert(
                 "Tidak ada data yang ditemukan. Coba gunakan file .xlsx."
               );
             }
+
           } catch (error) {
-            console.error(
-              error
-            );
 
             alert(
               "Terjadi kesalahan saat membaca file: " +
               error.message
             );
-          } finally {
-            evt.target.value = "";
           }
         };
 
-      reader.onerror =
-        function () {
-          alert(
-            "Gagal membaca file."
-          );
-
-          evt.target.value = "";
-        };
 
       reader.readAsText(
         file
@@ -1816,187 +1929,191 @@
     }
   }
 
+
   // ============================================================
-  // MERGE DATA
+  // MERGE IMPORT DATA
   // ============================================================
 
   function mergeParsedData(
     newData
   ) {
-    if (
-      !Array.isArray(newData)
-    ) {
-      return;
-    }
 
-    newData.forEach(
-      function (row) {
-        const tgl =
-          row["Tanggal"];
+    newData.forEach(row => {
 
-        if (!tgl) {
-          return;
-        }
+      const tgl =
+        row["Tanggal"];
 
-        const existing =
-          parsedData.findIndex(
-            function (x) {
-              return (
-                x["Tanggal"] ===
-                tgl
-              );
-            }
-          );
 
-        if (existing >= 0) {
-          if (
-            parsedData[existing].ID
-          ) {
-            row.ID =
-              parsedData[
-                existing
-              ].ID;
-          }
-
-          parsedData[existing] =
-            row;
-
-        } else {
-          row.ID =
-            row.ID ||
-            makeId();
-
-          parsedData.push(
-            row
-          );
-        }
-
-        if (
-          window.ESSGoogleSync &&
-          typeof window.ESSGoogleSync.saveRow ===
-            "function"
-        ) {
-          window.ESSGoogleSync.saveRow(
-            row
-          );
-        }
+      if (!tgl) {
+        return;
       }
-    );
+
+
+      const existing =
+        parsedData.findIndex(
+          x =>
+            x["Tanggal"] === tgl
+        );
+
+
+      if (existing >= 0) {
+
+        // Pertahankan ID internal
+        // dari data lama.
+        if (
+          parsedData[existing]["ID"]
+        ) {
+
+          row["ID"] =
+            parsedData[existing]["ID"];
+        }
+
+
+        parsedData[existing] =
+          row;
+
+      } else {
+
+        // Buat ID internal.
+        row["ID"] =
+          row["ID"] ||
+          makeInternalID();
+
+
+        parsedData.push(
+          row
+        );
+      }
+
+
+      if (
+        window.ESSGoogleSync
+      ) {
+
+        window.ESSGoogleSync
+          .saveRow(row);
+      }
+    });
+
 
     saveLocal();
+
     refreshUI();
   }
 
+
   // ============================================================
-  // TABLE FIX
+  // FIXED TABLE
   // ============================================================
 
   function fixedTable() {
-    setTimeout(
-      function () {
-        const tbl =
-          document.querySelector(
-            ".data-table"
-          );
 
-        if (tbl) {
-          if (
-            !tbl.parentElement.classList.contains(
-              "table-wrapper"
-            )
-          ) {
-            const wrap =
-              document.createElement(
-                "div"
-              );
+    setTimeout(() => {
 
-            wrap.className =
-              "table-wrapper";
+      const tbl =
+        document.querySelector(
+          ".data-table"
+        );
 
-            tbl.parentElement.insertBefore(
+
+      if (tbl) {
+
+        if (
+          !tbl.parentElement.classList.contains(
+            "table-wrapper"
+          )
+        ) {
+
+          const wrap =
+            document.createElement(
+              "div"
+            );
+
+
+          wrap.className =
+            "table-wrapper";
+
+
+          tbl.parentElement
+            .insertBefore(
               wrap,
               tbl
             );
 
-            wrap.appendChild(
-              tbl
-            );
-          }
-        }
 
-        const wrap =
-          document.querySelector(
-            ".table-wrapper"
+          wrap.appendChild(
+            tbl
           );
-
-        if (wrap) {
-          wrap.style.cssText =
-            `
-              width: 100%;
-              max-height: 60vh;
-              overflow-y: auto;
-              overflow-x: auto;
-              margin-top: 0;
-              border-radius: 5px;
-              background: white;
-              position: relative;
-            `;
         }
+      }
 
-        const ths =
-          document.querySelectorAll(
-            ".data-table th"
-          );
 
-        ths.forEach(
-          function (th) {
-            th.style.position =
-              "sticky";
-
-            th.style.top =
-              "0";
-
-            th.style.zIndex =
-              "10";
-          }
+      const wrap =
+        document.querySelector(
+          ".table-wrapper"
         );
-      },
-      100
-    );
+
+
+      if (wrap) {
+
+        wrap.style.cssText = `
+          width: 100%;
+          max-height: 60vh;
+          overflow-y: auto;
+          overflow-x: auto;
+          margin-top: 0px;
+          border-radius: 5px;
+          background: white;
+          position: relative;
+        `;
+      }
+
+
+      const ths =
+        document.querySelectorAll(
+          ".data-table th"
+        );
+
+
+      ths.forEach(th => {
+
+        th.style.position =
+          "sticky";
+
+        th.style.top =
+          "0";
+
+        th.style.zIndex =
+          "10";
+      });
+
+    }, 100);
   }
+
 
   // ============================================================
   // REFRESH UI
   // ============================================================
 
   function refreshUI() {
-    parsedData.forEach(
-      function (r, index) {
-        r.dateObj =
-          parseIndoDate(
-            r["Tanggal"]
-          );
 
-        r.__originalIndex =
-          index;
-      }
-    );
+    parsedData.forEach(r => {
+
+      r.dateObj =
+        parseIndoDate(
+          r["Tanggal"]
+        );
+    });
+
 
     parsedData.sort(
-      function (a, b) {
+      (a, b) => {
+
         if (
-          !a.dateObj &&
+          !a.dateObj ||
           !b.dateObj
         ) {
           return 0;
-        }
-
-        if (!a.dateObj) {
-          return 1;
-        }
-
-        if (!b.dateObj) {
-          return -1;
         }
 
         return (
@@ -2006,469 +2123,566 @@
       }
     );
 
-    // Setelah sorting, update index asli
-    parsedData.forEach(
-      function (r, index) {
-        r.__originalIndex =
-          index;
-      }
-    );
 
     displayData =
       parsedData.slice();
+
 
     if (
       filterStart ||
       filterEnd
     ) {
+
       displayData =
         parsedData.filter(
-          function (r) {
+          r => {
+
             if (!r.dateObj) {
               return false;
             }
 
-            return (
-              (!filterStart ||
-                r.dateObj >=
-                  filterStart) &&
-              (!filterEnd ||
-                r.dateObj <=
-                  filterEnd)
-            );
+
+            if (
+              filterStart &&
+              r.dateObj <
+              filterStart
+            ) {
+              return false;
+            }
+
+
+            if (
+              filterEnd &&
+              r.dateObj >
+              filterEnd
+            ) {
+              return false;
+            }
+
+
+            return true;
           }
         );
     }
+
+
+    if (tableOutput) {
+
+      tableOutput.innerHTML =
+        generateTableHtml(
+          displayData
+        );
+
+
+      setupRowClickHandlers();
+
+      attachDeleteButtons();
+    }
+
 
     const stats =
       calculateStats(
         displayData
       );
 
-    const startLabel =
-      filterStart
-        ? ddmmyyyy(
-            filterStart
-          )
-        : (
-            displayData[0] &&
-            displayData[0].Tanggal
-          ) ||
-          "-";
 
-    const endLabel =
-      filterEnd
-        ? ddmmyyyy(
-            filterEnd
-          )
-        : (
-            displayData[
-              displayData.length - 1
-            ] &&
-            displayData[
-              displayData.length - 1
-            ].Tanggal
-          ) ||
-          "-";
+    if (
+      displayData.length
+    ) {
 
-    if (summaryOutput) {
-      summaryOutput.innerHTML =
-        generateSummaryHtml(
-          stats,
-          startLabel,
-          endLabel
-        );
+      const startLabel =
+        displayData[0]["Tanggal"];
+
+      const endLabel =
+        displayData[
+          displayData.length - 1
+        ]["Tanggal"];
+
+
+      if (summaryOutput) {
+
+        summaryOutput.innerHTML =
+          generateSummaryHtml(
+            stats,
+            startLabel,
+            endLabel
+          );
+      }
+
+    } else {
+
+      const startLabel =
+        filterStart
+          ? ddmmyyyy(filterStart)
+          : (
+            parsedData[0]
+              ? parsedData[0]["Tanggal"]
+              : '-'
+          );
+
+
+      const endLabel =
+        filterEnd
+          ? ddmmyyyy(filterEnd)
+          : (
+            parsedData[
+              parsedData.length - 1
+            ]
+              ? parsedData[
+                  parsedData.length - 1
+                ]["Tanggal"]
+              : '-'
+          );
+
+
+      if (summaryOutput) {
+
+        summaryOutput.innerHTML =
+          generateSummaryHtml(
+            stats,
+            startLabel,
+            endLabel
+          );
+      }
     }
 
-    if (tableOutput) {
-      tableOutput.innerHTML =
-        generateTableHtml(
-          displayData
-        );
-    }
+
+    saveLocal();
+
+    attachPeriodHandlers();
 
     fixedTable();
-
-    setupRowClickHandlers();
-    attachDeleteButtons();
-    setupPeriodControls();
   }
 
+
   // ============================================================
-  // PERIOD CONTROL
+  // OTHER STATUS
   // ============================================================
 
-  function setupPeriodControls() {
-    const fs =
-      $("filterStartInput");
+  function updateOtherStatus(
+    tipeHari
+  ) {
 
-    const fe =
-      $("filterEndInput");
+    const checkboxes =
+      document.querySelectorAll(
+        '.other-status'
+      );
 
-    function setInput(
-      el,
-      d
+
+    checkboxes.forEach(
+      cb => cb.checked = false
+    );
+
+
+    if (
+      tipeHari === 'WD'
     ) {
-      if (!el) {
-        return;
+
+      if ($('eai')) {
+        $('eai').checked = true;
       }
 
-      if (!d) {
-        el.value = "";
-        return;
+      if ($('prs')) {
+        $('prs').checked = true;
       }
 
-      el.value =
-        d.getFullYear() +
-        "-" +
-        String(
-          d.getMonth() + 1
-        ).padStart(
-          2,
-          "0"
-        ) +
-        "-" +
-        String(
-          d.getDate()
-        ).padStart(
-          2,
-          "0"
-        );
+      if ($('prsmeal')) {
+        $('prsmeal').checked = true;
+      }
+
+      if ($('statusPRS')) {
+        $('statusPRS').checked = true;
+      }
     }
+  }
 
-    const ps =
-      $("periodStart");
 
-    const pe =
-      $("periodEnd");
+  // ============================================================
+  // STATUS
+  // ============================================================
+
+  function updateStatus(
+    status
+  ) {
+
+    const checkboxes =
+      document.querySelectorAll(
+        '.other-status'
+      );
+
+
+    checkboxes.forEach(
+      cb => cb.checked = false
+    );
+
+
+    if (
+      status === 'PRS' &&
+      $('tipeHariWD') &&
+      $('tipeHariWD').checked === true
+    ) {
+
+      if ($('eai')) {
+        $('eai').checked = true;
+      }
+
+      if ($('prs')) {
+        $('prs').checked = true;
+      }
+
+      if ($('prsmeal')) {
+        $('prsmeal').checked = true;
+      }
+
+    } else if (
+      status === 'ABS'
+    ) {
+
+      if ($('tipeHariWD')) {
+        $('tipeHariWD').checked = true;
+      }
+
+      if ($('abs')) {
+        $('abs').checked = true;
+      }
+
+    } else if (
+      status === 'OFF'
+    ) {
+
+      if ($('tipeHariOFF')) {
+        $('tipeHariOFF').checked = true;
+      }
+
+      if ($('off')) {
+        $('off').checked = true;
+      }
+
+    } else if (
+      status === 'CT'
+    ) {
+
+      if ($('tipeHariWD')) {
+        $('tipeHariWD').checked = true;
+      }
+
+      if ($('ct')) {
+        $('ct').checked = true;
+      }
+    }
+  }
+
+
+  // ============================================================
+  // PERIOD HANDLERS
+  // ============================================================
+
+  function attachPeriodHandlers() {
+
+    const startSpan =
+      document.getElementById(
+        'periodStart'
+      );
+
+    const endSpan =
+      document.getElementById(
+        'periodEnd'
+      );
+
 
     const prev =
-      $("prevMonthBtn");
+      document.getElementById(
+        "prevMonthBtn"
+      );
 
     const next =
-      $("nextMonthBtn");
+      document.getElementById(
+        "nextMonthBtn"
+      );
 
-    if (ps) {
-      ps.onclick =
-        function () {
-          if (!fs) return;
-
-          setInput(
-            fs,
-            filterStart
-          );
-
-          if (
-            typeof fs.showPicker ===
-            "function"
-          ) {
-            try {
-              fs.showPicker();
-            } catch (e) {
-              fs.focus();
-            }
-          } else {
-            fs.focus();
-          }
-        };
-    }
-
-    if (pe) {
-      pe.onclick =
-        function () {
-          if (!fe) return;
-
-          setInput(
-            fe,
-            filterEnd
-          );
-
-          if (
-            typeof fe.showPicker ===
-            "function"
-          ) {
-            try {
-              fe.showPicker();
-            } catch (e) {
-              fe.focus();
-            }
-          } else {
-            fe.focus();
-          }
-        };
-    }
 
     if (prev) {
+
       prev.onclick =
-        function () {
-          const base =
-            filterStart ||
-            (
-              displayData[0] &&
-              displayData[0].dateObj
-            ) ||
-            new Date();
-
-          const d =
-            new Date(
-              base.getFullYear(),
-              base.getMonth() - 1,
-              1
-            );
-
-          filterStart =
-            new Date(
-              d.getFullYear(),
-              d.getMonth(),
-              1
-            );
-
-          filterEnd =
-            new Date(
-              d.getFullYear(),
-              d.getMonth() + 1,
-              0
-            );
-
-          refreshUI();
-        };
+        () => shiftMonth(-1);
     }
 
+
     if (next) {
+
       next.onclick =
-        function () {
-          const base =
-            filterStart ||
-            (
-              displayData[0] &&
-              displayData[0].dateObj
-            ) ||
-            new Date();
+        () => shiftMonth(+1);
+    }
 
-          const d =
-            new Date(
-              base.getFullYear(),
-              base.getMonth() + 1,
-              1
-            );
 
-          filterStart =
-            new Date(
-              d.getFullYear(),
-              d.getMonth(),
-              1
-            );
+    if (startSpan) {
 
-          filterEnd =
-            new Date(
-              d.getFullYear(),
-              d.getMonth() + 1,
-              0
-            );
+      startSpan.onclick =
+        onStartClick;
+    }
 
-          refreshUI();
-        };
+
+    if (endSpan) {
+
+      endSpan.onclick =
+        onEndClick;
     }
   }
 
-  // ============================================================
-  // INIT
-  // ============================================================
 
-  function init() {
-    fileInput =
-      $("fileInput");
+  function shiftMonth(
+    offset
+  ) {
 
-    summaryOutput =
-      $("summaryOutput");
+    if (
+      !filterStart ||
+      !filterEnd
+    ) {
 
-    tableOutput =
-      $("tableOutput");
+      if (
+        !parsedData ||
+        !parsedData.length
+      ) {
+        return;
+      }
 
-    manualTanggal =
-      $("manualTanggal");
 
-    manualJamLembur =
-      $("manualJamLembur");
+      parsedData.forEach(
+        r => {
 
-    manualMenitLembur =
-      $("manualMenitLembur");
-
-    manualIndeks =
-      $("manualIndeks");
-
-    btnAdd =
-      $("btnAdd");
-
-    btnReset =
-      $("btnReset");
-
-    loadLocal();
-    loadUser();
-
-    if (fileInput) {
-      fileInput.addEventListener(
-        "change",
-        handleFileSelect
-      );
-    }
-
-    if (btnAdd) {
-      btnAdd.addEventListener(
-        "click",
-        addManualEntry
-      );
-    }
-
-    if (btnReset) {
-      btnReset.addEventListener(
-        "click",
-        resetData
-      );
-    }
-
-    document
-      .querySelectorAll(
-        'input[name="manualTipeHari"]'
-      )
-      .forEach(
-        function (r) {
-          r.addEventListener(
-            "change",
-            function () {
-              const j =
-                parseNumber(
-                  manualJamLembur &&
-                  manualJamLembur.value
-                );
-
-              if (manualIndeks) {
-                manualIndeks.value =
-                  hitungIndeksByJam(
-                    j,
-                    r.value
-                  ).toFixed(2);
-              }
-            }
-          );
+          r.dateObj =
+            parseIndoDate(
+              r["Tanggal"]
+            );
         }
       );
 
-    if (manualJamLembur) {
-      manualJamLembur.addEventListener(
-        "input",
-        function () {
-          const selected =
-            document.querySelector(
-              'input[name="manualTipeHari"]:checked'
+
+      parsedData.sort(
+        (a, b) =>
+          (
+            a.dateObj &&
+            b.dateObj
+          )
+            ? a.dateObj -
+              b.dateObj
+            : 0
+      );
+
+
+      const first =
+        parsedData[0];
+
+      const last =
+        parsedData[
+          parsedData.length - 1
+        ];
+
+
+      if (!first || !last) {
+        return;
+      }
+
+
+      filterStart =
+        first.dateObj
+          ? new Date(
+              first.dateObj
+            )
+          : parseIndoDate(
+              first["Tanggal"]
             );
 
-          const tipe =
-            selected
-              ? selected.value
-              : "WD";
 
-          const j =
-            parseNumber(
-              manualJamLembur.value
+      filterEnd =
+        last.dateObj
+          ? new Date(
+              last.dateObj
+            )
+          : parseIndoDate(
+              last["Tanggal"]
             );
+    }
 
-          if (
-            manualMenitLembur
-          ) {
-            manualMenitLembur.value =
-              Math.round(
-                j * 60
-              );
-          }
 
-          if (
-            manualIndeks
-          ) {
-            manualIndeks.value =
-              hitungIndeksByJam(
-                j,
-                tipe
-              ).toFixed(2);
-          }
-        }
+    const s =
+      new Date(
+        filterStart
       );
-    }
 
-    const fs =
-      $("filterStartInput");
-
-    const fe =
-      $("filterEndInput");
-
-    if (fs) {
-      fs.addEventListener(
-        "change",
-        function () {
-          if (!fs.value) {
-            filterStart = null;
-          } else {
-            const [
-              y,
-              m,
-              d
-            ] =
-              fs.value
-                .split("-")
-                .map(Number);
-
-            filterStart =
-              new Date(
-                y,
-                m - 1,
-                d
-              );
-          }
-
-          refreshUI();
-        }
+    const e =
+      new Date(
+        filterEnd
       );
-    }
 
-    if (fe) {
-      fe.addEventListener(
-        "change",
-        function () {
-          if (!fe.value) {
-            filterEnd = null;
-          } else {
-            const [
-              y,
-              m,
-              d
-            ] =
-              fe.value
-                .split("-")
-                .map(Number);
 
-            filterEnd =
-              new Date(
-                y,
-                m - 1,
-                d
-              );
-          }
+    s.setMonth(
+      s.getMonth() +
+      offset
+    );
 
-          refreshUI();
-        }
+    e.setMonth(
+      e.getMonth() +
+      offset
+    );
+
+
+    filterStart =
+      s;
+
+    filterEnd =
+      e;
+
+
+    try {
+
+      localStorage.setItem(
+        "filterStart",
+        formatInputDate(s)
       );
+
+      localStorage.setItem(
+        "filterEnd",
+        formatInputDate(e)
+      );
+
+    } catch (err) {}
+
+
+    const fsi =
+      $('filterStartInput');
+
+    const fei =
+      $('filterEndInput');
+
+
+    if (fsi) {
+      fsi.value =
+        formatInputDate(s);
     }
 
-    const loadWrapper =
-      $("load-wrapper");
 
-    if (loadWrapper) {
-      loadWrapper.style.display =
-        "none";
+    if (fei) {
+      fei.value =
+        formatInputDate(e);
     }
+
 
     refreshUI();
   }
+
+
+  // ============================================================
+  // KLIK PERIODE
+  // ============================================================
+
+  function onStartClick() {
+
+    const input =
+      $('filterStartInput');
+
+
+    if (!input) {
+      return;
+    }
+
+
+    const span =
+      document.getElementById(
+        'periodStart'
+      );
+
+
+    if (!span) {
+      return;
+    }
+
+
+    const txt =
+      span.innerText.trim();
+
+
+    const p =
+      txt.split('/');
+
+
+    if (
+      p.length === 3
+    ) {
+
+      input.value =
+        `${p[2]}-${p[1]}-${p[0]}`;
+    }
+
+
+    if (
+      input.showPicker
+    ) {
+
+      try {
+        input.showPicker();
+        return;
+      } catch (e) {}
+    }
+
+
+    input.click();
+  }
+
+
+  function onEndClick() {
+
+    const input =
+      $('filterEndInput');
+
+
+    if (!input) {
+      return;
+    }
+
+
+    const span =
+      document.getElementById(
+        'periodEnd'
+      );
+
+
+    if (!span) {
+      return;
+    }
+
+
+    const txt =
+      span.innerText.trim();
+
+
+    const p =
+      txt.split('/');
+
+
+    if (
+      p.length === 3
+    ) {
+
+      input.value =
+        `${p[2]}-${p[1]}-${p[0]}`;
+    }
+
+
+    if (
+      input.showPicker
+    ) {
+
+      try {
+        input.showPicker();
+        return;
+      } catch (e) {}
+    }
+
+
+    input.click();
+  }
+
 
   // ============================================================
   // GOOGLE SHEETS SYNC
@@ -2477,225 +2691,306 @@
   const GOOGLE_SHEETS_URL =
     "https://script.google.com/macros/s/AKfycbwESrs-vOHhOz0Pglz8uVpLAoRoaaWTLL-Womin4gvwvLUX_9DBSMGoKLP-eEx9DrkX2A/exec";
 
+
   const QUEUE_KEY =
     "essPendingQueue";
 
   const LAST_SYNC_KEY =
     "essLastSync";
 
-  function queueRead() {
-    try {
-      const q =
-        JSON.parse(
-          localStorage.getItem(
-            QUEUE_KEY
-          ) || "[]"
-        );
 
-      return Array.isArray(q)
-        ? q
-        : [];
-    } catch (e) {
-      return [];
-    }
-  }
+  let syncPromise = null;
 
-  function queueSave(q) {
-    try {
-      localStorage.setItem(
-        QUEUE_KEY,
-        JSON.stringify(
-          q || []
-        )
-      );
-    } catch (e) {
-      console.error(
-        "Gagal menyimpan queue:",
-        e
-      );
-    }
-  }
-
-  function normRow(row) {
-    const r =
-      Object.assign(
-        {},
-        row || {}
-      );
-
-    r.ID =
-      r.ID || makeId();
-
-    delete r.dateObj;
-    delete r.__originalIndex;
-
-    return r;
-  }
 
   function syncStatus(text) {
-    let e =
-      $("syncStatus");
 
-    if (!e) {
-      e =
+    let el =
+      document.getElementById(
+        "syncStatus"
+      );
+
+
+    if (!el) {
+
+      el =
         document.createElement(
           "div"
         );
 
-      e.id =
+
+      el.id =
         "syncStatus";
 
-      e.style.cssText =
-        `
-          margin: 8px 0;
-          text-align: center;
-          font: 12px Arial;
-        `;
+
+      el.style.cssText =
+        "margin:8px 0;text-align:center;font:12px Arial";
+
 
       const main =
         document.querySelector(
           "main"
         );
 
+
       if (main) {
-        main.prepend(e);
+
+        main.prepend(el);
+
+      } else {
+
+        document.body.prepend(el);
       }
     }
 
-    if (e) {
-      e.textContent =
-        text;
+
+    el.textContent =
+      text;
+  }
+
+
+  function queueRead() {
+
+    try {
+
+      return JSON.parse(
+        localStorage.getItem(
+          QUEUE_KEY
+        ) || "[]"
+      );
+
+    } catch (e) {
+
+      return [];
     }
   }
 
-  function googleCall(params) {
+
+  function queueSave(q) {
+
+    localStorage.setItem(
+      QUEUE_KEY,
+      JSON.stringify(q)
+    );
+  }
+
+
+  // ============================================================
+  // NORMALISASI ROW UNTUK GOOGLE SHEETS
+  //
+  // ID tetap INTERNAL.
+  // Tidak pernah membuat input ID.
+  // ============================================================
+
+  function normalizeSyncRow(
+    row
+  ) {
+
+    const r =
+      Object.assign(
+        {},
+        row || {}
+      );
+
+
+    if (!r.ID) {
+      r.ID =
+        makeInternalID();
+    }
+
+
+    // Informasi karyawan.
+    if (
+      !r.Nama ||
+      r.Nama === "-"
+    ) {
+      r.Nama =
+        user.nama || "";
+    }
+
+
+    if (
+      !r.NIK ||
+      r.NIK === "-"
+    ) {
+      r.NIK =
+        user.id || "";
+    }
+
+
+    if (
+      !r.Jabatan ||
+      r.Jabatan === "-"
+    ) {
+      r.Jabatan =
+        user.jabatan || "";
+    }
+
+
+    // Properti internal UI
+    // tidak dikirim.
+    delete r.dateObj;
+    delete r.__originalIndex;
+
+
+    // UpdatedAt dibuat oleh
+    // Code.gs.
+    delete r.UpdatedAt;
+
+
+    return r;
+  }
+
+
+  // ============================================================
+  // GET / JSONP
+  //
+  // HANYA untuk membaca/sync.
+  // ============================================================
+
+  function googleGet(
+    params
+  ) {
+
     return new Promise(
-      function (
-        resolve,
-        reject
-      ) {
+      (resolve, reject) => {
+
         const callbackName =
-          "esscb" +
+          "esscb_" +
           Date.now() +
+          "_" +
           Math.random()
             .toString(36)
             .slice(2);
+
 
         const script =
           document.createElement(
             "script"
           );
 
-        let finished =
-          false;
+
+        let finished = false;
+
 
         const timer =
           setTimeout(
-            function () {
+            () => {
+
               cleanup();
+
               reject(
                 new Error(
-                  "timeout"
+                  "Timeout sinkronisasi"
                 )
               );
+
             },
             15000
           );
 
+
         function cleanup() {
+
           if (finished) {
             return;
           }
 
+
           finished = true;
+
 
           clearTimeout(
             timer
           );
 
+
           try {
+
             delete window[
               callbackName
             ];
+
           } catch (e) {
+
             window[
               callbackName
             ] = undefined;
           }
 
+
           if (
-            script &&
             script.parentNode
           ) {
-            script.parentNode.removeChild(
-              script
-            );
+
+            script.parentNode
+              .removeChild(
+                script
+              );
           }
         }
+
 
         window[
           callbackName
         ] =
-          function (response) {
+          function(result) {
+
             cleanup();
 
+
             if (
-              response &&
-              response.ok
+              result &&
+              result.success !== false
             ) {
-              resolve(
-                response
-              );
+
+              resolve(result);
+
             } else {
+
               reject(
                 new Error(
-                  response &&
-                  response.error
-                    ? response.error
-                    : "Gagal"
+                  (
+                    result &&
+                    result.error
+                  ) ||
+                  "Gagal mengambil data Google Sheets"
                 )
               );
             }
           };
 
-        params =
+
+        script.onerror =
+          function() {
+
+            cleanup();
+
+            reject(
+              new Error(
+                "Network error"
+              )
+            );
+          };
+
+
+        const query =
           Object.assign(
             {},
-            params,
+            params || {},
             {
               callback:
                 callbackName
             }
           );
 
-        let query;
-
-        try {
-          query =
-            new URLSearchParams(
-              params
-            ).toString();
-        } catch (e) {
-          cleanup();
-          reject(e);
-          return;
-        }
 
         script.src =
           GOOGLE_SHEETS_URL +
           "?" +
-          query;
+          new URLSearchParams(
+            query
+          ).toString();
 
-        script.onerror =
-          function () {
-            cleanup();
-
-            reject(
-              new Error(
-                "network"
-              )
-            );
-          };
 
         document.head.appendChild(
           script
@@ -2704,45 +2999,217 @@
     );
   }
 
-  async function writeSync(
-    op,
-    data
+
+  // ============================================================
+  // POST
+  //
+  // Cocok dengan:
+  //
+  // doPost(e)
+  // e.parameter.data
+  //
+  // ============================================================
+
+  async function googlePost(
+    action,
+    payload
   ) {
-    try {
-      await googleCall({
-        action: op,
-        data:
-          JSON.stringify(
-            data
-          )
-      });
 
-      return true;
-
-    } catch (e) {
-      console.warn(
-        "Google Sync gagal:",
-        op,
-        e
+    const body =
+      Object.assign(
+        {
+          action:
+            action
+        },
+        payload || {}
       );
 
-      return false;
+
+    const response =
+      await fetch(
+        GOOGLE_SHEETS_URL,
+        {
+          method:
+            "POST",
+
+          headers: {
+            "Content-Type":
+              "application/x-www-form-urlencoded;charset=UTF-8"
+          },
+
+          body:
+            new URLSearchParams({
+              data:
+                JSON.stringify(
+                  body
+                )
+            }).toString()
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
     }
+
+
+    const result =
+      await response.json();
+
+
+    if (
+      !result ||
+      result.success === false
+    ) {
+
+      throw new Error(
+        (
+          result &&
+          result.error
+        ) ||
+        "Google Sheets gagal memproses data"
+      );
+    }
+
+
+    return result;
   }
 
-  async function flushQueue() {
-    const q =
-      queueRead();
 
-    if (!q.length) {
+  // ============================================================
+  // WRITE SYNC
+  // ============================================================
+
+  async function writeSync(
+    operation,
+    data
+  ) {
+
+    // ----------------------------------------------------------
+    // UPSERT
+    // ----------------------------------------------------------
+
+    if (
+      operation === "upsert"
+    ) {
+
+      const row =
+        normalizeSyncRow(
+          data
+        );
+
+
+      await googlePost(
+        "upsert",
+        {
+          rows: [row]
+        }
+      );
+
+
       return true;
     }
 
-    const left = [];
+
+    // ----------------------------------------------------------
+    // DELETE
+    // ----------------------------------------------------------
+
+    if (
+      operation === "delete"
+    ) {
+
+      const id =
+        String(
+          (
+            data &&
+            data.ID
+          ) || ""
+        );
+
+
+      if (!id) {
+
+        throw new Error(
+          "ID data untuk penghapusan kosong"
+        );
+      }
+
+
+      await googlePost(
+        "delete",
+        {
+          ids: [id]
+        }
+      );
+
+
+      return true;
+    }
+
+
+    // ----------------------------------------------------------
+    // REPLACE
+    // ----------------------------------------------------------
+
+    if (
+      operation === "replace"
+    ) {
+
+      const rows =
+        Array.isArray(data)
+          ? data
+          : [];
+
+
+      await googlePost(
+        "replace",
+        {
+          rows:
+            rows.map(
+              normalizeSyncRow
+            )
+        }
+      );
+
+
+      return true;
+    }
+
+
+    throw new Error(
+      "Operasi sync tidak dikenal: " +
+      operation
+    );
+  }
+
+
+  // ============================================================
+  // FLUSH QUEUE
+  // ============================================================
+
+  async function flushQueue() {
+
+    const queue =
+      queueRead();
+
+
+    if (!queue.length) {
+      return true;
+    }
+
+
+    const remaining = [];
+
 
     for (
-      const item of q
+      const item of queue
     ) {
+
       if (
         !item ||
         !item.op
@@ -2750,234 +3217,421 @@
         continue;
       }
 
-      const ok =
-        await writeSync(
-          item.op,
-          item.row
+
+      try {
+
+        if (
+          item.op ===
+          "replace"
+        ) {
+
+          await writeSync(
+            "replace",
+            Array.isArray(
+              item.row
+            )
+              ? item.row
+              : []
+          );
+
+        } else {
+
+          await writeSync(
+            item.op,
+            item.row
+          );
+        }
+
+      } catch (e) {
+
+        console.error(
+          "ESS queue:",
+          e
         );
 
-      if (!ok) {
-        left.push(
+
+        remaining.push(
           item
         );
       }
     }
 
+
     queueSave(
-      left
+      remaining
     );
+
 
     return (
-      left.length === 0
+      remaining.length === 0
     );
   }
 
-  async function syncFromGoogle() {
-    if (
-      !navigator.onLine
-    ) {
-      syncStatus(
-        "⚠ Offline — data lokal digunakan"
-      );
-
-      return;
-    }
-
-    try {
-      syncStatus(
-        "⟳ Sinkronisasi..."
-      );
-
-      const queueOK =
-        await flushQueue();
-
-      if (!queueOK) {
-        throw new Error(
-          "queue"
-        );
-      }
-
-      const response =
-        await googleCall({
-          action: "sync"
-        });
-
-      if (
-        response &&
-        Array.isArray(
-          response.rows
-        )
-      ) {
-        parsedData =
-          response.rows.map(
-            normRow
-          );
-
-        saveLocal();
-
-        refreshUI();
-      }
-
-      localStorage.setItem(
-        LAST_SYNC_KEY,
-        new Date().toISOString()
-      );
-
-      syncStatus(
-        "✓ Tersinkron"
-      );
-
-    } catch (e) {
-      console.warn(
-        "Sync Google gagal:",
-        e
-      );
-
-      if (
-        navigator.onLine
-      ) {
-        syncStatus(
-          "⚠ Sync gagal — data lokal tetap digunakan"
-        );
-      } else {
-        syncStatus(
-          "⚠ Offline — data lokal digunakan"
-        );
-      }
-    }
-  }
 
   // ============================================================
-  // PUBLIC GOOGLE SYNC API
+  // SYNC DARI GOOGLE
+  // ============================================================
+
+  async function syncFromGoogle() {
+
+    if (syncPromise) {
+      return syncPromise;
+    }
+
+
+    syncPromise =
+      (async () => {
+
+        try {
+
+          if (!navigator.onLine) {
+
+            syncStatus(
+              "⚠ Offline — data lokal digunakan"
+            );
+
+            return;
+          }
+
+
+          syncStatus(
+            "⟳ Sinkronisasi..."
+          );
+
+
+          // Kirim queue terlebih
+          // dahulu.
+          if (
+            !(await flushQueue())
+          ) {
+
+            throw new Error(
+              "Masih ada data dalam queue"
+            );
+          }
+
+
+          // GET/JSONP hanya
+          // untuk membaca.
+          const result =
+            await googleGet({
+              action:
+                "sync"
+            });
+
+
+          const rows =
+            Array.isArray(
+              result.rows
+            )
+              ? result.rows
+              : [];
+
+
+          parsedData =
+            rows.map(
+              normalizeSyncRow
+            );
+
+
+          // Informasi user dari
+          // server bila tersedia.
+          const userRow =
+            parsedData.find(
+              r =>
+                r.Nama ||
+                r.NIK ||
+                r.Jabatan
+            );
+
+
+          if (userRow) {
+
+            if (
+              userRow.Nama
+            ) {
+
+              user.nama =
+                String(
+                  userRow.Nama
+                );
+            }
+
+
+            if (
+              userRow.NIK
+            ) {
+
+              user.id =
+                String(
+                  userRow.NIK
+                );
+            }
+
+
+            if (
+              userRow.Jabatan
+            ) {
+
+              user.jabatan =
+                String(
+                  userRow.Jabatan
+                );
+            }
+
+
+            saveUser();
+          }
+
+
+          saveLocal();
+
+          refreshUI();
+
+
+          localStorage.setItem(
+            LAST_SYNC_KEY,
+            new Date().toISOString()
+          );
+
+
+          syncStatus(
+            "✓ Tersinkron"
+          );
+
+
+        } catch (e) {
+
+          console.warn(
+            "Google Sheets sync gagal:",
+            e
+          );
+
+
+          syncStatus(
+            navigator.onLine
+              ? "⚠ Sync gagal — data lokal tetap digunakan"
+              : "⚠ Offline — data lokal digunakan"
+          );
+
+
+        } finally {
+
+          syncPromise =
+            null;
+        }
+
+      })();
+
+
+    return syncPromise;
+  }
+
+
+  // ============================================================
+  // GOOGLE SYNC API
   // ============================================================
 
   window.ESSGoogleSync = {
 
-    saveRow: function (row) {
-      const r =
-        normRow(row);
+    // ----------------------------------------------------------
+    // SAVE / UPDATE
+    // ----------------------------------------------------------
+
+    saveRow: function(row) {
+
+      const normalized =
+        normalizeSyncRow(
+          row
+        );
+
+
+      const item = {
+        op:
+          "upsert",
+
+        row:
+          normalized
+      };
+
 
       if (
         !navigator.onLine
       ) {
-        queueSave(
-          [
-            ...queueRead(),
-            {
-              op: "upsert",
-              row: r
-            }
-          ]
-        );
+
+        queueSave([
+          ...queueRead(),
+          item
+        ]);
 
         return;
       }
+
 
       writeSync(
         "upsert",
-        r
-      ).then(
-        function (ok) {
-          if (!ok) {
-            queueSave(
-              [
-                ...queueRead(),
-                {
-                  op: "upsert",
-                  row: r
-                }
-              ]
-            );
-          }
+        normalized
+      )
+      .catch(
+        function(e) {
+
+          console.warn(
+            "ESS saveRow gagal:",
+            e
+          );
+
+
+          queueSave([
+            ...queueRead(),
+            item
+          ]);
         }
       );
     },
 
-    deleteRow: function (row) {
-      const r =
-        normRow(row);
 
-      if (
-        !navigator.onLine
-      ) {
-        queueSave(
-          [
-            ...queueRead(),
-            {
-              op: "delete",
-              row: r
-            }
-          ]
+    // ----------------------------------------------------------
+    // DELETE
+    // ----------------------------------------------------------
+
+    deleteRow: function(row) {
+
+      const id =
+        String(
+          (
+            row &&
+            row.ID
+          ) || ""
+        );
+
+
+      if (!id) {
+
+        console.error(
+          "ESS deleteRow: ID tidak ditemukan",
+          row
         );
 
         return;
       }
+
+
+      const deleteData = {
+        ID:
+          id
+      };
+
+
+      const item = {
+        op:
+          "delete",
+
+        row:
+          deleteData
+      };
+
+
+      if (
+        !navigator.onLine
+      ) {
+
+        queueSave([
+          ...queueRead(),
+          item
+        ]);
+
+        return;
+      }
+
 
       writeSync(
         "delete",
-        r
-      ).then(
-        function (ok) {
-          if (!ok) {
-            queueSave(
-              [
-                ...queueRead(),
-                {
-                  op: "delete",
-                  row: r
-                }
-              ]
-            );
-          }
+        deleteData
+      )
+      .catch(
+        function(e) {
+
+          console.warn(
+            "ESS deleteRow gagal:",
+            e
+          );
+
+
+          queueSave([
+            ...queueRead(),
+            item
+          ]);
         }
       );
     },
 
-    replace: function (rows) {
+
+    // ----------------------------------------------------------
+    // REPLACE
+    // ----------------------------------------------------------
+
+    replace: function(rows) {
+
       const data =
-        (rows || []).map(
-          normRow
-        );
+        Array.isArray(rows)
+          ? rows.map(
+              normalizeSyncRow
+            )
+          : [];
+
+
+      const item = {
+        op:
+          "replace",
+
+        row:
+          data
+      };
+
 
       if (
         !navigator.onLine
       ) {
-        queueSave(
-          [
-            ...queueRead(),
-            {
-              op: "replace",
-              row: data
-            }
-          ]
-        );
+
+        queueSave([
+          ...queueRead(),
+          item
+        ]);
 
         return;
       }
+
 
       writeSync(
         "replace",
         data
-      ).then(
-        function (ok) {
-          if (!ok) {
-            queueSave(
-              [
-                ...queueRead(),
-                {
-                  op: "replace",
-                  row: data
-                }
-              ]
-            );
-          }
+      )
+      .catch(
+        function(e) {
+
+          console.warn(
+            "ESS replace gagal:",
+            e
+          );
+
+
+          queueSave([
+            ...queueRead(),
+            item
+          ]);
         }
       );
     },
 
+
+    // ----------------------------------------------------------
+    // MANUAL SYNC
+    // ----------------------------------------------------------
+
     sync:
       syncFromGoogle
   };
+
 
   // ============================================================
   // AUTO SYNC
@@ -2985,58 +3639,749 @@
 
   window.addEventListener(
     "online",
-    function () {
+    function() {
       syncFromGoogle();
     }
   );
+
 
   window.addEventListener(
     "focus",
-    function () {
+    function() {
       syncFromGoogle();
     }
   );
 
+
   document.addEventListener(
     "visibilitychange",
-    function () {
+    function() {
+
       if (
         !document.hidden
       ) {
+
         syncFromGoogle();
       }
     }
   );
 
+
   setInterval(
-    function () {
+    function() {
+
       if (
         navigator.onLine
       ) {
+
         syncFromGoogle();
       }
+
     },
     60000
   );
 
+
   // ============================================================
-  // START
+  // INITIALIZATION
   // ============================================================
 
-  if (
-    document.readyState ===
-    "loading"
-  ) {
-    document.addEventListener(
-      "DOMContentLoaded",
-      function () {
-        init();
-        syncFromGoogle();
+  document.addEventListener(
+    'DOMContentLoaded',
+    () => {
+
+      fileInput =
+        $('fileInput');
+
+      summaryOutput =
+        $('summaryOutput');
+
+      tableOutput =
+        $('tableOutput');
+
+
+      manualTanggal =
+        $('manualTanggal');
+
+      manualJamLembur =
+        $('manualJamLembur');
+
+      manualMenitLembur =
+        $('manualMenitLembur');
+
+      manualIndeks =
+        $('manualIndeks');
+
+
+      btnAdd =
+        $('btnAdd');
+
+      btnReset =
+        $('btnReset');
+
+
+      tipeHariRadios =
+        document.querySelectorAll(
+          'input[name="manualTipeHari"]'
+        );
+
+
+      statusRadios =
+        document.querySelectorAll(
+          'input[name="manualStatus"]'
+        );
+
+
+      loadLocal();
+
+      loadUser();
+
+
+      // --------------------------------------------------------
+      // LOAD FILTER
+      // --------------------------------------------------------
+
+      const fs =
+        localStorage.getItem(
+          'filterStart'
+        );
+
+      const fe =
+        localStorage.getItem(
+          'filterEnd'
+        );
+
+
+      if (fs) {
+
+        const p =
+          fs.split("-");
+
+
+        filterStart =
+          new Date(
+            parseInt(
+              p[0],
+              10
+            ),
+            parseInt(
+              p[1],
+              10
+            ) - 1,
+            parseInt(
+              p[2],
+              10
+            )
+          );
+
+
+        const input =
+          $('filterStartInput');
+
+
+        if (input) {
+          input.value =
+            fs;
+        }
       }
-    );
-  } else {
-    init();
-    syncFromGoogle();
-  }
+
+
+      if (fe) {
+
+        const p =
+          fe.split("-");
+
+
+        filterEnd =
+          new Date(
+            parseInt(
+              p[0],
+              10
+            ),
+            parseInt(
+              p[1],
+              10
+            ) - 1,
+            parseInt(
+              p[2],
+              10
+            )
+          );
+
+
+        const input =
+          $('filterEndInput');
+
+
+        if (input) {
+          input.value =
+            fe;
+        }
+      }
+
+
+      // --------------------------------------------------------
+      // TANGGAL DEFAULT
+      // --------------------------------------------------------
+
+      if (manualTanggal) {
+
+        const now =
+          new Date();
+
+
+        manualTanggal.value =
+          formatInputDate(
+            now
+          );
+      }
+
+
+      // --------------------------------------------------------
+      // FILE INPUT
+      // --------------------------------------------------------
+
+      if (fileInput) {
+
+        fileInput.addEventListener(
+          'change',
+          handleFileSelect
+        );
+      }
+
+
+      // --------------------------------------------------------
+      // JAM LEMBUR
+      // --------------------------------------------------------
+
+      if (manualJamLembur) {
+
+        manualJamLembur.addEventListener(
+          'input',
+          () => {
+
+            const jam =
+              parseFloat(
+                manualJamLembur.value
+              ) || 0;
+
+
+            if (
+              manualMenitLembur
+            ) {
+
+              manualMenitLembur.value =
+                Math.round(
+                  jam * 60
+                );
+            }
+
+
+            const tipeElement =
+              document.querySelector(
+                "input[name='manualTipeHari']:checked"
+              );
+
+
+            const tipe =
+              tipeElement
+                ? tipeElement.value
+                : "WD";
+
+
+            if (
+              manualIndeks
+            ) {
+
+              manualIndeks.value =
+                hitungIndeksByJam(
+                  jam,
+                  tipe
+                ).toFixed(2);
+            }
+          }
+        );
+      }
+
+
+      // --------------------------------------------------------
+      // MENIT LEMBUR
+      // --------------------------------------------------------
+
+      if (manualMenitLembur) {
+
+        manualMenitLembur.addEventListener(
+          'input',
+          () => {
+
+            const menit =
+              parseFloat(
+                manualMenitLembur.value
+              ) || 0;
+
+
+            const jam =
+              menit / 60;
+
+
+            if (
+              manualJamLembur
+            ) {
+
+              manualJamLembur.value =
+                jam.toFixed(2);
+            }
+
+
+            const tipeElement =
+              document.querySelector(
+                "input[name='manualTipeHari']:checked"
+              );
+
+
+            const tipe =
+              tipeElement
+                ? tipeElement.value
+                : "WD";
+
+
+            if (
+              manualIndeks
+            ) {
+
+              manualIndeks.value =
+                hitungIndeksByJam(
+                  jam,
+                  tipe
+                ).toFixed(2);
+            }
+          }
+        );
+      }
+
+
+      // --------------------------------------------------------
+      // BUTTON ADD
+      // --------------------------------------------------------
+
+      if (btnAdd) {
+
+        btnAdd.addEventListener(
+          'click',
+          e => {
+
+            e.preventDefault();
+
+            addManualEntry();
+          }
+        );
+      }
+
+
+      // --------------------------------------------------------
+      // BUTTON RESET
+      // --------------------------------------------------------
+
+      if (btnReset) {
+
+        btnReset.addEventListener(
+          'click',
+          e => {
+
+            e.preventDefault();
+
+            resetData();
+          }
+        );
+      }
+
+
+      // --------------------------------------------------------
+      // TIPE HARI
+      // --------------------------------------------------------
+
+      tipeHariRadios.forEach(
+        r => {
+
+          r.addEventListener(
+            'change',
+            () => {
+
+              if (r.checked) {
+
+                updateOtherStatus(
+                  r.value
+                );
+
+
+                const jam =
+                  parseFloat(
+                    manualJamLembur
+                      ? manualJamLembur.value
+                      : 0
+                  ) || 0;
+
+
+                if (
+                  manualIndeks
+                ) {
+
+                  manualIndeks.value =
+                    hitungIndeksByJam(
+                      jam,
+                      r.value
+                    ).toFixed(2);
+                }
+              }
+            }
+          );
+        }
+      );
+
+
+      // --------------------------------------------------------
+      // STATUS
+      // --------------------------------------------------------
+
+      statusRadios.forEach(
+        r => {
+
+          r.addEventListener(
+            'change',
+            () => {
+
+              if (r.checked) {
+
+                updateStatus(
+                  r.value
+                );
+              }
+            }
+          );
+        }
+      );
+
+
+      // --------------------------------------------------------
+      // FILTER START
+      // --------------------------------------------------------
+
+      const filterStartInput =
+        $('filterStartInput');
+
+
+      if (
+        filterStartInput
+      ) {
+
+        filterStartInput.addEventListener(
+          'change',
+          e => {
+
+            const v =
+              e.target.value;
+
+
+            if (!v) {
+
+              filterStart =
+                null;
+
+
+              localStorage.removeItem(
+                'filterStart'
+              );
+
+
+              refreshUI();
+
+              return;
+            }
+
+
+            const parts =
+              v.split('-');
+
+
+            filterStart =
+              new Date(
+                parseInt(
+                  parts[0],
+                  10
+                ),
+                parseInt(
+                  parts[1],
+                  10
+                ) - 1,
+                parseInt(
+                  parts[2],
+                  10
+                )
+              );
+
+
+            localStorage.setItem(
+              'filterStart',
+              v
+            );
+
+
+            refreshUI();
+          }
+        );
+      }
+
+
+      // --------------------------------------------------------
+      // FILTER END
+      // --------------------------------------------------------
+
+      const filterEndInput =
+        $('filterEndInput');
+
+
+      if (
+        filterEndInput
+      ) {
+
+        filterEndInput.addEventListener(
+          'change',
+          e => {
+
+            const v =
+              e.target.value;
+
+
+            if (!v) {
+
+              filterEnd =
+                null;
+
+
+              localStorage.removeItem(
+                'filterEnd'
+              );
+
+
+              refreshUI();
+
+              return;
+            }
+
+
+            const parts =
+              v.split('-');
+
+
+            filterEnd =
+              new Date(
+                parseInt(
+                  parts[0],
+                  10
+                ),
+                parseInt(
+                  parts[1],
+                  10
+                ) - 1,
+                parseInt(
+                  parts[2],
+                  10
+                )
+              );
+
+
+            localStorage.setItem(
+              'filterEnd',
+              v
+            );
+
+
+            refreshUI();
+          }
+        );
+      }
+
+
+      // --------------------------------------------------------
+      // AUTO SET HARI BERDASARKAN TANGGAL
+      // --------------------------------------------------------
+
+      if (manualTanggal) {
+
+        manualTanggal.addEventListener(
+          "change",
+          function() {
+
+            const selectedDate =
+              new Date(
+                this.value
+              );
+
+
+            const dayOfWeek =
+              selectedDate.getDay();
+
+
+            if (
+              dayOfWeek === 0
+            ) {
+
+              updateStatus(
+                "OFF"
+              );
+
+
+              const statusOFF =
+                document.querySelector(
+                  'input[name="manualStatus"][value="OFF"]'
+                );
+
+
+              if (statusOFF) {
+                statusOFF.checked =
+                  true;
+              }
+
+
+              const tipeOFF =
+                document.querySelector(
+                  'input[name="manualTipeHari"][value="OFF"]'
+                );
+
+
+              if (tipeOFF) {
+                tipeOFF.checked =
+                  true;
+              }
+
+            } else {
+
+              updateStatus(
+                "WD"
+              );
+
+
+              updateOtherStatus(
+                "WD"
+              );
+
+
+              const statusPRS =
+                document.querySelector(
+                  'input[name="manualStatus"][value="PRS"]'
+                );
+
+
+              if (statusPRS) {
+                statusPRS.checked =
+                  true;
+              }
+
+
+              const tipeWD =
+                document.querySelector(
+                  'input[name="manualTipeHari"][value="WD"]'
+                );
+
+
+              if (tipeWD) {
+                tipeWD.checked =
+                  true;
+              }
+            }
+
+
+            const jam =
+              parseFloat(
+                manualJamLembur
+                  ? manualJamLembur.value
+                  : 0
+              ) || 0;
+
+
+            const tipeElement =
+              document.querySelector(
+                "input[name='manualTipeHari']:checked"
+              );
+
+
+            const tipe =
+              tipeElement
+                ? tipeElement.value
+                : "WD";
+
+
+            if (
+              manualIndeks
+            ) {
+
+              manualIndeks.value =
+                hitungIndeksByJam(
+                  jam,
+                  tipe
+                ).toFixed(2);
+            }
+          }
+        );
+
+
+        // Jalankan sekali saat
+        // halaman pertama dibuka.
+        manualTanggal.dispatchEvent(
+          new Event("change")
+        );
+      }
+
+
+      // --------------------------------------------------------
+      // REFRESH AWAL
+      // --------------------------------------------------------
+
+      setTimeout(
+        () => {
+
+          const loadWrapper =
+            document.getElementById(
+              "load-wrapper"
+            );
+
+
+          if (loadWrapper) {
+
+            loadWrapper.style.display =
+              "none";
+          }
+
+
+          refreshUI();
+
+
+          // Ambil data master
+          // dari Google Sheets.
+          syncFromGoogle();
+
+        },
+        300
+      );
+    }
+  );
+
+
+  // ============================================================
+  // PUBLIC APP
+  // ============================================================
+
+  window._app = {
+
+    refreshUI,
+
+    saveLocal,
+
+    loadLocal,
+
+    parsedData
+
+  };
+
 
 })();
