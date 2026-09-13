@@ -10,7 +10,7 @@ const JP = GAJI_POKOK * 0.01;
 const POTONGAN = JHT + JP;
 
 /* GANTI dengan URL Web App Apps Script hasil deployment (/exec). */
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYNnxaOnDszmY_Q2N4MbB5lsvsv9X1YaRjFkVFCUUs4lwsOGtp5Eq0yvmapFvflPuZ/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwESrs-vOHhOz0Pglz8uVpLAoRoaaWTLL-Womin4gvwvLUX_9DBSMGoKLP-eEx9DrkX2A/exec";
 const AUTO_SYNC_MS = 60 * 1000;
 const LS_QUEUE = "essPendingQueue";
 const LS_LAST_SYNC = "essLastSync";
