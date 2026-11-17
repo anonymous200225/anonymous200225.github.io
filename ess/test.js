@@ -183,6 +183,8 @@
           <tr><td>Estimasi Gaji</td><td>${formatRupiah(stats.gaji)}</td></tr>
         </table>
       `;
+
+    document.title = document.title+" | "+user.nama;
   }
 
   function getRowClass(row) {
