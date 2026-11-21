@@ -1,1 +1,913 @@
-function _0x4db1(_0xd6fcf8,_0x503174){_0xd6fcf8=_0xd6fcf8-0x104;const _0x1ab8ba=_0xd50a();let _0x1c8933=_0x1ab8ba[_0xd6fcf8];return _0x1c8933;}function _0xd50a(){const _0x39c11a=['8whOtoY','innerHTML','Oct','sort','tipeHariOFF','querySelector','dateObj','dataset','onload','filterStart','console','Tipe\x20Hari','message','</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Estimasi\x20Gaji</td><td>','files','Feb','.other-status[value=\x22','forEach','map','setItem','filterEnd','Mar','</th>','<button\x20id=\x22prevMonthBtn\x22\x20class=\x22month-shift-btn\x22>‹</button>','getMonth','Jan','findIndex','exception','filter','gaji','startsWith','parseFromString','dispatchEvent','target','table-wrapper','manualTanggal','TBODY','parentElement','manualMenitLembur','Dec','</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20</table>\x0a\x20\x20\x20\x20\x20\x20','input[name=\x22manualTipeHari\x22][value=\x22','jabatan','click','tbody\x20tr','Date\x20:\x20','Gunakan\x20file\x20.xls\x20atau\x20.xlsx\x20dari\x20ESS','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20width:\x20100%;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20max-height:\x2060vh;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20overflow-y:\x20auto;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20overflow-x:\x20auto;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20margin-top:\x200px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border-radius:\x205px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background:\x20white;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20position:\x20relative;\x0a\x20\x20\x20\x20\x20\x20\x20\x20','_app','Status','tagName','__proto__','tableOutput','getDay','bind','toLocaleString','.xls','Apr','round','ovt','array','prototype','Aug','cssText','input[name=\x22manualTipeHari\x22][value=\x22WD\x22]','</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Posisi\x20/\x20Jabatan</td><td>','style','push','eai','\x20baris\x20ditambahkan.','.delBtn','idx','readAsArrayBuffer','Tanggal','Data\x20berhasil\x20diimpor!\x20','none','parse','prs','toString','\x22>❌</button></td></tr>','stopPropagation','cloneNode','toLowerCase','sunfishData','{}.constructor(\x22return\x20this\x22)(\x20)','createElement','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20id=\x22periodStart\x22\x20class=\x22period-clickable\x22>','Sheets','innerText','MEAL','center','Hapus\x20baris\x20ini?','\x22\x20data-idx=\x22','input[name=\x27manualStatus\x27]:checked','toUpperCase','value','sticky','table','splice','name','scrollIntoView','</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Cuti</td><td>','\x20jam</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Indeks\x20Lembur</td><td>','459KyGvZC','className','Rp\x20','userInfo','ovh','top','phoff','input[name=\x27manualTipeHari\x27]:checked','textContent','toFixed','id-ID','statusPRS','removeItem','summaryOutput','onclick','trim','periodEnd','<td>','join','nama','utils','btnAdd','includes','nextMonthBtn','.data-table\x20th','6219380QvqhQh','manualIndeks','Indeks\x20Lembur','PRS_MEAL','change','.table-wrapper','insertBefore','totalIndeks','1271562yDkHyi','fileInput','position','replace','<td><button\x20class=\x22delBtn\x22\x20data-idx=\x22','</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Jam\x20Lembur</td><td>','getFullYear','<th>Aksi</th></tr></thead><tbody>','filterEndInput','parentNode','</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>NIK\x20/\x20ID</td><td>','516juZnDE','input[name=\x22manualTipeHari\x22][value=\x22OFF\x22]','prevMonthBtn','Jun','checked','</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20—\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20id=\x22periodEnd\x22\x20class=\x22period-clickable\x22>','ABS','tipeHariWD','May','Tanggal\x20belum\x20diisi.','sheet_to_json','return\x20(function()\x20','absen','info','from','replaceChild','log','input[name=\x22manualStatus\x22][value=\x22OFF\x22]','indexOf','slice','Harap\x20pilih\x20Tipe\x20Hari\x20dan\x20Status','filterStartInput','8167187iTEMzX','display','classList','Other\x20Status','padStart','356810IXqnrB','DOMContentLoaded','apply','preventDefault','OFF','load-wrapper','Gagal\x20parsing\x20XLSX:','endsWith','</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Hari\x20Kerja</td><td>','getElementById','getItem','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</tr>\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Nama\x20Karyawan</td><td>','smooth','result','input[name=\x22manualTipeHari\x22]','off','read','tanggal','.xlsx','24666WewYhm','error','addEventListener','input[name=\x22manualStatus\x22]','readAsText','PRS','Tabel\x20tabGen\x20tidak\x20ditemukan.','.other-status','split','manualJamLembur','getDate','zIndex','</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','prsmeal','Terjadi\x20kesalahan\x20saat\x20membaca\x20file:\x20','length','Jul','contains','<button\x20id=\x22nextMonthBtn\x22\x20class=\x22month-shift-btn\x22>›</button>','1492830YjAYnY','0.00','querySelectorAll','abs','SheetNames','PHOFF','totalJam','constructor','hariKerja','230452fihPRb','input','periodStart'];_0xd50a=function(){return _0x39c11a;};return _0xd50a();}(function(_0x4f7176,_0x4bbb88){const _0x304b3e=_0x4db1,_0x5f49f7=_0x4f7176();while(!![]){try{const _0x5c8163=parseInt(_0x304b3e(0x12c))/0x1+-parseInt(_0x304b3e(0x1b7))/0x2+-parseInt(_0x304b3e(0x110))/0x3*(parseInt(_0x304b3e(0x1c2))/0x4)+parseInt(_0x304b3e(0x1af))/0x5+parseInt(_0x304b3e(0x123))/0x6+-parseInt(_0x304b3e(0x1d8))/0x7*(parseInt(_0x304b3e(0x12f))/0x8)+parseInt(_0x304b3e(0x196))/0x9*(parseInt(_0x304b3e(0x1dd))/0xa);if(_0x5c8163===_0x4bbb88)break;else _0x5f49f7['push'](_0x5f49f7['shift']());}catch(_0x42e722){_0x5f49f7['push'](_0x5f49f7['shift']());}}}(_0xd50a,0xa5f18),(function(){const _0x977014=_0x4db1,_0x123c22=(function(){let _0x49dade=!![];return function(_0x317a42,_0x29d40b){const _0x48eaf9=_0x49dade?function(){const _0x5eb148=_0x4db1;if(_0x29d40b){const _0x326367=_0x29d40b[_0x5eb148(0x1df)](_0x317a42,arguments);return _0x29d40b=null,_0x326367;}}:function(){};return _0x49dade=![],_0x48eaf9;};}()),_0x39bd6e=_0x123c22(this,function(){const _0x344f97=_0x4db1,_0x2edc52=function(){const _0x3813d9=_0x4db1;let _0x74e3b9;try{_0x74e3b9=Function(_0x3813d9(0x1cd)+_0x3813d9(0x183)+');')();}catch(_0x66c532){_0x74e3b9=window;}return _0x74e3b9;},_0x4b09d7=_0x2edc52(),_0x21cf76=_0x4b09d7[_0x344f97(0x139)]=_0x4b09d7['console']||{},_0x5ecf39=[_0x344f97(0x1d2),'warn',_0x344f97(0x1cf),_0x344f97(0x111),_0x344f97(0x14a),_0x344f97(0x190),'trace'];for(let _0x5c82bb=0x0;_0x5c82bb<_0x5ecf39['length'];_0x5c82bb++){const _0x33c0e0=_0x123c22[_0x344f97(0x12a)][_0x344f97(0x16c)][_0x344f97(0x165)](_0x123c22),_0x3da746=_0x5ecf39[_0x5c82bb],_0xe87c75=_0x21cf76[_0x3da746]||_0x33c0e0;_0x33c0e0[_0x344f97(0x162)]=_0x123c22[_0x344f97(0x165)](_0x123c22),_0x33c0e0[_0x344f97(0x17d)]=_0xe87c75[_0x344f97(0x17d)][_0x344f97(0x165)](_0xe87c75),_0x21cf76[_0x3da746]=_0x33c0e0;}});_0x39bd6e();const _0x23ca4c=0x30a4fd,_0x13444c=_0x23ca4c/0x19,_0x543097=_0x23ca4c/0xad,_0x1b8716=0x2e18,_0x5c4622=_0x23ca4c*0.02,_0x24ab21=_0x23ca4c*0.01,_0x29c4ac=_0x5c4622+_0x24ab21;let _0x5ec90e=[],_0x349bc8={'nama':'-','id':'-','jabatan':'-'},_0x19c661,_0x2ff6b9,_0x688c0c,_0x3da8df,_0x4a9904,_0x2865b9,_0x4f3924,_0x5b79e5,_0x5235a2,_0x1075b1,_0x59b52b,_0x3c2330=null,_0x49f0d8=null,_0x197005=null;function _0x5ae983(_0x44205f){const _0x5b1117=_0x4db1;return document[_0x5b1117(0x106)](_0x44205f);}function _0x499ef8(){const _0x36d655=_0x4db1;localStorage[_0x36d655(0x142)](_0x36d655(0x182),JSON['stringify'](_0x5ec90e));}function _0x5f4625(){const _0x43f680=_0x4db1,_0x20d72a=localStorage[_0x43f680(0x107)](_0x43f680(0x182));if(_0x20d72a)_0x5ec90e=JSON[_0x43f680(0x17b)](_0x20d72a);}function _0x30f7b5(){const _0x516b54=_0x4db1;localStorage[_0x516b54(0x142)]('userInfo',JSON['stringify'](_0x349bc8));}function _0x347337(){const _0x49715a=_0x4db1,_0x54bcc2=localStorage['getItem'](_0x49715a(0x199));if(_0x54bcc2)_0x349bc8=JSON['parse'](_0x54bcc2);}function _0x291bdd(_0x510212){const _0x127515=_0x4db1;if(!_0x510212)return null;const _0x2a79ce=_0x510212[_0x127515(0x118)]('/');if(_0x2a79ce[_0x127515(0x11f)]!==0x3)return null;return new Date(parseInt(_0x2a79ce[0x2],0xa),parseInt(_0x2a79ce[0x1],0xa)-0x1,parseInt(_0x2a79ce[0x0],0xa));}function _0x3721cd(_0x1d18ce){const _0x38986d=_0x4db1;return String(_0x1d18ce[_0x38986d(0x11a)]())[_0x38986d(0x1dc)](0x2,'0')+'/'+String(_0x1d18ce['getMonth']()+0x1)[_0x38986d(0x1dc)](0x2,'0')+'/'+_0x1d18ce['getFullYear']();}function _0xce35f4(_0x554322){const _0x502b67=_0x4db1;return _0x502b67(0x198)+Number(Math['round'](_0x554322||0x0))[_0x502b67(0x166)]('id-ID');}function _0xb8bbc4(_0x133aef,_0x3a1ba3){const _0x3c3fbf=_0x4db1,_0xf1c158=document['getElementById'](_0x3c3fbf(0x19a)),_0x55a4c9=document[_0x3c3fbf(0x106)](_0x3c3fbf(0x16a)),_0x429293=document['getElementById'](_0x3c3fbf(0x10c)),_0x1bae4a=document[_0x3c3fbf(0x106)](_0x3c3fbf(0x17c)),_0x4795be=document[_0x3c3fbf(0x106)](_0x3c3fbf(0x1a1));if(!_0xf1c158||!_0x55a4c9)return;if(!_0x133aef||Number(_0x133aef)<=0x0){_0xf1c158['checked']=![],_0x55a4c9['checked']=![];if(_0x3a1ba3===_0x3c3fbf(0x1e1)||_0x3a1ba3===_0x3c3fbf(0x128))_0x1bae4a['checked']=![];}else{if(_0x3a1ba3==='PHOFF')_0xf1c158['checked']=!![],_0x55a4c9[_0x3c3fbf(0x1c6)]=![],_0x429293[_0x3c3fbf(0x1c6)]=![],_0x1bae4a['checked']=!![],_0x4795be[_0x3c3fbf(0x1c6)]=!![];else _0x3a1ba3==='WD'||_0x3a1ba3===_0x3c3fbf(0x1e1)?(_0xf1c158[_0x3c3fbf(0x1c6)]=![],_0x55a4c9['checked']=!![],_0x1bae4a[_0x3c3fbf(0x1c6)]=!![],_0x429293[_0x3c3fbf(0x1c6)]=![],_0x4795be[_0x3c3fbf(0x1c6)]=!![]):(_0xf1c158[_0x3c3fbf(0x1c6)]=![],_0x55a4c9[_0x3c3fbf(0x1c6)]=![],_0x429293[_0x3c3fbf(0x1c6)]=!![],_0x1bae4a[_0x3c3fbf(0x1c6)]=![]);}}function _0x1f32c0(_0x1e4b90,_0x3f15f9){const _0x45f4e3=_0x4db1;_0x1e4b90=Number(_0x1e4b90)||0x0,_0xb8bbc4(_0x1e4b90,_0x3f15f9);if(_0x1e4b90<=0x0)return 0x0;if(_0x3f15f9===_0x45f4e3(0x1e1)||_0x3f15f9===_0x45f4e3(0x128)){if(_0x1e4b90<=0x7)return _0x1e4b90*0x2;return 0x7*0x2+(_0x1e4b90-0x7)*0x3+0x2;}else{if(_0x3f15f9==='WD'){if(_0x1e4b90<=0x1)return 1.5;return 1.5+(_0x1e4b90-0x1)*0x2;}}return 0x0;}function _0x32ef9d(_0x2d5cb7){const _0xc05d6a=_0x4db1;let _0xef3b01=0x0,_0x1c09a7=0x0,_0x4d1f02=0x0,_0xcebb01=0x0,_0xb0b8a3=0x0,_0x1d4e78=0x0,_0x148115=0x0;_0x2d5cb7[_0xc05d6a(0x140)](_0x435233=>{const _0x322330=_0xc05d6a,_0x264ea=(_0x435233[_0x322330(0x13a)]||'')[_0x322330(0x18d)](),_0x119133=(_0x435233['Status']||'')['toUpperCase'](),_0x2cd60a=(_0x435233[_0x322330(0x1db)]||'')['toUpperCase']();if(_0x264ea==='WD'&&_0x119133==='PRS'||_0x264ea===_0x322330(0x128)&&_0x119133===_0x322330(0x115))_0xef3b01++;if(_0x264ea===_0x322330(0x1e1)&&_0x119133===_0x322330(0x115))_0xcebb01++;if(_0x119133===_0x322330(0x1c8))_0x4d1f02++;if(_0x119133==='CT'||_0x119133==='CS')_0x1c09a7++;if(_0x2cd60a[_0x322330(0x1ac)](_0x322330(0x188))||_0x2cd60a[_0x322330(0x1ac)](_0x322330(0x1b2)))_0x148115++;_0xb0b8a3+=parseFloat((_0x435233['Jam\x20Lembur']||'0')['toString']()[_0x322330(0x1ba)](',','.'))||0x0,_0x1d4e78+=parseFloat((_0x435233[_0x322330(0x1b1)]||'0')[_0x322330(0x17d)]()[_0x322330(0x1ba)](',','.'))||0x0;});let _0x453832=Number(_0xef3b01)>0x0?_0x29c4ac:0x0,_0x24c712=_0x197005&&_0x197005[_0xc05d6a(0x11f)]>=0x1e?_0x23ca4c:_0xef3b01*_0x13444c,_0x3e48bb=_0x24c712+_0x1d4e78*_0x543097+_0x148115*_0x1b8716-_0x453832;return{'hariKerja':_0xef3b01,'cuti':_0x1c09a7,'absen':_0x4d1f02,'off':_0xcebb01,'totalJam':_0xb0b8a3,'totalIndeks':_0x1d4e78,'gaji':_0x3e48bb};}function _0x2be52a(_0x80d96a,_0x2c2c2d,_0xa595dd){const _0x319ec1=_0x4db1,_0x7edc4e=_0x2c2c2d||'-',_0x2aa1f7=_0xa595dd||'-',_0x49b132=_0x319ec1(0x146),_0x37baa4=_0x319ec1(0x122);return'\x0a\x20\x20\x20\x20\x20\x20\x20\x20<table\x20class=\x22summary-table\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th\x20colspan=\x222\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22period-wrapper\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22period-center\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0x49b132+_0x319ec1(0x185)+_0x7edc4e+_0x319ec1(0x1c7)+_0x2aa1f7+_0x319ec1(0x11c)+_0x37baa4+_0x319ec1(0x108)+_0x349bc8['nama']+_0x319ec1(0x1c1)+_0x349bc8['id']+_0x319ec1(0x170)+_0x349bc8[_0x319ec1(0x159)]+_0x319ec1(0x105)+_0x80d96a[_0x319ec1(0x12b)]+_0x319ec1(0x194)+_0x80d96a['cuti']+'</td></tr>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<tr><td>Absen</td><td>'+_0x80d96a[_0x319ec1(0x1ce)]+_0x319ec1(0x1bc)+_0x80d96a[_0x319ec1(0x129)][_0x319ec1(0x19f)](0x2)+_0x319ec1(0x195)+_0x80d96a[_0x319ec1(0x1b6)][_0x319ec1(0x19f)](0x2)+_0x319ec1(0x13c)+_0xce35f4(_0x80d96a[_0x319ec1(0x14c)])+_0x319ec1(0x157);}function _0x13e213(_0xfea9b5){const _0x31afc0=_0x4db1,_0x55788f=(_0xfea9b5[_0x31afc0(0x13a)]||'')[_0x31afc0(0x18d)](),_0x1213cd=(_0xfea9b5[_0x31afc0(0x160)]||'')[_0x31afc0(0x18d)]();if(_0x1213cd===_0x31afc0(0x1c8))return'abs';if(_0x1213cd==='CT'||_0x1213cd==='CS')return'ct';if(_0x55788f===_0x31afc0(0x128))return _0x31afc0(0x19c);if(_0x55788f===_0x31afc0(0x1e1))return _0x31afc0(0x10c);if(_0x55788f==='WD')return'wd';return'';}function _0x589d49(_0x50c392){const _0x5ee268=_0x4db1;if(!_0x50c392[_0x5ee268(0x11f)])return'';const _0x2bdf6b=Object['keys'](_0x50c392[0x0])[_0x5ee268(0x14b)](_0x3096dc=>_0x3096dc!=='dateObj');let _0x552716='<div\x20class=\x27table-responsive\x27\x20id=\x27dataTable\x27><table\x20class=\x27data-table\x27><thead><tr>';return _0x2bdf6b['forEach'](_0x4eec65=>_0x552716+='<th>'+_0x4eec65+_0x5ee268(0x145)),_0x552716+=_0x5ee268(0x1be),_0x50c392[_0x5ee268(0x140)]((_0x313f87,_0x56a43d)=>{const _0x5d7017=_0x5ee268,_0x1bb2f9=_0x5ec90e['findIndex'](_0x530da6=>_0x530da6[_0x5d7017(0x178)]===_0x313f87[_0x5d7017(0x178)]),_0xbee9cd=_0x1bb2f9!==-0x1?_0x1bb2f9:_0x56a43d;_0x552716+='<tr\x20class=\x22'+_0x13e213(_0x313f87)+_0x5d7017(0x18b)+_0xbee9cd+'\x22\x20data-tanggal=\x22'+_0x313f87[_0x5d7017(0x178)]+'\x22>',_0x2bdf6b[_0x5d7017(0x140)](_0x4ab5fc=>{const _0x45e1f2=_0x5d7017,_0x1a96d1=_0x313f87[_0x4ab5fc]==null?'':_0x313f87[_0x4ab5fc];_0x552716+=_0x45e1f2(0x1a7)+_0x1a96d1+'</td>';}),_0x552716+=_0x5d7017(0x1bb)+_0xbee9cd+_0x5d7017(0x17e);}),_0x552716+='</tbody></table></div>',_0x552716;}function _0x58b659(){const _0x5c9c8c=_0x4db1;_0x688c0c['addEventListener'](_0x5c9c8c(0x15a),function(_0x5542a3){const _0x1bf80b=_0x5c9c8c,_0x4ad862=_0x5542a3[_0x1bf80b(0x150)]['closest'](_0x1bf80b(0x175));if(_0x4ad862){_0x5542a3[_0x1bf80b(0x17f)]();return;}const _0x90c1f9=_0x5542a3[_0x1bf80b(0x150)]['closest']('tr');if(!_0x90c1f9||!_0x90c1f9[_0x1bf80b(0x154)]||_0x90c1f9[_0x1bf80b(0x154)][_0x1bf80b(0x161)]!==_0x1bf80b(0x153))return;const _0x8b7cc1=_0x90c1f9[_0x1bf80b(0x125)]('td');if(_0x8b7cc1[_0x1bf80b(0x11f)]<0x1)return;document[_0x1bf80b(0x134)]('.input-form')[_0x1bf80b(0x193)]({'behavior':_0x1bf80b(0x109),'block':_0x1bf80b(0x189)});const _0x2411fa=_0x8b7cc1[0x0][_0x1bf80b(0x19e)][_0x1bf80b(0x1a5)](),_0x1618da=_0x8b7cc1[0x1][_0x1bf80b(0x19e)][_0x1bf80b(0x1a5)](),_0x2f18df=_0x8b7cc1[0x2][_0x1bf80b(0x19e)][_0x1bf80b(0x1a5)](),_0x4c4e93=_0x8b7cc1[0x3][_0x1bf80b(0x19e)][_0x1bf80b(0x1a5)](),_0x1b484e=_0x8b7cc1[0x4][_0x1bf80b(0x19e)][_0x1bf80b(0x1a5)](),_0x4958e3=_0x8b7cc1[0x5][_0x1bf80b(0x19e)][_0x1bf80b(0x1a5)](),_0x5ba056=_0x8b7cc1[0x6]['textContent']['trim']();function _0xda7e37(_0x3af1e3){const _0x471123=_0x1bf80b,_0x4361e5=_0x291bdd(_0x3af1e3);if(!_0x4361e5)return'';const _0x41785a=_0x4361e5[_0x471123(0x1bd)](),_0x22c124=String(_0x4361e5[_0x471123(0x147)]()+0x1)[_0x471123(0x1dc)](0x2,'0'),_0x19d213=String(_0x4361e5[_0x471123(0x11a)]())['padStart'](0x2,'0');return _0x41785a+'-'+_0x22c124+'-'+_0x19d213;}_0x3da8df[_0x1bf80b(0x18e)]=_0xda7e37(_0x2411fa),_0x4a9904[_0x1bf80b(0x18e)]=_0x4c4e93,_0x2865b9[_0x1bf80b(0x18e)]=_0x2f18df,_0x4f3924[_0x1bf80b(0x18e)]=_0x1b484e[_0x1bf80b(0x1ba)](',','.');const _0x369f34=document[_0x1bf80b(0x134)](_0x1bf80b(0x158)+_0x1618da+'\x22]');if(_0x369f34)_0x369f34[_0x1bf80b(0x1c6)]=!![];const _0x15cf05=document['querySelector']('input[name=\x22manualStatus\x22][value=\x22'+_0x4958e3+'\x22]');if(_0x15cf05)_0x15cf05[_0x1bf80b(0x1c6)]=!![];document[_0x1bf80b(0x125)](_0x1bf80b(0x117))[_0x1bf80b(0x140)](_0x4f8f76=>_0x4f8f76[_0x1bf80b(0x1c6)]=![]),_0x5ba056!==''&&_0x5ba056[_0x1bf80b(0x118)](',')[_0x1bf80b(0x140)](_0x3bedef=>{const _0x301682=_0x1bf80b,_0x403b3d=document[_0x301682(0x134)](_0x301682(0x13f)+_0x3bedef[_0x301682(0x1a5)]()+'\x22]');if(_0x403b3d)_0x403b3d['checked']=!![];});});}function _0x3cf383(){const _0x1070fb=_0x4db1,_0x4c8bfe=_0x688c0c[_0x1070fb(0x125)](_0x1070fb(0x175));_0x4c8bfe[_0x1070fb(0x140)](_0x554a21=>{const _0x2f2a3c=_0x1070fb,_0x2569b0=_0x554a21[_0x2f2a3c(0x180)](!![]);_0x554a21[_0x2f2a3c(0x1c0)][_0x2f2a3c(0x1d1)](_0x2569b0,_0x554a21);});const _0x1edbce=_0x688c0c[_0x1070fb(0x125)]('.delBtn');_0x1edbce[_0x1070fb(0x140)](_0x4b0ca7=>{const _0x1bfd50=_0x1070fb;_0x4b0ca7[_0x1bfd50(0x112)](_0x1bfd50(0x15a),_0x8e8a31);});}function _0x8e8a31(_0x1ed254){const _0x46e9a4=_0x4db1;_0x1ed254[_0x46e9a4(0x17f)](),_0x1ed254[_0x46e9a4(0x1e0)]();const _0x50eeaa=Number(this[_0x46e9a4(0x136)][_0x46e9a4(0x176)]);if(isNaN(_0x50eeaa)){const _0x25572f=this['closest']('tr');if(_0x25572f&&_0x25572f[_0x46e9a4(0x136)][_0x46e9a4(0x10e)]){const _0x112504=_0x25572f[_0x46e9a4(0x136)][_0x46e9a4(0x10e)],_0x3d4178=_0x5ec90e['findIndex'](_0x5c054c=>_0x5c054c[_0x46e9a4(0x178)]===_0x112504);if(_0x3d4178!==-0x1){_0x37e489(_0x3d4178);return;}}alert('Gagal\x20menghapus:\x20Data\x20tidak\x20ditemukan');return;}_0x37e489(_0x50eeaa);}function _0x37e489(_0x1a60c2){const _0x165499=_0x4db1;if(!confirm(_0x165499(0x18a)))return;_0x1a60c2>=0x0&&_0x1a60c2<_0x5ec90e[_0x165499(0x11f)]?(_0x5ec90e[_0x165499(0x191)](_0x1a60c2,0x1),_0x499ef8(),_0x80d525()):alert('Index\x20tidak\x20valid.\x20Refresh\x20halaman\x20dan\x20coba\x20lagi.');}function _0x35102b(){const _0x766043=_0x4db1,_0x56c935=_0x3da8df[_0x766043(0x18e)];if(!_0x56c935)return alert(_0x766043(0x1cb));const [_0xc3ebe9,_0x3a8f7c,_0x554297]=_0x56c935[_0x766043(0x118)]('-'),_0x336f81=_0x554297+'/'+_0x3a8f7c+'/'+_0xc3ebe9,_0x552028=parseFloat(_0x4a9904[_0x766043(0x18e)])||0x0,_0x461f42=Math[_0x766043(0x169)](_0x552028*0x3c),_0x4b4918=document[_0x766043(0x134)](_0x766043(0x19d))['value'],_0x41e344=document[_0x766043(0x134)](_0x766043(0x18c))[_0x766043(0x18e)],_0x298e66=Array[_0x766043(0x1d0)](document[_0x766043(0x125)]('.other-status:checked'))[_0x766043(0x141)](_0x3f35c2=>_0x3f35c2[_0x766043(0x18e)])[_0x766043(0x1a8)](',');if(!_0x4b4918||!_0x41e344){alert(_0x766043(0x1d6));return;}const _0x590c94=_0x5ec90e[_0x766043(0x149)](_0x130441=>_0x130441['Tanggal']===_0x336f81),_0xac339d={'Tanggal':_0x336f81,'Tipe\x20Hari':_0x4b4918,'Menit\x20Lembur':_0x461f42,'Jam\x20Lembur':Number(_0x552028)['toFixed'](0x2),'Indeks\x20Lembur':_0x1f32c0(_0x552028,_0x4b4918)[_0x766043(0x19f)](0x2),'Status':_0x41e344,'Other\x20Status':_0x298e66};_0x590c94!==-0x1?_0x5ec90e[_0x590c94]=_0xac339d:_0x5ec90e[_0x766043(0x172)](_0xac339d),_0x499ef8(),_0x80d525();}function _0x13be57(){const _0xa04700=_0x4db1;if(!confirm('Hapus\x20semua\x20data?'))return;_0x5ec90e=[],localStorage[_0xa04700(0x1a2)](_0xa04700(0x182)),_0x80d525();}function _0x3b40d2(_0x2f30c5){const _0x296736=_0x4db1;try{const _0x5992ed=XLSX[_0x296736(0x10d)](_0x2f30c5,{'type':_0x296736(0x16b)}),_0x5aa61c=_0x5992ed[_0x296736(0x186)][_0x5992ed[_0x296736(0x127)][0x0]],_0x2e25f1=XLSX[_0x296736(0x1aa)][_0x296736(0x1cc)](_0x5aa61c,{'header':0x1});let _0x2b946c=null,_0xd8fb02=[],_0x41ae1f={'nama':'-','id':'-','jabatan':'-'};const _0x3daad1=[_0x296736(0x148),_0x296736(0x13e),_0x296736(0x144),_0x296736(0x168),_0x296736(0x1ca),_0x296736(0x1c5),_0x296736(0x120),_0x296736(0x16d),'Sep',_0x296736(0x131),'Nov',_0x296736(0x156)];for(let _0x542eb9=0x0;_0x542eb9<_0x2e25f1[_0x296736(0x11f)];_0x542eb9++){const _0x14565e=_0x2e25f1[_0x542eb9];if(!_0x14565e||_0x14565e[_0x296736(0x11f)]===0x0)continue;const _0x3ef6da=(_0x14565e[0x0]||'')[_0x296736(0x17d)]()[_0x296736(0x1a5)]();if(_0x3ef6da[_0x296736(0x14d)](_0x296736(0x15c))){const _0x237327=_0x3ef6da[_0x296736(0x1ba)]('Date\x20:\x20','')[_0x296736(0x1a5)](),_0x322bf2=_0x237327[_0x296736(0x118)]('\x20');if(_0x322bf2[_0x296736(0x11f)]===0x3){const _0x591b1e=_0x322bf2[0x0][_0x296736(0x1dc)](0x2,'0'),_0x19ba0d=_0x3daad1[_0x296736(0x1d4)](_0x322bf2[0x1]);if(_0x19ba0d!==-0x1){const _0x5a04ba=String(_0x19ba0d+0x1)['padStart'](0x2,'0'),_0x1d2a73=_0x322bf2[0x2];_0x2b946c=_0x591b1e+'/'+_0x5a04ba+'/'+_0x1d2a73;}else{const _0x5658ac=new Date(_0x237327);!isNaN(_0x5658ac)&&(_0x2b946c=_0x3721cd(_0x5658ac));}}continue;}if(_0x14565e[_0x296736(0x11f)]>=0x4&&!isNaN(parseInt(_0x3ef6da))&&parseInt(_0x3ef6da)>0x0&&_0x2b946c){const _0x3328ce=(_0x14565e[0x1]||'')['toString']()[_0x296736(0x1a5)](),_0xbd3dae=(_0x14565e[0x2]||'')['toString']()['trim'](),_0x537cf0=(_0x14565e[0x3]||'')[_0x296736(0x17d)]()['trim']();if(_0x3328ce)_0x41ae1f[_0x296736(0x1a9)]=_0x3328ce;if(_0xbd3dae)_0x41ae1f['id']=_0xbd3dae;if(_0x537cf0)_0x41ae1f[_0x296736(0x159)]=_0x537cf0;const _0x5f5009=(_0x14565e[0xf]||'')[_0x296736(0x17d)]()['trim']()[_0x296736(0x18d)](),_0x5e959c=parseFloat(_0x14565e[0x11]||0x0),_0xc2fd37=parseFloat(_0x14565e[0x12]||0x0),_0xe9a20f=(_0x14565e[0x15]||'')[_0x296736(0x17d)]()[_0x296736(0x1a5)]()[_0x296736(0x18d)](),_0xa4e10b=(_0x14565e[0x16]||'')[_0x296736(0x17d)]()[_0x296736(0x1a5)]()[_0x296736(0x18d)](),_0x596fa8=_0x5e959c/0x3c;_0xd8fb02[_0x296736(0x172)]({'Tanggal':_0x2b946c,'Tipe\x20Hari':_0x5f5009||'WD','Menit\x20Lembur':_0x5e959c['toString'](),'Jam\x20Lembur':_0x596fa8[_0x296736(0x19f)](0x2),'Indeks\x20Lembur':_0xc2fd37[_0x296736(0x17d)](),'Status':_0xe9a20f||'PRS','Other\x20Status':_0xa4e10b||''});}}return _0x41ae1f[_0x296736(0x1a9)]!=='-'&&(_0x349bc8=_0x41ae1f,_0x30f7b5()),_0xd8fb02;}catch(_0x540c66){return console[_0x296736(0x111)](_0x296736(0x1e3),_0x540c66),null;}}function _0x5244d9(_0x5da37f){const _0x285510=_0x4db1;try{const _0xb60e68=new DOMParser()[_0x285510(0x14e)](_0x5da37f,'text/html'),_0x189a9b=_0xb60e68['querySelector']('table.tabGen');if(!_0x189a9b)throw new Error(_0x285510(0x116));const _0x5d5e0a=_0x189a9b[_0x285510(0x125)](_0x285510(0x15b)),_0xa0ba99=[];let _0x59abaa={'nama':'-','id':'-','jabatan':'-'};return _0x5d5e0a[_0x285510(0x140)](_0x550dc5=>{const _0x3dbf8a=_0x285510,_0x3e630e=_0x550dc5[_0x3dbf8a(0x125)]('td');if(!_0x3e630e||_0x3e630e[_0x3dbf8a(0x11f)]<0x17)return;const _0x4588bf=parseFloat(_0x3e630e[0x0][_0x3dbf8a(0x19e)][_0x3dbf8a(0x1a5)]());let _0x11a1da;if(!isNaN(_0x4588bf)){const _0x7bf6ce=new Date((_0x4588bf-0x63e1)*0x15180*0x3e8);_0x11a1da=_0x7bf6ce['toLocaleDateString'](_0x3dbf8a(0x1a0));}else _0x11a1da=_0x3e630e[0x0][_0x3dbf8a(0x19e)][_0x3dbf8a(0x1a5)]();const _0x260e2f=_0x3e630e[0x1][_0x3dbf8a(0x19e)][_0x3dbf8a(0x1a5)]()||'-',_0x3f89d1=_0x3e630e[0x2]['textContent'][_0x3dbf8a(0x1a5)]()||'-',_0x30650b=_0x3e630e[0x3]['textContent'][_0x3dbf8a(0x1a5)]()||'-';if(_0x260e2f!=='-')_0x59abaa[_0x3dbf8a(0x1a9)]=_0x260e2f;if(_0x3f89d1!=='-')_0x59abaa['id']=_0x3f89d1;if(_0x30650b!=='-')_0x59abaa[_0x3dbf8a(0x159)]=_0x30650b;const _0x3293da=(_0x3e630e[0x11][_0x3dbf8a(0x19e)]||'')[_0x3dbf8a(0x1a5)](),_0x525b47=parseFloat(_0x3293da)/0x3c;_0xa0ba99[_0x3dbf8a(0x172)]({'Tanggal':_0x11a1da,'Tipe\x20Hari':(_0x3e630e[0xf]['textContent']||'')[_0x3dbf8a(0x1a5)]()[_0x3dbf8a(0x18d)](),'Menit\x20Lembur':_0x3293da,'Jam\x20Lembur':isNaN(_0x525b47)?_0x3dbf8a(0x124):_0x525b47['toFixed'](0x2),'Indeks\x20Lembur':(_0x3e630e[0x12]['textContent']||'')[_0x3dbf8a(0x1a5)](),'Status':(_0x3e630e[0x15][_0x3dbf8a(0x19e)]||'')[_0x3dbf8a(0x1a5)]()[_0x3dbf8a(0x18d)](),'Other\x20Status':(_0x3e630e[0x16][_0x3dbf8a(0x19e)]||'')[_0x3dbf8a(0x1a5)]()['toUpperCase']()});}),_0x59abaa[_0x285510(0x1a9)]!=='-'&&(_0x349bc8=_0x59abaa,_0x30f7b5()),_0xa0ba99;}catch(_0x377758){return console[_0x285510(0x111)]('Gagal\x20parsing\x20HTML:',_0x377758),null;}}function _0x5bc2bc(_0x957bf1){const _0x2010b6=_0x4db1,_0x2448f1=_0x957bf1[_0x2010b6(0x150)][_0x2010b6(0x13d)][0x0];if(!_0x2448f1)return;const _0x3c8732=_0x2448f1[_0x2010b6(0x192)][_0x2010b6(0x181)]();if(!_0x3c8732[_0x2010b6(0x104)](_0x2010b6(0x167))&&!_0x3c8732[_0x2010b6(0x104)](_0x2010b6(0x10f)))return alert(_0x2010b6(0x15d));const _0x400aac=new FileReader();_0x3c8732[_0x2010b6(0x104)]('.xlsx')?(_0x400aac[_0x2010b6(0x137)]=function(_0xc43946){const _0x2292e6=_0x2010b6;try{const _0x4f10e5=_0xc43946[_0x2292e6(0x150)][_0x2292e6(0x10a)],_0x9405e5=_0x3b40d2(_0x4f10e5);_0x9405e5&&_0x9405e5[_0x2292e6(0x11f)]>0x0?(_0x4490e3(_0x9405e5),alert(_0x2292e6(0x179)+_0x9405e5[_0x2292e6(0x11f)]+_0x2292e6(0x174))):alert('Tidak\x20ada\x20data\x20yang\x20ditemukan.\x20Periksa\x20format\x20file.');}catch(_0x3f88ec){alert(_0x2292e6(0x11e)+_0x3f88ec[_0x2292e6(0x13b)]);}},_0x400aac[_0x2010b6(0x177)](_0x2448f1)):(_0x400aac[_0x2010b6(0x137)]=function(_0x4e6324){const _0x39bdf1=_0x2010b6;try{const _0x8ca2e9=_0x4e6324['target'][_0x39bdf1(0x10a)],_0x5e9ab0=_0x5244d9(_0x8ca2e9);_0x5e9ab0&&_0x5e9ab0[_0x39bdf1(0x11f)]>0x0?(_0x4490e3(_0x5e9ab0),alert('Data\x20berhasil\x20diimpor!\x20'+_0x5e9ab0['length']+_0x39bdf1(0x174))):alert('Tidak\x20ada\x20data\x20yang\x20ditemukan.\x20Coba\x20gunakan\x20file\x20.xlsx.');}catch(_0x1d70f8){alert(_0x39bdf1(0x11e)+_0x1d70f8[_0x39bdf1(0x13b)]);}},_0x400aac[_0x2010b6(0x114)](_0x2448f1));}function _0x4490e3(_0x395bb4){_0x395bb4['forEach'](_0x1802ab=>{const _0x1db5ea=_0x4db1,_0x4095fc=_0x1802ab[_0x1db5ea(0x178)];if(!_0x4095fc)return;const _0x498b48=_0x5ec90e['findIndex'](_0x498636=>_0x498636[_0x1db5ea(0x178)]===_0x4095fc);_0x498b48>=0x0?_0x5ec90e[_0x498b48]=_0x1802ab:_0x5ec90e[_0x1db5ea(0x172)](_0x1802ab);}),_0x499ef8(),_0x80d525();}function _0x5342ca(){setTimeout(()=>{const _0x4de33a=_0x4db1,_0x3c3f66=document[_0x4de33a(0x134)]('.data-table');if(_0x3c3f66){if(!_0x3c3f66[_0x4de33a(0x154)][_0x4de33a(0x1da)][_0x4de33a(0x121)](_0x4de33a(0x151))){const _0x2035bd=document[_0x4de33a(0x184)]('div');_0x2035bd[_0x4de33a(0x197)]=_0x4de33a(0x151),_0x3c3f66['parentElement'][_0x4de33a(0x1b5)](_0x2035bd,_0x3c3f66),_0x2035bd['appendChild'](_0x3c3f66);}}const _0x12c4c7=document[_0x4de33a(0x134)](_0x4de33a(0x1b4));_0x12c4c7&&(_0x12c4c7['style'][_0x4de33a(0x16e)]=_0x4de33a(0x15e));const _0x24049a=document[_0x4de33a(0x125)](_0x4de33a(0x1ae));_0x24049a[_0x4de33a(0x140)](_0x406b10=>{const _0x55a51e=_0x4de33a;_0x406b10[_0x55a51e(0x171)][_0x55a51e(0x1b9)]=_0x55a51e(0x18f),_0x406b10[_0x55a51e(0x171)][_0x55a51e(0x19b)]='0',_0x406b10[_0x55a51e(0x171)][_0x55a51e(0x11b)]='10';});},0x64);}function _0x80d525(){const _0x26d9e3=_0x4db1;_0x5ec90e[_0x26d9e3(0x140)](_0x5d61d9=>{const _0x571131=_0x26d9e3;_0x5d61d9['dateObj']=_0x291bdd(_0x5d61d9[_0x571131(0x178)]);}),_0x5ec90e[_0x26d9e3(0x132)]((_0x1a771c,_0x403080)=>{const _0x16274a=_0x26d9e3;if(!_0x1a771c['dateObj']||!_0x403080[_0x16274a(0x135)])return 0x0;return _0x1a771c['dateObj']-_0x403080[_0x16274a(0x135)];}),_0x197005=_0x5ec90e[_0x26d9e3(0x1d5)]();(_0x3c2330||_0x49f0d8)&&(_0x197005=_0x5ec90e[_0x26d9e3(0x14b)](_0x1ef716=>{const _0x53e3ea=_0x26d9e3;if(!_0x1ef716[_0x53e3ea(0x135)])return![];if(_0x3c2330&&_0x1ef716[_0x53e3ea(0x135)]<_0x3c2330)return![];if(_0x49f0d8&&_0x1ef716[_0x53e3ea(0x135)]>_0x49f0d8)return![];return!![];}));_0x688c0c[_0x26d9e3(0x130)]=_0x589d49(_0x197005),_0x58b659(),_0x3cf383();if(_0x197005[_0x26d9e3(0x11f)]){const _0x2ab3fd=_0x32ef9d(_0x197005),_0x3109bf=_0x197005[0x0][_0x26d9e3(0x178)],_0x4cb58f=_0x197005[_0x197005[_0x26d9e3(0x11f)]-0x1]['Tanggal'];_0x2ff6b9['innerHTML']=_0x2be52a(_0x2ab3fd,_0x3109bf,_0x4cb58f);}else{const _0x387945=_0x32ef9d([]),_0xa8d964=_0x3c2330?_0x3721cd(_0x3c2330):_0x5ec90e[0x0]?_0x5ec90e[0x0]['Tanggal']:'-',_0x59d7a2=_0x49f0d8?_0x3721cd(_0x49f0d8):_0x5ec90e[_0x5ec90e[_0x26d9e3(0x11f)]-0x1]?_0x5ec90e[_0x5ec90e[_0x26d9e3(0x11f)]-0x1]['Tanggal']:'-';_0x2ff6b9[_0x26d9e3(0x130)]=_0x2be52a(_0x387945,_0xa8d964,_0x59d7a2);}_0x499ef8(),_0x4dbc9c(),_0x5342ca();}function _0x2be3b0(_0x5c5c0e){const _0x5aa260=_0x4db1,_0x2f90fc=document['querySelectorAll'](_0x5aa260(0x117));_0x2f90fc[_0x5aa260(0x140)](_0x141201=>_0x141201[_0x5aa260(0x1c6)]=![]),_0x5c5c0e==='WD'&&(_0x5ae983(_0x5aa260(0x173))[_0x5aa260(0x1c6)]=!![],_0x5ae983(_0x5aa260(0x17c))['checked']=!![],_0x5ae983(_0x5aa260(0x11d))['checked']=!![],_0x5ae983('statusPRS')[_0x5aa260(0x1c6)]=!![]);}function _0x489d15(_0x39d3a4){const _0x56bfb7=_0x4db1,_0x8ea910=document['querySelectorAll'](_0x56bfb7(0x117));_0x8ea910[_0x56bfb7(0x140)](_0x4fd465=>_0x4fd465[_0x56bfb7(0x1c6)]=![]);if(_0x39d3a4==='PRS'&&_0x5ae983(_0x56bfb7(0x1c9))[_0x56bfb7(0x1c6)]===!![])_0x5ae983(_0x56bfb7(0x173))[_0x56bfb7(0x1c6)]=!![],_0x5ae983(_0x56bfb7(0x17c))[_0x56bfb7(0x1c6)]=!![],_0x5ae983(_0x56bfb7(0x11d))['checked']=!![];else{if(_0x39d3a4===_0x56bfb7(0x1c8))_0x5ae983(_0x56bfb7(0x1c9))[_0x56bfb7(0x1c6)]=!![],_0x5ae983(_0x56bfb7(0x126))[_0x56bfb7(0x1c6)]=!![];else{if(_0x39d3a4===_0x56bfb7(0x1e1))_0x5ae983(_0x56bfb7(0x133))[_0x56bfb7(0x1c6)]=!![],_0x5ae983(_0x56bfb7(0x10c))[_0x56bfb7(0x1c6)]=!![];else _0x39d3a4==='CT'&&(_0x5ae983('tipeHariWD')['checked']=!![],_0x5ae983('ct')['checked']=!![]);}}}function _0x4dbc9c(){const _0x177982=_0x4db1,_0x1de40c=document['getElementById'](_0x177982(0x12e)),_0x22ccd0=document[_0x177982(0x106)](_0x177982(0x1a6)),_0x1c8e8c=document[_0x177982(0x106)](_0x177982(0x1c4)),_0x12ef28=document[_0x177982(0x106)](_0x177982(0x1ad));_0x1c8e8c&&(_0x1c8e8c[_0x177982(0x1a4)]=()=>_0x382719(-0x1)),_0x12ef28&&(_0x12ef28[_0x177982(0x1a4)]=()=>_0x382719(+0x1)),_0x1de40c&&(_0x1de40c[_0x177982(0x1a4)]=_0x57637a),_0x22ccd0&&(_0x22ccd0[_0x177982(0x1a4)]=_0x934c8b);}function _0x382719(_0x121048){const _0x14468c=_0x4db1;if(!_0x3c2330||!_0x49f0d8){if(!_0x5ec90e||!_0x5ec90e[_0x14468c(0x11f)])return;_0x5ec90e[_0x14468c(0x140)](_0x1066f1=>{const _0x55f3b4=_0x14468c;_0x1066f1[_0x55f3b4(0x135)]=_0x291bdd(_0x1066f1['Tanggal']);}),_0x5ec90e[_0x14468c(0x132)]((_0x507b83,_0x42decc)=>_0x507b83[_0x14468c(0x135)]&&_0x42decc[_0x14468c(0x135)]?_0x507b83[_0x14468c(0x135)]-_0x42decc[_0x14468c(0x135)]:0x0);const _0x5bb983=_0x5ec90e[0x0],_0x1a9425=_0x5ec90e[_0x5ec90e[_0x14468c(0x11f)]-0x1];if(!_0x5bb983||!_0x1a9425)return;_0x3c2330=_0x5bb983[_0x14468c(0x135)]?new Date(_0x5bb983['dateObj']):_0x291bdd(_0x5bb983[_0x14468c(0x178)]),_0x49f0d8=_0x1a9425[_0x14468c(0x135)]?new Date(_0x1a9425[_0x14468c(0x135)]):_0x291bdd(_0x1a9425[_0x14468c(0x178)]);}const _0x1724a0=new Date(_0x3c2330),_0x456eec=new Date(_0x49f0d8);_0x1724a0['setMonth'](_0x1724a0[_0x14468c(0x147)]()+_0x121048),_0x456eec['setMonth'](_0x456eec['getMonth']()+_0x121048),_0x3c2330=_0x1724a0,_0x49f0d8=_0x456eec;try{localStorage['setItem']('filterStart',_0x156d7e(_0x1724a0)),localStorage[_0x14468c(0x142)](_0x14468c(0x143),_0x156d7e(_0x456eec));}catch(_0x44f41b){}const _0x2f3931=_0x5ae983(_0x14468c(0x1d7)),_0x4b818e=_0x5ae983(_0x14468c(0x1bf));if(_0x2f3931)_0x2f3931[_0x14468c(0x18e)]=_0x156d7e(_0x1724a0);if(_0x4b818e)_0x4b818e[_0x14468c(0x18e)]=_0x156d7e(_0x456eec);_0x80d525();}function _0x156d7e(_0x5545b1){const _0x3cdb48=_0x4db1;return _0x5545b1[_0x3cdb48(0x1bd)]()+'-'+String(_0x5545b1[_0x3cdb48(0x147)]()+0x1)[_0x3cdb48(0x1dc)](0x2,'0')+'-'+String(_0x5545b1[_0x3cdb48(0x11a)]())['padStart'](0x2,'0');}function _0x57637a(){const _0x45fe95=_0x4db1,_0x4f12b7=_0x5ae983(_0x45fe95(0x1d7));if(!_0x4f12b7)return;const _0x10fa3e=document['getElementById'](_0x45fe95(0x12e))[_0x45fe95(0x187)]['trim'](),_0x192a31=_0x10fa3e[_0x45fe95(0x118)]('/');_0x192a31['length']===0x3&&(_0x4f12b7[_0x45fe95(0x18e)]=_0x192a31[0x2]+'-'+_0x192a31[0x1]+'-'+_0x192a31[0x0]),_0x4f12b7[_0x45fe95(0x15a)]();}function _0x934c8b(){const _0x3382c2=_0x4db1,_0x5f09f1=_0x5ae983(_0x3382c2(0x1bf));if(!_0x5f09f1)return;const _0x361bbf=document['getElementById'](_0x3382c2(0x1a6))[_0x3382c2(0x187)]['trim'](),_0x4645f3=_0x361bbf[_0x3382c2(0x118)]('/');_0x4645f3['length']===0x3&&(_0x5f09f1[_0x3382c2(0x18e)]=_0x4645f3[0x2]+'-'+_0x4645f3[0x1]+'-'+_0x4645f3[0x0]),_0x5f09f1['click']();}document['addEventListener'](_0x977014(0x1de),()=>{const _0x4b721e=_0x977014;_0x19c661=_0x5ae983(_0x4b721e(0x1b8)),_0x2ff6b9=_0x5ae983(_0x4b721e(0x1a3)),_0x688c0c=_0x5ae983(_0x4b721e(0x163)),_0x3da8df=_0x5ae983(_0x4b721e(0x152)),_0x4a9904=_0x5ae983(_0x4b721e(0x119)),_0x2865b9=_0x5ae983(_0x4b721e(0x155)),_0x4f3924=_0x5ae983(_0x4b721e(0x1b0)),_0x5b79e5=_0x5ae983(_0x4b721e(0x1ab)),_0x5235a2=_0x5ae983('btnReset'),_0x1075b1=document['querySelectorAll'](_0x4b721e(0x10b)),_0x59b52b=document['querySelectorAll'](_0x4b721e(0x113)),_0x5f4625(),_0x347337();const _0x39ad2c=localStorage[_0x4b721e(0x107)](_0x4b721e(0x138)),_0x284024=localStorage[_0x4b721e(0x107)](_0x4b721e(0x143));if(_0x39ad2c){const _0x394aa9=_0x39ad2c[_0x4b721e(0x118)]('-');_0x3c2330=new Date(parseInt(_0x394aa9[0x0],0xa),parseInt(_0x394aa9[0x1],0xa)-0x1,parseInt(_0x394aa9[0x2],0xa)),_0x5ae983('filterStartInput')[_0x4b721e(0x18e)]=_0x39ad2c;}if(_0x284024){const _0x286db5=_0x284024[_0x4b721e(0x118)]('-');_0x49f0d8=new Date(parseInt(_0x286db5[0x0],0xa),parseInt(_0x286db5[0x1],0xa)-0x1,parseInt(_0x286db5[0x2],0xa)),_0x5ae983('filterEndInput')['value']=_0x284024;}const _0x43762c=new Date();_0x3da8df[_0x4b721e(0x18e)]=_0x43762c['getFullYear']()+'-'+String(_0x43762c['getMonth']()+0x1)[_0x4b721e(0x1dc)](0x2,'0')+'-'+String(_0x43762c[_0x4b721e(0x11a)]())[_0x4b721e(0x1dc)](0x2,'0'),_0x19c661[_0x4b721e(0x112)]('change',_0x5bc2bc),_0x4a9904[_0x4b721e(0x112)]('input',()=>{const _0x26d41f=_0x4b721e,_0x1eb36e=parseFloat(_0x4a9904[_0x26d41f(0x18e)])||0x0;_0x2865b9['value']=Math[_0x26d41f(0x169)](_0x1eb36e*0x3c);const _0x3d107d=document['querySelector']('input[name=\x27manualTipeHari\x27]:checked')[_0x26d41f(0x18e)];_0x4f3924[_0x26d41f(0x18e)]=_0x1f32c0(_0x1eb36e,_0x3d107d)[_0x26d41f(0x19f)](0x2);}),_0x2865b9[_0x4b721e(0x112)](_0x4b721e(0x12d),()=>{const _0x2b7635=_0x4b721e,_0x29e04f=parseFloat(_0x2865b9[_0x2b7635(0x18e)])||0x0,_0x44d6a5=_0x29e04f/0x3c;_0x4a9904[_0x2b7635(0x18e)]=_0x44d6a5[_0x2b7635(0x19f)](0x2);const _0x25f97f=document[_0x2b7635(0x134)]('input[name=\x27manualTipeHari\x27]:checked')[_0x2b7635(0x18e)];_0x4f3924['value']=_0x1f32c0(_0x44d6a5,_0x25f97f)['toFixed'](0x2);}),_0x5b79e5[_0x4b721e(0x112)](_0x4b721e(0x15a),_0x174a9f=>{const _0x45ccf6=_0x4b721e;_0x174a9f[_0x45ccf6(0x1e0)](),_0x35102b();}),_0x5235a2[_0x4b721e(0x112)](_0x4b721e(0x15a),_0x42f5bd=>{const _0x460e04=_0x4b721e;_0x42f5bd[_0x460e04(0x1e0)](),_0x13be57();}),_0x1075b1[_0x4b721e(0x140)](_0xa6351b=>_0xa6351b[_0x4b721e(0x112)](_0x4b721e(0x1b3),()=>{const _0x331f29=_0x4b721e;if(_0xa6351b[_0x331f29(0x1c6)])_0x2be3b0(_0xa6351b['value']);})),_0x59b52b[_0x4b721e(0x140)](_0x2dc70e=>_0x2dc70e[_0x4b721e(0x112)](_0x4b721e(0x1b3),()=>{const _0x1a46c1=_0x4b721e;if(_0x2dc70e[_0x1a46c1(0x1c6)])_0x489d15(_0x2dc70e[_0x1a46c1(0x18e)]);}));const _0x50395a=_0x5ae983(_0x4b721e(0x1d7)),_0x2bf871=_0x5ae983('filterEndInput');if(_0x50395a)_0x50395a[_0x4b721e(0x112)](_0x4b721e(0x1b3),_0x5756fb=>{const _0x5e3ad5=_0x4b721e,_0xb9d68d=_0x5756fb[_0x5e3ad5(0x150)]['value'];if(!_0xb9d68d){_0x3c2330=null,localStorage[_0x5e3ad5(0x1a2)](_0x5e3ad5(0x138)),_0x80d525();return;}const _0x292c02=_0xb9d68d[_0x5e3ad5(0x118)]('-');_0x3c2330=new Date(parseInt(_0x292c02[0x0],0xa),parseInt(_0x292c02[0x1],0xa)-0x1,parseInt(_0x292c02[0x2],0xa)),localStorage[_0x5e3ad5(0x142)](_0x5e3ad5(0x138),_0xb9d68d),_0x80d525();});if(_0x2bf871)_0x2bf871[_0x4b721e(0x112)](_0x4b721e(0x1b3),_0x23afec=>{const _0x235800=_0x4b721e,_0x545bb6=_0x23afec[_0x235800(0x150)][_0x235800(0x18e)];if(!_0x545bb6){_0x49f0d8=null,localStorage[_0x235800(0x1a2)](_0x235800(0x143)),_0x80d525();return;}const _0x1e2311=_0x545bb6[_0x235800(0x118)]('-');_0x49f0d8=new Date(parseInt(_0x1e2311[0x0],0xa),parseInt(_0x1e2311[0x1],0xa)-0x1,parseInt(_0x1e2311[0x2],0xa)),localStorage[_0x235800(0x142)](_0x235800(0x143),_0x545bb6),_0x80d525();});_0x3da8df[_0x4b721e(0x112)](_0x4b721e(0x1b3),function(){const _0x3bcc46=_0x4b721e,_0x59aa04=new Date(this[_0x3bcc46(0x18e)]),_0x34fd07=_0x59aa04[_0x3bcc46(0x164)]();_0x34fd07===0x0?(_0x489d15(_0x3bcc46(0x1e1)),document[_0x3bcc46(0x134)](_0x3bcc46(0x1d3))[_0x3bcc46(0x1c6)]=!![],document[_0x3bcc46(0x134)](_0x3bcc46(0x1c3))[_0x3bcc46(0x1c6)]=!![]):(_0x489d15('WD'),_0x2be3b0('WD'),document[_0x3bcc46(0x134)]('input[name=\x22manualStatus\x22][value=\x22PRS\x22]')['checked']=!![],document[_0x3bcc46(0x134)](_0x3bcc46(0x16f))[_0x3bcc46(0x1c6)]=!![]);const _0x3ebe34=parseFloat(_0x4a9904[_0x3bcc46(0x18e)])||0x0,_0x950d91=document[_0x3bcc46(0x134)](_0x3bcc46(0x19d))[_0x3bcc46(0x18e)];_0x4f3924['value']=_0x1f32c0(_0x3ebe34,_0x950d91)['toFixed'](0x2);}),_0x3da8df[_0x4b721e(0x14f)](new Event(_0x4b721e(0x1b3))),setTimeout(()=>{const _0x516334=_0x4b721e;document['getElementById'](_0x516334(0x1e2))['style'][_0x516334(0x1d9)]=_0x516334(0x17a),_0x80d525();},0x12c);}),window[_0x977014(0x15f)]={'refreshUI':_0x80d525,'saveLocal':_0x499ef8,'loadLocal':_0x5f4625,'parsedData':_0x5ec90e};}()));
+(function() {
+  const GAJI_POKOK = 3187965;
+  const DAILY_RATE = GAJI_POKOK / 25;
+  const OVERTIME_RATE = GAJI_POKOK / 173;
+  const MEAL_RATE = 11800;
+  const JHT = GAJI_POKOK * 0.02;
+  const JP = GAJI_POKOK * 0.01;
+  const POTONGAN = JHT + JP;
+
+  let parsedData = [];
+  let user = {
+    nama: '-',
+    id: '-',
+    jabatan: '-'
+  };
+
+  let fileInput, summaryOutput, tableOutput;
+  let manualTanggal, manualJamLembur, manualMenitLembur, manualIndeks;
+  let btnAdd, btnReset;
+  let tipeHariRadios, statusRadios;
+
+  let filterStart = null;
+  let filterEnd = null;
+
+  let displayData = null;
+
+  function $(id) {
+    return document.getElementById(id);
+  }
+
+  function saveLocal() {
+    localStorage.setItem("sunfishData", JSON.stringify(parsedData));
+  }
+
+  function loadLocal() {
+    const s = localStorage.getItem("sunfishData");
+    if (s) parsedData = JSON.parse(s);
+  }
+
+  function saveUser() {
+    localStorage.setItem("userInfo", JSON.stringify(user));
+  }
+
+  function loadUser() {
+    const u = localStorage.getItem("userInfo");
+    if (u) user = JSON.parse(u);
+  }
+
+  function parseIndoDate(str) {
+    if (!str) return null;
+    const p = str.split('/');
+    if (p.length !== 3) return null;
+    return new Date(parseInt(p[2], 10), parseInt(p[1], 10) - 1, parseInt(p[0], 10));
+  }
+
+  function ddmmyyyy(d) {
+    return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+  }
+
+  function formatRupiah(n) {
+    return "Rp " + Number(Math.round(n || 0)).toLocaleString("id-ID");
+  }
+
+  function checkOffDay(jam, tipeHari) {
+    const ovh = document.getElementById('ovh');
+    const ovt = document.getElementById('ovt');
+    const off = document.getElementById('off');
+    const prs = document.getElementById('prs');
+    const statusPRS = document.getElementById('statusPRS');
+
+    if (!ovh || !ovt) return;
+
+    if (!jam || Number(jam) <= 0) {
+      ovh.checked = false;
+      ovt.checked = false;
+      if (tipeHari === "OFF" || tipeHari === "PHOFF") prs.checked = false;
+    } else if (tipeHari === "PHOFF") {
+      ovh.checked = true;
+      ovt.checked = false;
+      off.checked = false;
+      prs.checked = true;
+      statusPRS.checked = true;
+    } else if (tipeHari === "WD" || tipeHari === "OFF") {
+      ovh.checked = false;
+      ovt.checked = true;
+      prs.checked = true;
+      off.checked = false;
+      statusPRS.checked = true;
+    } else {
+      ovh.checked = false;
+      ovt.checked = false;
+      off.checked = true;
+      prs.checked = false;
+    }
+  }
+
+  function hitungIndeksByJam(jam, tipeHari) {
+    jam = Number(jam) || 0;
+    checkOffDay(jam, tipeHari);
+    if (jam <= 0) return 0;
+    if (tipeHari === "OFF" || tipeHari === "PHOFF") {
+      if (jam <= 7) return jam * 2;
+      return (7 * 2) + (jam - 7) * 3 + 2;
+    } else if (tipeHari === "WD") {
+      if (jam <= 1) return 1.5;
+      return 1.5 + (jam - 1) * 2;
+    }
+    return 0;
+  }
+
+  function calculateStats(data) {
+    let hariKerja = 0,
+      cuti = 0,
+      absen = 0,
+      off = 0,
+      totalJam = 0,
+      totalIndeks = 0,
+      meal = 0;
+    data.forEach(r => {
+      const tipe = (r["Tipe Hari"] || "").toUpperCase();
+      const status = (r["Status"] || "").toUpperCase();
+      const other = (r["Other Status"] || "").toUpperCase();
+      if ((tipe === "WD" && status === "PRS") || (tipe === "PHOFF" && status === "PRS")) hariKerja++;
+      if (tipe === "OFF" && status === "PRS") off++;
+      if (status === "ABS") absen++;
+      if (status === "CT" || status === "CS") cuti++;
+      if (other.includes("MEAL") || other.includes("PRS_MEAL")) meal++;
+      totalJam += parseFloat((r["Jam Lembur"] || "0").toString().replace(",", ".")) || 0;
+      totalIndeks += parseFloat((r["Indeks Lembur"] || "0").toString().replace(",", ".")) || 0;
+    });
+
+    let BPJS = Number(hariKerja) > 0 ? POTONGAN : 0;
+    let gajiPokokFinal = (displayData && displayData.length >= 30) ? GAJI_POKOK : (hariKerja * DAILY_RATE);
+
+    let gaji = gajiPokokFinal +
+      (totalIndeks * OVERTIME_RATE) +
+      (meal * MEAL_RATE) -
+      BPJS;
+
+    return {
+      hariKerja,
+      cuti,
+      absen,
+      off,
+      totalJam,
+      totalIndeks,
+      gaji
+    };
+  }
+
+  function generateSummaryHtml(stats, startLabel, endLabel) {
+    const startDisplay = startLabel || '-';
+    const endDisplay = endLabel || '-';
+
+    const prevBtn = `<button id="prevMonthBtn" class="month-shift-btn">‹</button>`;
+    const nextBtn = `<button id="nextMonthBtn" class="month-shift-btn">›</button>`;
+
+    return `
+        <table class="summary-table">
+          <tr>
+            <th colspan="2">
+              <div class="period-wrapper">
+                <div class="period-center">
+                  ${prevBtn}
+                  <span id="periodStart" class="period-clickable">${startDisplay}</span>
+                  —
+                  <span id="periodEnd" class="period-clickable">${endDisplay}</span>
+                  ${nextBtn}
+                </div>
+              </div>
+            </th>
+          </tr>
+
+          <tr><td>Nama Karyawan</td><td>${user.nama}</td></tr>
+          <tr><td>NIK / ID</td><td>${user.id}</td></tr>
+          <tr><td>Posisi / Jabatan</td><td>${user.jabatan}</td></tr>
+          <tr><td>Hari Kerja</td><td>${stats.hariKerja}</td></tr>
+          <tr><td>Cuti</td><td>${stats.cuti}</td></tr>
+          <tr><td>Absen</td><td>${stats.absen}</td></tr>
+          <tr><td>Jam Lembur</td><td>${stats.totalJam.toFixed(2)} jam</td></tr>
+          <tr><td>Indeks Lembur</td><td>${stats.totalIndeks.toFixed(2)}</td></tr>
+          <tr><td>Estimasi Gaji</td><td>${formatRupiah(stats.gaji)}</td></tr>
+        </table>
+      `;
+  }
+
+  function getRowClass(row) {
+    const t = (row["Tipe Hari"] || "").toUpperCase();
+    const s = (row["Status"] || "").toUpperCase();
+    if (s === "ABS") return "abs";
+    if (s === "CT" || s === "CS") return "ct";
+    if (t === "PHOFF") return "phoff";
+    if (t === "OFF") return "off";
+    if (t === "WD") return "wd";
+    return "";
+  }
+
+  function generateTableHtml(data) {
+    if (!data.length) return "";
+
+    const headers = Object.keys(data[0]).filter(k => k !== "dateObj");
+    let html = "<div class='table-responsive' id='dataTable'><table class='data-table'><thead><tr>";
+    headers.forEach(h => html += `<th>${h}</th>`);
+    html += "<th>Aksi</th></tr></thead><tbody>";
+
+    data.forEach((row, idx) => {
+      const originalIndex = parsedData.findIndex(r => r["Tanggal"] === row["Tanggal"]);
+      const dataIdx = originalIndex !== -1 ? originalIndex : idx;
+
+      html += `<tr class="${getRowClass(row)}" data-idx="${dataIdx}" data-tanggal="${row["Tanggal"]}">`;
+      headers.forEach(h => {
+        const cellValue = row[h] == null ? "" : row[h];
+        html += `<td>${cellValue}</td>`;
+      });
+      html += `<td><button class="delBtn" data-idx="${dataIdx}">❌</button></td></tr>`;
+    });
+
+    html += "</tbody></table></div>";
+    return html;
+  }
+
+  function setupRowClickHandlers() {
+    tableOutput.addEventListener("click", function(e) {
+      const delBtn = e.target.closest('.delBtn');
+      if (delBtn) {
+        e.stopPropagation();
+        return;
+      }
+
+      const tr = e.target.closest("tr");
+      if (!tr || !tr.parentElement || tr.parentElement.tagName !== 'TBODY') return;
+
+      const td = tr.querySelectorAll("td");
+      if (td.length < 1) return;
+
+      document.querySelector(".input-form").scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+      const tgl = td[0].textContent.trim();
+      const tipeHari = td[1].textContent.trim();
+      const menit = td[2].textContent.trim();
+      const jam = td[3].textContent.trim();
+      const indeks = td[4].textContent.trim();
+      const status = td[5].textContent.trim();
+      const otherText = td[6].textContent.trim();
+
+      function toInputDateFormat(t) {
+        const d = parseIndoDate(t);
+        if (!d) return "";
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+
+      manualTanggal.value = toInputDateFormat(tgl);
+      manualJamLembur.value = jam;
+      manualMenitLembur.value = menit;
+      manualIndeks.value = indeks.replace(",", ".");
+
+      const r1 = document.querySelector(`input[name="manualTipeHari"][value="${tipeHari}"]`);
+      if (r1) r1.checked = true;
+
+      const r2 = document.querySelector(`input[name="manualStatus"][value="${status}"]`);
+      if (r2) r2.checked = true;
+
+      document.querySelectorAll(".other-status").forEach(cb => cb.checked = false);
+
+      if (otherText !== "") {
+        otherText.split(",").forEach(o => {
+          const c = document.querySelector(`.other-status[value="${o.trim()}"]`);
+          if (c) c.checked = true;
+        });
+      }
+    });
+  }
+
+  function attachDeleteButtons() {
+    const delBtns = tableOutput.querySelectorAll('.delBtn');
+    delBtns.forEach(btn => {
+      const newBtn = btn.cloneNode(true);
+      btn.parentNode.replaceChild(newBtn, btn);
+    });
+
+    const newDelBtns = tableOutput.querySelectorAll('.delBtn');
+    newDelBtns.forEach(btn => {
+      btn.addEventListener('click', onDeleteRow);
+    });
+  }
+
+  function onDeleteRow(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const idx = Number(this.dataset.idx);
+    if (isNaN(idx)) {
+      const row = this.closest('tr');
+      if (row && row.dataset.tanggal) {
+        const tanggal = row.dataset.tanggal;
+        const foundIndex = parsedData.findIndex(r => r["Tanggal"] === tanggal);
+        if (foundIndex !== -1) {
+          deleteRowByIndex(foundIndex);
+          return;
+        }
+      }
+      alert("Gagal menghapus: Data tidak ditemukan");
+      return;
+    }
+
+    deleteRowByIndex(idx);
+  }
+
+  function deleteRowByIndex(index) {
+    if (!confirm("Hapus baris ini?")) return;
+
+    if (index >= 0 && index < parsedData.length) {
+      parsedData.splice(index, 1);
+      saveLocal();
+      refreshUI();
+    } else {
+      alert("Index tidak valid. Refresh halaman dan coba lagi.");
+    }
+  }
+
+  function addManualEntry() {
+    const iso = manualTanggal.value;
+    if (!iso) return alert("Tanggal belum diisi.");
+    const [y, m, d] = iso.split("-");
+    const tgl = `${d}/${m}/${y}`;
+    const jam = parseFloat(manualJamLembur.value) || 0;
+    const menit = Math.round(jam * 60);
+    const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
+    const status = document.querySelector("input[name='manualStatus']:checked").value;
+    const other = Array.from(
+      document.querySelectorAll(".other-status:checked")
+    ).map(c => c.value).join(",");
+
+    if (!tipe || !status) {
+      alert("Harap pilih Tipe Hari dan Status");
+      return;
+    }
+
+    const existIndex = parsedData.findIndex(r => r["Tanggal"] === tgl);
+    const newRow = {
+      "Tanggal": tgl,
+      "Tipe Hari": tipe,
+      "Menit Lembur": menit,
+      "Jam Lembur": Number(jam).toFixed(2),
+      "Indeks Lembur": hitungIndeksByJam(jam, tipe).toFixed(2),
+      "Status": status,
+      "Other Status": other
+    };
+
+    if (existIndex !== -1) {
+      parsedData[existIndex] = newRow;
+    } else {
+      parsedData.push(newRow);
+    }
+    saveLocal();
+    refreshUI();
+  }
+
+  function resetData() {
+    if (!confirm("Hapus semua data?")) return;
+    parsedData = [];
+    localStorage.removeItem("sunfishData");
+    refreshUI();
+  }
+
+  // ========== PARSING .XLSX DENGAN SHEETJS ==========
+  function parseXLSXFile(arrayBuffer) {
+    try {
+      const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+      const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+
+      let currentDate = null;
+      let result = [];
+      let userData = { nama: '-', id: '-', jabatan: '-' };
+
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        if (!row || row.length === 0) continue;
+
+        const colA = (row[0] || '').toString().trim();
+
+        // Deteksi baris "Date : "
+        if (colA.startsWith('Date : ')) {
+          const dateStr = colA.replace('Date : ', '').trim();
+          const parts = dateStr.split(' ');
+          if (parts.length === 3) {
+            const day = parts[0].padStart(2, '0');
+            const monthIndex = monthNames.indexOf(parts[1]);
+            if (monthIndex !== -1) {
+              const month = String(monthIndex + 1).padStart(2, '0');
+              const year = parts[2];
+              currentDate = `${day}/${month}/${year}`;
+            } else {
+              // fallback: coba parse langsung
+              const d = new Date(dateStr);
+              if (!isNaN(d)) {
+                currentDate = ddmmyyyy(d);
+              }
+            }
+          }
+          continue;
+        }
+
+        // Ambil info user dari baris header (Employee, Employee No, Position)
+        // Biasanya ada di baris dengan header, tapi kita bisa ambil dari data pertama
+        if (row.length >= 4 && !isNaN(parseInt(colA)) && parseInt(colA) > 0 && currentDate) {
+          const empName = (row[1] || '').toString().trim();
+          const empNo = (row[2] || '').toString().trim();
+          const pos = (row[3] || '').toString().trim();
+          if (empName) userData.nama = empName;
+          if (empNo) userData.id = empNo;
+          if (pos) userData.jabatan = pos;
+
+          const dayType = (row[15] || '').toString().trim().toUpperCase();
+          const overtimeMinute = parseFloat(row[17] || 0);
+          const overtimeIndex = parseFloat(row[18] || 0);
+          const status = (row[21] || '').toString().trim().toUpperCase();
+          const otherStatus = (row[22] || '').toString().trim().toUpperCase();
+
+          const jamLembur = overtimeMinute / 60;
+
+          result.push({
+            "Tanggal": currentDate,
+            "Tipe Hari": dayType || "WD",
+            "Menit Lembur": overtimeMinute.toString(),
+            "Jam Lembur": jamLembur.toFixed(2),
+            "Indeks Lembur": overtimeIndex.toString(),
+            "Status": status || "PRS",
+            "Other Status": otherStatus || ""
+          });
+        }
+      }
+
+      // Update user info jika ditemukan
+      if (userData.nama !== '-') {
+        user = userData;
+        saveUser();
+      }
+
+      return result;
+    } catch (e) {
+      console.error("Gagal parsing XLSX:", e);
+      return null;
+    }
+  }
+
+  // ========== PARSING .XLS (HTML) dengan DOMParser (fallback) ==========
+  function parseXLS_HTML(fileContent) {
+    try {
+      const doc = new DOMParser().parseFromString(fileContent, "text/html");
+      const table = doc.querySelector("table.tabGen");
+      if (!table) {
+        throw new Error("Tabel tabGen tidak ditemukan.");
+      }
+      const rows = table.querySelectorAll("tbody tr");
+      const res = [];
+      let userData = { nama: '-', id: '-', jabatan: '-' };
+
+      rows.forEach(r => {
+        const td = r.querySelectorAll("td");
+        if (!td || td.length < 23) return;
+        const serial = parseFloat(td[0].textContent.trim());
+        let date;
+        if (!isNaN(serial)) {
+          const excelDate = new Date((serial - 25569) * 86400 * 1000);
+          date = excelDate.toLocaleDateString("id-ID");
+        } else {
+          date = td[0].textContent.trim();
+        }
+        const empName = td[1].textContent.trim() || '-';
+        const empNo = td[2].textContent.trim() || '-';
+        const pos = td[3].textContent.trim() || '-';
+        if (empName !== '-') userData.nama = empName;
+        if (empNo !== '-') userData.id = empNo;
+        if (pos !== '-') userData.jabatan = pos;
+
+        const menitLembur = (td[17].textContent || '').trim();
+        const jamLembur = parseFloat(menitLembur) / 60;
+
+        res.push({
+          "Tanggal": date,
+          "Tipe Hari": (td[15].textContent || '').trim().toUpperCase(),
+          "Menit Lembur": menitLembur,
+          "Jam Lembur": isNaN(jamLembur) ? "0.00" : jamLembur.toFixed(2),
+          "Indeks Lembur": (td[18].textContent || '').trim(),
+          "Status": (td[21].textContent || '').trim().toUpperCase(),
+          "Other Status": (td[22].textContent || '').trim().toUpperCase()
+        });
+      });
+
+      if (userData.nama !== '-') {
+        user = userData;
+        saveUser();
+      }
+
+      return res;
+    } catch (e) {
+      console.error("Gagal parsing HTML:", e);
+      return null;
+    }
+  }
+
+  // ========== HANDLE FILE SELECT ==========
+  function handleFileSelect(evt) {
+    const file = evt.target.files[0];
+    if (!file) return;
+
+    const ext = file.name.toLowerCase();
+    if (!ext.endsWith(".xls") && !ext.endsWith(".xlsx")) {
+      return alert("Gunakan file .xls atau .xlsx dari ESS");
+    }
+
+    const reader = new FileReader();
+
+    if (ext.endsWith(".xlsx")) {
+      // Baca sebagai ArrayBuffer untuk SheetJS
+      reader.onload = function(e) {
+        try {
+          const arrayBuffer = e.target.result;
+          const parsed = parseXLSXFile(arrayBuffer);
+          if (parsed && parsed.length > 0) {
+            mergeParsedData(parsed);
+            alert(`Data berhasil diimpor! ${parsed.length} baris ditambahkan.`);
+          } else {
+            alert("Tidak ada data yang ditemukan. Periksa format file.");
+          }
+        } catch (error) {
+          alert("Terjadi kesalahan saat membaca file: " + error.message);
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    } else {
+      // .xls -> coba dengan DOMParser (HTML)
+      reader.onload = function(e) {
+        try {
+          const content = e.target.result;
+          const parsed = parseXLS_HTML(content);
+          if (parsed && parsed.length > 0) {
+            mergeParsedData(parsed);
+            alert(`Data berhasil diimpor! ${parsed.length} baris ditambahkan.`);
+          } else {
+            alert("Tidak ada data yang ditemukan. Coba gunakan file .xlsx.");
+          }
+        } catch (error) {
+          alert("Terjadi kesalahan saat membaca file: " + error.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+  }
+
+  function mergeParsedData(newData) {
+    newData.forEach(row => {
+      const tgl = row["Tanggal"];
+      if (!tgl) return;
+
+      const existing = parsedData.findIndex(x => x["Tanggal"] === tgl);
+      if (existing >= 0) {
+        // Timpa data lama dengan yang baru (biar update)
+        parsedData[existing] = row;
+      } else {
+        parsedData.push(row);
+      }
+    });
+
+    saveLocal();
+    refreshUI();
+  }
+
+  // ========== UI REFRESH ==========
+  function fixedTable() {
+    setTimeout(() => {
+      const tbl = document.querySelector(".data-table");
+      if (tbl) {
+        if (!tbl.parentElement.classList.contains("table-wrapper")) {
+          const wrap = document.createElement("div");
+          wrap.className = "table-wrapper";
+          tbl.parentElement.insertBefore(wrap, tbl);
+          wrap.appendChild(tbl);
+        }
+      }
+
+      const wrap = document.querySelector(".table-wrapper");
+      if (wrap) {
+        wrap.style.cssText = `
+          width: 100%;
+          max-height: 60vh;
+          overflow-y: auto;
+          overflow-x: auto;
+          margin-top: 0px;
+          border-radius: 5px;
+          background: white;
+          position: relative;
+        `;
+      }
+
+      const ths = document.querySelectorAll(".data-table th");
+      ths.forEach(th => {
+        th.style.position = "sticky";
+        th.style.top = "0";
+        th.style.zIndex = "10";
+      });
+    }, 100);
+  }
+
+  function refreshUI() {
+    parsedData.forEach(r => {
+      r.dateObj = parseIndoDate(r["Tanggal"]);
+    });
+
+    parsedData.sort((a, b) => {
+      if (!a.dateObj || !b.dateObj) return 0;
+      return a.dateObj - b.dateObj;
+    });
+
+    displayData = parsedData.slice();
+
+    if (filterStart || filterEnd) {
+      displayData = parsedData.filter(r => {
+        if (!r.dateObj) return false;
+        if (filterStart && r.dateObj < filterStart) return false;
+        if (filterEnd && r.dateObj > filterEnd) return false;
+        return true;
+      });
+    }
+
+    tableOutput.innerHTML = generateTableHtml(displayData);
+    setupRowClickHandlers();
+    attachDeleteButtons();
+
+    if (displayData.length) {
+      const stats = calculateStats(displayData);
+      const startLabel = displayData[0]["Tanggal"];
+      const endLabel = displayData[displayData.length - 1]["Tanggal"];
+      summaryOutput.innerHTML = generateSummaryHtml(stats, startLabel, endLabel);
+    } else {
+      const stats = calculateStats([]);
+      const startLabel = (filterStart) ? ddmmyyyy(filterStart) : (parsedData[0] ? parsedData[0]["Tanggal"] : '-');
+      const endLabel = (filterEnd) ? ddmmyyyy(filterEnd) : (parsedData[parsedData.length - 1] ? parsedData[parsedData.length - 1]["Tanggal"] : '-');
+      summaryOutput.innerHTML = generateSummaryHtml(stats, startLabel, endLabel);
+    }
+
+    saveLocal();
+    attachPeriodHandlers();
+    fixedTable();
+  }
+
+  function updateOtherStatus(tipeHari) {
+    const checkboxes = document.querySelectorAll('.other-status');
+    checkboxes.forEach(cb => cb.checked = false);
+    if (tipeHari === 'WD') {
+      $('eai').checked = true;
+      $('prs').checked = true;
+      $('prsmeal').checked = true;
+      $('statusPRS').checked = true;
+    }
+  }
+
+  function updateStatus(status) {
+    const checkboxes = document.querySelectorAll('.other-status');
+    checkboxes.forEach(cb => cb.checked = false);
+    if (status === 'PRS' && $('tipeHariWD').checked === true) {
+      $('eai').checked = true;
+      $('prs').checked = true;
+      $('prsmeal').checked = true;
+    } else if (status === 'ABS') {
+      $('tipeHariWD').checked = true;
+      $('abs').checked = true;
+    } else if (status === 'OFF') {
+      $('tipeHariOFF').checked = true;
+      $('off').checked = true;
+    } else if (status === 'CT') {
+      $('tipeHariWD').checked = true;
+      $('ct').checked = true;
+    }
+  }
+
+  function attachPeriodHandlers() {
+    const startSpan = document.getElementById('periodStart');
+    const endSpan = document.getElementById('periodEnd');
+
+    const prev = document.getElementById("prevMonthBtn");
+    const next = document.getElementById("nextMonthBtn");
+
+    if (prev) {
+      prev.onclick = () => shiftMonth(-1);
+    }
+    if (next) {
+      next.onclick = () => shiftMonth(+1);
+    }
+
+    if (startSpan) {
+      startSpan.onclick = onStartClick;
+    }
+    if (endSpan) {
+      endSpan.onclick = onEndClick;
+    }
+  }
+
+  function shiftMonth(offset) {
+    if (!filterStart || !filterEnd) {
+      if (!parsedData || !parsedData.length) return;
+      parsedData.forEach(r => {
+        r.dateObj = parseIndoDate(r["Tanggal"]);
+      });
+      parsedData.sort((a, b) => (a.dateObj && b.dateObj) ? a.dateObj - b.dateObj : 0);
+      const first = parsedData[0];
+      const last = parsedData[parsedData.length - 1];
+      if (!first || !last) return;
+      filterStart = first.dateObj ? new Date(first.dateObj) : parseIndoDate(first["Tanggal"]);
+      filterEnd = last.dateObj ? new Date(last.dateObj) : parseIndoDate(last["Tanggal"]);
+    }
+
+    const s = new Date(filterStart);
+    const e = new Date(filterEnd);
+
+    s.setMonth(s.getMonth() + offset);
+    e.setMonth(e.getMonth() + offset);
+
+    filterStart = s;
+    filterEnd = e;
+
+    try {
+      localStorage.setItem("filterStart", formatInputDate(s));
+      localStorage.setItem("filterEnd", formatInputDate(e));
+    } catch (err) {}
+
+    const fsi = $('filterStartInput');
+    const fei = $('filterEndInput');
+    if (fsi) fsi.value = formatInputDate(s);
+    if (fei) fei.value = formatInputDate(e);
+
+    refreshUI();
+  }
+
+  function formatInputDate(d) {
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  function onStartClick() {
+    const input = $('filterStartInput');
+    if (!input) return;
+
+    const txt = document.getElementById('periodStart').innerText.trim();
+    const p = txt.split('/');
+
+    if (p.length === 3) {
+      input.value = `${p[2]}-${p[1]}-${p[0]}`;
+    }
+
+    input.click();
+  }
+
+  function onEndClick() {
+    const input = $('filterEndInput');
+    if (!input) return;
+
+    const txt = document.getElementById('periodEnd').innerText.trim();
+    const p = txt.split('/');
+
+    if (p.length === 3) {
+      input.value = `${p[2]}-${p[1]}-${p[0]}`;
+    }
+
+    input.click();
+  }
+
+  // ========== INIT ==========
+  document.addEventListener('DOMContentLoaded', () => {
+    fileInput = $('fileInput');
+    summaryOutput = $('summaryOutput');
+    tableOutput = $('tableOutput');
+    manualTanggal = $('manualTanggal');
+    manualJamLembur = $('manualJamLembur');
+    manualMenitLembur = $('manualMenitLembur');
+    manualIndeks = $('manualIndeks');
+    btnAdd = $('btnAdd');
+    btnReset = $('btnReset');
+    tipeHariRadios = document.querySelectorAll('input[name="manualTipeHari"]');
+    statusRadios = document.querySelectorAll('input[name="manualStatus"]');
+
+    loadLocal();
+    loadUser();
+
+    const fs = localStorage.getItem('filterStart');
+    const fe = localStorage.getItem('filterEnd');
+
+    if (fs) {
+      const p = fs.split("-");
+      filterStart = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+      $('filterStartInput').value = fs;
+    }
+
+    if (fe) {
+      const p = fe.split("-");
+      filterEnd = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+      $('filterEndInput').value = fe;
+    }
+
+    const now = new Date();
+    manualTanggal.value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+
+    fileInput.addEventListener('change', handleFileSelect);
+
+    manualJamLembur.addEventListener('input', () => {
+      const jam = parseFloat(manualJamLembur.value) || 0;
+      manualMenitLembur.value = Math.round(jam * 60);
+      const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
+      manualIndeks.value = hitungIndeksByJam(jam, tipe).toFixed(2);
+    });
+
+    manualMenitLembur.addEventListener('input', () => {
+      const menit = parseFloat(manualMenitLembur.value) || 0;
+      const jam = menit / 60;
+      manualJamLembur.value = jam.toFixed(2);
+      const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
+      manualIndeks.value = hitungIndeksByJam(jam, tipe).toFixed(2);
+    });
+
+    btnAdd.addEventListener('click', (e) => {
+      e.preventDefault();
+      addManualEntry();
+    });
+
+    btnReset.addEventListener('click', (e) => {
+      e.preventDefault();
+      resetData();
+    });
+
+    tipeHariRadios.forEach(r => r.addEventListener('change', () => {
+      if (r.checked) updateOtherStatus(r.value);
+    }));
+
+    statusRadios.forEach(r => r.addEventListener('change', () => {
+      if (r.checked) updateStatus(r.value);
+    }));
+
+    const filterStartInput = $('filterStartInput');
+    const filterEndInput = $('filterEndInput');
+
+    if (filterStartInput) filterStartInput.addEventListener('change', (e) => {
+      const v = e.target.value;
+      if (!v) {
+        filterStart = null;
+        localStorage.removeItem('filterStart');
+        refreshUI();
+        return;
+      }
+      const parts = v.split('-');
+      filterStart = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+      localStorage.setItem('filterStart', v);
+      refreshUI();
+    });
+
+    if (filterEndInput) filterEndInput.addEventListener('change', (e) => {
+      const v = e.target.value;
+      if (!v) {
+        filterEnd = null;
+        localStorage.removeItem('filterEnd');
+        refreshUI();
+        return;
+      }
+      const parts = v.split('-');
+      filterEnd = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+      localStorage.setItem('filterEnd', v);
+      refreshUI();
+    });
+
+    manualTanggal.addEventListener("change", function() {
+      const selectedDate = new Date(this.value);
+      const dayOfWeek = selectedDate.getDay();
+
+      if (dayOfWeek === 0) {
+        updateStatus("OFF");
+        document.querySelector('input[name="manualStatus"][value="OFF"]').checked = true;
+        document.querySelector('input[name="manualTipeHari"][value="OFF"]').checked = true;
+      } else {
+        updateStatus("WD");
+        updateOtherStatus("WD");
+        document.querySelector('input[name="manualStatus"][value="PRS"]').checked = true;
+        document.querySelector('input[name="manualTipeHari"][value="WD"]').checked = true;
+      }
+
+      const jam = parseFloat(manualJamLembur.value) || 0;
+      const tipe = document.querySelector("input[name='manualTipeHari']:checked").value;
+      manualIndeks.value = hitungIndeksByJam(jam, tipe).toFixed(2);
+    });
+
+    manualTanggal.dispatchEvent(new Event("change"));
+
+    setTimeout(() => {
+      document.getElementById("load-wrapper").style.display = "none";
+      refreshUI();
+    }, 300);
+  });
+
+  window._app = {
+    refreshUI,
+    saveLocal,
+    loadLocal,
+    parsedData
+  };
+
+})();
