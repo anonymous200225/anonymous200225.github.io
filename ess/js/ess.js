@@ -600,8 +600,8 @@
             String(row[18] || 0).replace(",", ".")
           ) || 0;
 
-          const status = String(row[21] || '').trim().toUpperCase();
-          const otherStatus = String(row[22] || '').trim().toUpperCase();
+          const status = String(row[23] || '').trim().toUpperCase();
+          const otherStatus = String(row[24] || '').trim().toUpperCase();
 
           result.push({
             "Tanggal": currentDate,
@@ -694,8 +694,8 @@
           "Menit Lembur": menitLembur,
           "Jam Lembur": jamLembur.toFixed(2),
           "Indeks Lembur": td[18].textContent.trim(),
-          "Status": td[21].textContent.trim().toUpperCase(),
-          "Other Status": td[22].textContent.trim().toUpperCase()
+          "Status": td[23].textContent.trim().toUpperCase(),
+          "Other Status": td[24].textContent.trim().toUpperCase()
         });
       });
 
