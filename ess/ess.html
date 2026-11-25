@@ -7,6 +7,24 @@
   <link rel="stylesheet" href="css/ess.css">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000">
+
+  <script>
+    (function () {
+    try {
+        var localData = JSON.parse(localStorage.getItem("userInfo"));
+
+        var user = {};
+        user.name = localData?.nama || "";
+
+        if (user.name) {
+            document.title = document.title+" | "+user.name;
+        }
+
+    } catch (error) {
+        console.warn("Gagal membaca userInfo:", error);
+    }
+})();
+  </script>
   
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-E0SX0JC3BX"></script>
   <script>
