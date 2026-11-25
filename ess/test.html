@@ -10,10 +10,9 @@
 
   <script>
     (function(){
-      localData = JSON.parse(localStorage.getItem("userInfo"));
-      let user = {};
+      var localData = JSON.parse(localStorage.getItem("userInfo"));
+      var user = {};
       user.name = localData.nama;
-
       document.title = user.name;
     })();
   </script>
