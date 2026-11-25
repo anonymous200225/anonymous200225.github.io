@@ -184,7 +184,7 @@
         </table>
       `;
 
-    document.title = document.title+" | "+user.nama;
+    document.title = user.nama;
   }
 
   function getRowClass(row) {
